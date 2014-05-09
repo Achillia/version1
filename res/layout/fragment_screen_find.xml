@@ -19,8 +19,6 @@
             android:background="@color/white"
             android:orientation="vertical" >
 
-        
-
             <TextView
                 android:id="@+id/text_find_startTitle"
                 android:layout_width="match_parent"

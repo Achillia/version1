@@ -7,7 +7,7 @@
         <item>Gäddan (G8)</item>
         <item>Kranen (K2)</item>
         <item>Ubåtshallen (K8)</item>
-        <item>Klerken (Kl)</item>
+        <item>Klerken/Odontologen (Kl)</item>
         <item>University Hospital (As)</item>
     </string-array>
     <string-array name="find_building_code_array">
@@ -65,7 +65,7 @@
     <string name="find_result_page">Result for search</string>
     <string name="find_navigationTitle">Direction to room </string>
     <string name="find_navigationContent">Kranen (K2) is this building.</string>
-    <string name="find_startTitle">Need help finding room?</string>
+    <string name="find_startTitle">Fill in the fields below</string>
     <string name="find_spinerHint_building">Select a building</string>
     <string name="find_editTextHint_room">Insert the room name</string>
     <string name="find_button_navigation">Find it!</string>
@@ -81,7 +81,7 @@
     <string name="find_db_error">Room does not exist in the database!</string>
 	<string name="find_no_building_selected">No building is selected!</string>
 	<string name="find_building_dont_match">Building and room number are not matching!</string>
-	
+	<string name="find_no_floor">Floor 2 and 6 are not part of MaH and are not visible</string>
 		
 	
 </resources>
