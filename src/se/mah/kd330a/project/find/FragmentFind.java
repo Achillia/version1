@@ -81,7 +81,8 @@ public class FragmentFind extends Fragment {
 
 		if (spin_selected > -1) 
 			spinnerFind.setSelection(spin_selected, true);
-
+		
+		//We're not going to use the search function in this fragment
 		Button btn_Search = (Button) getView().findViewById(R.id.button_find_navigation);
 		btn_Search.setOnClickListener(new View.OnClickListener() {
 			@Override
