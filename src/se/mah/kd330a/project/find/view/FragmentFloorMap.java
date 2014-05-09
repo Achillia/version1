@@ -220,7 +220,7 @@ public class FragmentFloorMap extends Fragment{
 		case 4: //Ub�tshallen
 			floorArrey = R.array.find_floorK8_array;
 			break;
-		case 5: //Klerken (odontologen)
+		case 5: //Klerken (odontologen!!)
 			floorArrey = R.array.find_floorKl_array;
 			break;
 		case 6: //University Hospital
