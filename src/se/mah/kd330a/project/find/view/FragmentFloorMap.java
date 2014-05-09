@@ -211,16 +211,16 @@ public class FragmentFloorMap extends Fragment{
 		case 1: //Orkanen
 			floorArrey = R.array.find_floorOr_array;
 			break;
-		case 2: //GŠddan
+		case 2: //Gï¿½ddan
 			floorArrey = R.array.find_floorG8_array;
 			break;
 		case 3: //Kranen
 			floorArrey = R.array.find_floorK2_array;
 			break;
-		case 4: //UbŒtshallen
+		case 4: //Ubï¿½tshallen
 			floorArrey = R.array.find_floorK8_array;
 			break;
-		case 5: //Klerken
+		case 5: //Klerken (odontologen)
 			floorArrey = R.array.find_floorKl_array;
 			break;
 		case 6: //University Hospital
