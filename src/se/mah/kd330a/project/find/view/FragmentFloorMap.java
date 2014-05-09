@@ -46,7 +46,7 @@ public class FragmentFloorMap extends Fragment{
 
 		ViewGroup rootView = (ViewGroup) inflater
 				.inflate(R.layout.fragment_screen_find_floor_maps, container, false);
-
+// we will change the building images
 		return rootView;
 	}
 
