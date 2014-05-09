@@ -19,7 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.EditText;
-
+//This starts the app
 public class StartActivity extends Activity
 {
 	private final String TAG = "StartActivity";
