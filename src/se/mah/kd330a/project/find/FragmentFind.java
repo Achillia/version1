@@ -29,7 +29,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
-
+//Är det här Find on Campus är? -Gustaf
 public class FragmentFind extends Fragment {
 
 	private static final String FIND_SPINNER_STATE = "spinChoice";
