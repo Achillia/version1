@@ -167,6 +167,7 @@ public class FragmentFloorMap extends Fragment{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
+		//VARIABLES AND onClick-METHOD FOR LINKING OUT TO GOOGLE MAPS--------------------------------------------------------------------------------
 		switch (item.getItemId()) {
 		case R.id.find_menu_google:
 			String[] buildingNames = getResources().getStringArray(R.array.find_building_array);

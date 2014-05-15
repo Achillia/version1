@@ -78,6 +78,8 @@ public class FragmentBuilding extends Fragment implements OnImageLoaderListener 
 			}
 		});
 	
+		
+		//VARIABLES AND onClick-METHOD FOR LINKING OUT TO GOOGLE MAPS--------------------------------------------------------------------------------
 		llFloor = (LinearLayout) getView().findViewById(R.id.ll_find_google);
 		llFloor.setClickable(true);
 		llFloor.setOnClickListener(new View.OnClickListener() {

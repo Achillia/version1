@@ -18,6 +18,8 @@ import android.util.Log;
 //import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -57,6 +59,7 @@ public class FragmentFind extends Fragment {
 						android.R.layout.simple_spinner_item);
 		spinFindadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerFind.setAdapter(spinFindadapter);
+		
 
 		spinnerFind.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			/**
@@ -79,6 +82,7 @@ public class FragmentFind extends Fragment {
 				// Do nothing, just another required interface callback
 			}
 		});
+		
 
 		if (spin_selected > -1) 
 			spinnerFind.setSelection(spin_selected, true);
@@ -105,6 +109,12 @@ public class FragmentFind extends Fragment {
 		});
 	}
 	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.find, menu);
+	}
+	
 	//---search room function---
 	public void find_button_navigation(View v) {
 
@@ -129,9 +139,8 @@ public class FragmentFind extends Fragment {
 		}
 		else{
 			if(textInput.isEmpty()){
-				//Log.i("test", "selposFind: "+selposFind);
-				showBuilding(selposFind);
 				Log.i("search room", "no room number entered, only showing building");
+				showBuilding(selposFind);
 			}
 			else if(textInput.matches("(or|g8|k2|k8|kl|as).*")){
 
@@ -157,12 +166,14 @@ public class FragmentFind extends Fragment {
 	private void runNavigation(RoomDbHandler dbHandler, String roomNr, int errorString) {
 		Log.i("search room", "method to redirect to correct room initiated");
 		if (dbHandler.isRoomExists(roomNr)) {
+			//THIS IS WHERE THE REDIRECTION HAPPENS TO THE CORRECT FLOOR PLAN WITH MARKED PIN----------------------------------------------------------------------
+			//MAYBE MODIFY THE METHOD showFloorMap OR MAKE A NEW ONE
 			startNavigation(roomNr);
 		}
 		else if (dbHandler.isRoomExistsAll(roomNr)) {
 			//go to floor maps
-			showFloorMap(dbHandler.getMapName());
 			Log.i("search room", "floor map shown");
+			showFloorMap(dbHandler.getMapName());
 			//Toast.makeText(getActivity(), "floorMapCode: "+dbHandler.getMapName(), Toast.LENGTH_LONG).show();
 		}
 		else
@@ -170,6 +181,8 @@ public class FragmentFind extends Fragment {
 
 
 	}
+	
+	
 
 	private void showFloorMap(String floorMapCode) {
 		Log.i("search room", "method to show correct floor map initiated");
@@ -187,6 +200,7 @@ public class FragmentFind extends Fragment {
 	}
 
 	private void showBuilding(String buildingCode) {
+		//THIS METHOD OPENS THE HOUSE FRAGMENT WITH THE SELECTED HOUSE DEPENDING ON INPUT PARAMETER buildingCode-----------------------------------------------------
 		Log.i("search room", "method for showing building initiated");
 		Fragment fragment = new FragmentBuilding();
 		Bundle args = new Bundle();

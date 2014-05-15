@@ -176,6 +176,9 @@ public class FragmentResult extends Fragment {
 //			fragmentTrans.addToBackStack(null);
 //			fragmentTrans.commit();
 //			return true;
+		
+		
+		//VARIABLES AND onClick-METHOD FOR LINKING OUT TO GOOGLE MAPS--------------------------------------------------------------------------------
 		case R.id.find_menu_google:
 			String[] buildingNames = getResources().getStringArray(R.array.find_building_array);
 			String location = buildingNames[buildingPos];
