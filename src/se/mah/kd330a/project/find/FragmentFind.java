@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 //import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -103,7 +104,8 @@ public class FragmentFind extends Fragment {
 			}		
 		});
 	}
-
+	
+	//---search room function---
 	public void find_button_navigation(View v) {
 
 		// ---get the EditText view---
@@ -113,7 +115,8 @@ public class FragmentFind extends Fragment {
 		String textInput = txt_room_code.getText().toString().toLowerCase(Locale.getDefault());
 		String roomNr = selposFind + textInput;
 		dbHandler = new RoomDbHandler(getActivity());
-
+		Log.i("search room", "finished building dependencies");
+		
 		if (spinnerFind.getSelectedItemPosition() < 1){
 			if(roomNr.isEmpty()) {
 				Toast.makeText(getActivity(), getString(R.string.find_no_building_selected), Toast.LENGTH_LONG).show();
@@ -121,12 +124,14 @@ public class FragmentFind extends Fragment {
 			}
 			else{
 				runNavigation(dbHandler, roomNr, R.string.find_no_building_selected);
+				Log.i("search room", "text field filled, room number registered");
 			}
 		}
 		else{
 			if(textInput.isEmpty()){
 				//Log.i("test", "selposFind: "+selposFind);
 				showBuilding(selposFind);
+				Log.i("search room", "no room number entered, only showing building");
 			}
 			else if(textInput.matches("(or|g8|k2|k8|kl|as).*")){
 
@@ -150,12 +155,14 @@ public class FragmentFind extends Fragment {
 	}
 
 	private void runNavigation(RoomDbHandler dbHandler, String roomNr, int errorString) {
+		Log.i("search room", "method to redirect to correct room initiated");
 		if (dbHandler.isRoomExists(roomNr)) {
 			startNavigation(roomNr);
 		}
 		else if (dbHandler.isRoomExistsAll(roomNr)) {
 			//go to floor maps
 			showFloorMap(dbHandler.getMapName());
+			Log.i("search room", "floor map shown");
 			//Toast.makeText(getActivity(), "floorMapCode: "+dbHandler.getMapName(), Toast.LENGTH_LONG).show();
 		}
 		else
@@ -165,6 +172,7 @@ public class FragmentFind extends Fragment {
 	}
 
 	private void showFloorMap(String floorMapCode) {
+		Log.i("search room", "method to show correct floor map initiated");
 		Fragment fragment = new FragmentFloorMap();
 		Bundle args = new Bundle();
 		args.putString(FragmentFloorMap.ARG_FLOORMAP, floorMapCode);
@@ -179,7 +187,7 @@ public class FragmentFind extends Fragment {
 	}
 
 	private void showBuilding(String buildingCode) {
-
+		Log.i("search room", "method for showing building initiated");
 		Fragment fragment = new FragmentBuilding();
 		Bundle args = new Bundle();
 		args.putString(FragmentBuilding.ARG_BUILDING, buildingCode);
