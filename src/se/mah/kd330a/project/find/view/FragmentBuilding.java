@@ -1,6 +1,7 @@
 package se.mah.kd330a.project.find.view;
 
 import java.util.Arrays;
+
 import se.mah.kd330a.project.R;
 import se.mah.kd330a.project.find.data.GetImage;
 import se.mah.kd330a.project.find.data.ImageLoader;
@@ -13,6 +14,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -109,6 +112,12 @@ public class FragmentBuilding extends Fragment implements OnImageLoaderListener 
 			}});
 	}
 
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.find, menu);
+	}
+	
 	@Override
 	public void onImageReceived(String fileName) {
 		prgBar.setVisibility(View.INVISIBLE);

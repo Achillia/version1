@@ -163,28 +163,39 @@ public class FragmentResult extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
-		case R.id.find_menu_floormap:
-			Fragment fragment = new FragmentFloorMap();
-
-			Bundle args = new Bundle();
-			args.putString(FragmentFloorMap.ARG_FLOORMAP, mDbHandler.getMapName());
-			fragment.setArguments(args);
-
-			FragmentManager	 fragmentManager = getActivity().getSupportFragmentManager();
-			FragmentTransaction fragmentTrans = fragmentManager.beginTransaction();	
-			fragmentTrans.replace(R.id.content_frame, fragment);
-			fragmentTrans.addToBackStack(null);
-			fragmentTrans.commit();
-			return true;
-
+//		case R.id.find_menu_floormap:
+//			Fragment fragment = new FragmentFloorMap();
+//
+//			Bundle args = new Bundle();
+//			args.putString(FragmentFloorMap.ARG_FLOORMAP, mDbHandler.getMapName());
+//			fragment.setArguments(args);
+//
+//			FragmentManager	 fragmentManager = getActivity().getSupportFragmentManager();
+//			FragmentTransaction fragmentTrans = fragmentManager.beginTransaction();	
+//			fragmentTrans.replace(R.id.content_frame, fragment);
+//			fragmentTrans.addToBackStack(null);
+//			fragmentTrans.commit();
+//			return true;
 		case R.id.find_menu_google:
 			String[] buildingNames = getResources().getStringArray(R.array.find_building_array);
 			String location = buildingNames[buildingPos];
 
-			if(location.equals("Klerken (Kl)"))
+			if(location.equals("Klerken (Kl)")){
+				Log.i("gmaps","klerken");
 				location = "Carl Gustafs vag 34";
-			else if(location.equals("University Hospital (As)"))
+			}else if(location.equals("University Hospital (As)")){
+				Log.i("gmaps","university hospital");
 				location = "Jan Waldenstroms gata 25";
+			}else if(location.equals("Kranen (K2)") || location.equals("Ubåtshallen (K8)")){
+				Log.i("gmaps","kranen & ubåten");
+				location = "Östra Varvsgatan 11 A";
+			}else if(location.equals("Orkanen (Or)")){
+				Log.i("gmaps","orkanen");
+				location = "Nordenskiöldsgatan 10";
+			}else if(location.equals("Gäddan (G8)")){
+				Log.i("gmaps","gäddan");
+				location = "Citadellsvägen 7";
+			}
 
 			//getting the google map
 			Intent i = new Intent(android.content.Intent.ACTION_VIEW,
