@@ -12,7 +12,7 @@
         android:id="@+id/search_user"
         android:actionViewClass="android.widget.SearchView"
         android:icon="@drawable/ic_launcher"
-        android:showAsAction="ifRoom|collapseActionView"
-        android:title="Search Users"/>
+        android:showAsAction="always"
+        android:title="Search Users" android:visible="true" android:enabled="true"/>
    
 </menu>
