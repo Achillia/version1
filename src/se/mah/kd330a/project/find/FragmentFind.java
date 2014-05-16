@@ -1,6 +1,6 @@
-
 package se.mah.kd330a.project.find;
 
+import java.io.InputStream;
 import java.util.Locale;
 
 import se.mah.kd330a.project.R;
@@ -9,17 +9,20 @@ import se.mah.kd330a.project.find.view.FragmentBuilding;
 import se.mah.kd330a.project.find.view.FragmentFloorMap;
 import se.mah.kd330a.project.find.view.FragmentResult;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-//import android.util.Log;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -40,79 +43,126 @@ public class FragmentFind extends Fragment {
 	private String selposFind = null;
 	private int spin_selected = -1;
 	private Spinner spinnerFind;
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		ViewGroup rootView = (ViewGroup) inflater
-				.inflate(R.layout.fragment_screen_find, container, false);
+				//.inflate(R.layout.fragment_screen_find, container, false);			//this loads the old fragment
+				.inflate(R.layout.fragment_screen_find_buildings, container, false);	//this loads a test fragment made by CW
 		return rootView;
 	}
 
+	//THE COMMENTED CODE BELOW IS HIDDEN FOR TEST PURPOSES AND BELONGS TO THE OLD DESIGN, REMOVE WHEN NEW DESIGN IS COMPLETELY IMPLEMENTED************************************************************************
 	@Override
 	public void onStart() {
 		super.onStart();
 
-		spinnerFind = (Spinner) getView().findViewById(R.id.spinner_find_building);
-		ArrayAdapter<CharSequence> spinFindadapter = ArrayAdapter
-				.createFromResource(getActivity(), R.array.find_building_array,
-						android.R.layout.simple_spinner_item);
-		spinFindadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinnerFind.setAdapter(spinFindadapter);
-		
-
-		spinnerFind.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			/**
-			 * Called when a new item is selected (in the Spinner)
-			 */
-			public void onItemSelected(AdapterView<?> parent,
-					View view, int pos, long id) {
-
-				parent.getItemAtPosition(pos);
-				Resources res = getResources();
-				String[] findCode = res
-						.getStringArray(R.array.find_building_code_array);
-
-				selposFind = findCode[pos];
-				spin_selected = pos;
-
-			}
-
-			public void onNothingSelected(AdapterView<?> parent) {
-				// Do nothing, just another required interface callback
-			}
-		});
-		
-
-		if (spin_selected > -1) 
-			spinnerFind.setSelection(spin_selected, true);
-		
-		//We're not going to use the search function in this fragment
-		Button btn_Search = (Button) getView().findViewById(R.id.button_find_navigation);
-		btn_Search.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				find_button_navigation(view);
-			}
-		});
-
-		AutoCompleteTextView etRoomNr = (AutoCompleteTextView) getView().findViewById(R.id.editText_find_room);
-		etRoomNr.setOnEditorActionListener(new OnEditorActionListener() {
-
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if(actionId == EditorInfo.IME_ACTION_GO){
-					find_button_navigation(v);
-				}
-				return false;
-			}		
-		});
+//		spinnerFind = (Spinner) getView().findViewById(R.id.spinner_find_building);
+//		ArrayAdapter<CharSequence> spinFindadapter = ArrayAdapter
+//				.createFromResource(getActivity(), R.array.find_building_array,
+//						android.R.layout.simple_spinner_item);
+//		spinFindadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//		spinnerFind.setAdapter(spinFindadapter);
+//		
+//
+//		spinnerFind.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//			/**
+//			 * Called when a new item is selected (in the Spinner)
+//			 */
+//			public void onItemSelected(AdapterView<?> parent,
+//					View view, int pos, long id) {
+//
+//				parent.getItemAtPosition(pos);
+//				Resources res = getResources();
+//				String[] findCode = res
+//						.getStringArray(R.array.find_building_code_array);
+//
+//				selposFind = findCode[pos];
+//				spin_selected = pos;
+//
+//			}
+//
+//			public void onNothingSelected(AdapterView<?> parent) {
+//				// Do nothing, just another required interface callback
+//			}
+//		});
+//		
+//
+//		if (spin_selected > -1) 
+//			spinnerFind.setSelection(spin_selected, true);
+//		
+//		//We're not going to use the search function in this fragment
+//		Button btn_Search = (Button) getView().findViewById(R.id.button_find_navigation);
+//		btn_Search.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View view) {
+//				find_button_navigation(view);
+//			}
+//		});
+//
+//		AutoCompleteTextView etRoomNr = (AutoCompleteTextView) getView().findViewById(R.id.editText_find_room);
+//		etRoomNr.setOnEditorActionListener(new OnEditorActionListener() {
+//
+//			@Override
+//			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//				if(actionId == EditorInfo.IME_ACTION_GO){
+//					find_button_navigation(v);
+//				}
+//				return false;
+//			}		
+//		});
 	}
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.find, menu);
+	    // TODO Add your menu entries here
+	    super.onCreateOptionsMenu(menu, inflater);
+	    inflater.inflate(R.menu.find_all, menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+		case R.id.find_menu_google_all:
+			
+//			 for(int pin=0; pin<pins.size(); pin++)
+//	            {
+//	                LatLng pinLocation = new LatLng(Float.parseFloat(pins.get(pin).latitude), Float.parseFloat(pins.get(pin).longitude));
+//	                Marker storeMarker = map.addMarker(new MarkerOptions()
+//	                .position(pinLocation)
+//	                .title(pins.get(pin).pinname)
+//	                .snippet(pins.get(pin).address)
+//	                );
+//	            }
+
+			//ALTERNATIVE SOLUTION VIA WEB
+//			String kmlWebAddress = "http://www.afischer-online.de/sos/AFTrack/tracks/e1/01.24.Soltau2Wietzendorf.kml";
+//			String uri = String.format(Locale.ENGLISH, "geo:0,0?q=%s",kmlWebAddress);
+//			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=android.resource://com.androidbook.samplevideo/raw/myvideo"));
+//			startActivity(i);
+			
+			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=android.resource://res/raw/mah_buildings"));
+			startActivity(i);
+
+			//ALTERNATIVE SOLUTION VIA WEB
+//			Intent mapIntent = new Intent(Intent.ACTION_VIEW); 
+//			Uri uri = Uri.parse("geo:0,0?q=http://code.google.com/apis/kml/documentation/KML_Samples.kml"); 
+//			mapIntent.setData(uri); 
+//			startActivity(Intent.createChooser(mapIntent, "Sample")); 
+			return true;
+			
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 	
 	//---search room function---
@@ -232,7 +282,7 @@ public class FragmentFind extends Fragment {
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
+ public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt(FIND_SPINNER_STATE, spin_selected);
 	}
