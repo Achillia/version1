@@ -56,7 +56,7 @@ public class FragmentResult extends Fragment {
 			//Toast.makeText(getActivity(), radioPicButton.getTag().toString(), Toast.LENGTH_SHORT).show();			
 		}
 	};
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.i("project", "onCreate " + mSelectedTab);

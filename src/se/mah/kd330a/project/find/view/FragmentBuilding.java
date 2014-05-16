@@ -31,6 +31,13 @@ public class FragmentBuilding extends Fragment implements OnImageLoaderListener 
 	private ProgressBar prgBar;
 	
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+
+	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		ViewGroup rootView = (ViewGroup) inflater
