@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/find_menu_google"
+        android:id="@+id/find_menu_google_all"
         android:icon="@drawable/google_map_action"
         android:orderInCategory="10"
         android:showAsAction="always"
         android:title="@string/find_menu_google">
     </item>
-
+   
 </menu>
