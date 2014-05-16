@@ -145,7 +145,7 @@ public class MainActivity extends FragmentActivity implements Observer{
     	return newsFeed;
     }
     
-    
+    //THE COMMENTS BELOW HANDLE THE MENU. UNCOMMENT THESE BEFORE MERGING ******************************************************************************************************************
     
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
@@ -155,28 +155,28 @@ public class MainActivity extends FragmentActivity implements Observer{
 //    }
 
     /* Called whenever we call invalidateOptionsMenu() */
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-         // The action bar home/up action should open or close the drawer.
-         // ActionBarDrawerToggle will take care of this.
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        // Handle action buttons
-        switch(item.getItemId()) {
-        case R.id.action_help:
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//        return super.onPrepareOptionsMenu(menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//         // The action bar home/up action should open or close the drawer.
+//         // ActionBarDrawerToggle will take care of this.
+//        if (mDrawerToggle.onOptionsItemSelected(item)) {
+//            return true;
+//        }
+//        // Handle action buttons
+//        switch(item.getItemId()) {
+//        case R.id.action_help:
+//            Intent intent = new Intent(this, SettingsActivity.class);
+//            startActivity(intent);
+//            return true;
+//        default:
+//            return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     /* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
