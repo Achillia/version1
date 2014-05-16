@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns='http://www.opengis.net/kml/2.2'>
+	<Document>
+		<name>Malmö Högskolas Byggnader</name>
+		<description><![CDATA[]]></description>
+		<Folder>
+			<name>Namnlöst lager</name>
+			<Placemark>
+				<styleUrl>#icon-503-DB4436</styleUrl>
+				<name>Kranen</name>
+				<Point>
+					<coordinates>12.985947131692797,55.61544360938982,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<styleUrl>#icon-503-DB4436</styleUrl>
+				<name>Ubåtshallen</name>
+				<Point>
+					<coordinates>12.98633337020874,55.61477710690196,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<styleUrl>#icon-503-DB4436</styleUrl>
+				<name>Orkanen</name>
+				<Point>
+					<coordinates>12.99508810043335,55.61109296758521,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<styleUrl>#icon-503-DB4436</styleUrl>
+				<name>Gäddan</name>
+				<Point>
+					<coordinates>12.98983097076416,55.60749332614035,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<styleUrl>#icon-503-DB4436</styleUrl>
+				<name>Odontologen</name>
+				<Point>
+					<coordinates>13.001686334609985,55.59110896669075,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<styleUrl>#icon-503-DB4436</styleUrl>
+				<name>Hälsa och Samhälle
+</name>
+				<Point>
+					<coordinates>12.999358177185059,55.58951441474177,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<styleUrl>#icon-503-DB4436</styleUrl>
+				<name>Stundentcentrum</name>
+				<Point>
+					<coordinates>12.99184799194336,55.60875384423751,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<styleUrl>#icon-503-DB4436</styleUrl>
+				<name>Scylla</name>
+				<Point>
+					<coordinates>12.995613813400269,55.6099173634458,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<styleUrl>#icon-503-DB4436</styleUrl>
+				<name>Forskaren</name>
+				<Point>
+					<coordinates>13.00275350000004,55.5824777,0.0</coordinates>
+				</Point>
+			</Placemark>
+		</Folder>
+		<Style id='icon-503-DB4436'>
+			<IconStyle>
+				<color>ff3644DB</color>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+				</Icon>
+			</IconStyle>
+		</Style>
+	</Document>
+</kml>
