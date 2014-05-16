@@ -9,17 +9,8 @@
     <ImageView
         android:id="@+id/ImageView01"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="5dp"
         android:background="@color/grey_light" />
-    
-        <ImageView
-        android:id="@+id/dividerElement"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@color/grey" />
         
   <ScrollView
         android:id="@+id/scrollView1"
