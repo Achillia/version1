@@ -83,9 +83,17 @@ public class FragmentBuildings extends Fragment implements OnClickListener {
         house6 = (LinearLayout) rootView.findViewById(R.id.house6);
         house6.setOnClickListener(this);
         
-        house7 = (LinearLayout) rootView.findViewById(R.id.house7);
-        house7.setOnClickListener(this);
         
+        //renames the building items accordingly
+        Resources res = getResources();
+		String[] buildingNameArray = res.getStringArray(R.array.find_building_array);
+		((TextView) rootView.findViewById(R.id.building_name1)).setText(buildingNameArray[1]);
+		((TextView) rootView.findViewById(R.id.building_name2)).setText(buildingNameArray[2]);
+		((TextView) rootView.findViewById(R.id.building_name3)).setText(buildingNameArray[3]);
+		((TextView) rootView.findViewById(R.id.building_name4)).setText(buildingNameArray[4]);
+		((TextView) rootView.findViewById(R.id.building_name5)).setText(buildingNameArray[5]);
+		((TextView) rootView.findViewById(R.id.building_name6)).setText(buildingNameArray[6]);
+		
 		return rootView;
 	}
 	
@@ -136,8 +144,6 @@ public class FragmentBuildings extends Fragment implements OnClickListener {
 			selectBuilding(5);
 		}else if(v.getId() == R.id.house6){
 			selectBuilding(6);
-		}else if(v.getId() == R.id.house7){
-			selectBuilding(7);
 		}
 		
 	}
