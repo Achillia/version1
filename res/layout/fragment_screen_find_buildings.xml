@@ -23,12 +23,14 @@
           android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/house1"
         android:layout_width="fill_parent"
         android:layout_height="80dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:animateLayoutChanges="true"
         android:background="@color/white"
+        android:clickable="true"
         android:orientation="horizontal"
         android:scrollbarAlwaysDrawVerticalTrack="true" >
 
@@ -45,16 +47,9 @@
             android:layout_marginRight="4dp"
             android:orientation="vertical" >
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="vertical" >
-
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-            </LinearLayout>
         </LinearLayout>
 
         <View
@@ -66,10 +61,10 @@
             android:background="@color/green" />
 
         <LinearLayout
-            android:layout_width="157dp"
+            android:layout_width="160dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
-            android:layout_weight="0.08"
+            android:layout_weight="0.17"
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
@@ -112,12 +107,14 @@
         android:background="@color/grey_light" />
     
     <LinearLayout
+        android:id="@+id/house2"
         android:layout_width="fill_parent"
         android:layout_height="80dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:animateLayoutChanges="true"
         android:background="@color/white"
+        android:clickable="true"
         android:orientation="horizontal"
         android:scrollbarAlwaysDrawVerticalTrack="true" >
 
@@ -155,7 +152,7 @@
             android:background="@color/green" />
 
         <LinearLayout
-            android:layout_width="156dp"
+            android:layout_width="160dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
             android:layout_weight="0.17"
@@ -200,12 +197,14 @@
         android:background="@color/grey_light" />
     
     <LinearLayout
+        android:id="@+id/house3"
         android:layout_width="fill_parent"
         android:layout_height="80dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:animateLayoutChanges="true"
         android:background="@color/white"
+        android:clickable="true"
         android:orientation="horizontal"
         android:scrollbarAlwaysDrawVerticalTrack="true" >
 
@@ -243,7 +242,7 @@
             android:background="@color/green" />
 
         <LinearLayout
-            android:layout_width="156dp"
+            android:layout_width="160dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
             android:layout_weight="0.17"
@@ -288,12 +287,14 @@
         android:background="@color/grey_light" />
     
     <LinearLayout
+        android:id="@+id/house4"
         android:layout_width="fill_parent"
         android:layout_height="80dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:animateLayoutChanges="true"
         android:background="@color/white"
+        android:clickable="true"
         android:orientation="horizontal"
         android:scrollbarAlwaysDrawVerticalTrack="true" >
 
@@ -331,7 +332,7 @@
             android:background="@color/green" />
 
         <LinearLayout
-            android:layout_width="156dp"
+            android:layout_width="160dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
             android:layout_weight="0.17"
@@ -376,12 +377,14 @@
         android:background="@color/grey_light" />
     
     <LinearLayout
+        android:id="@+id/house5"
         android:layout_width="fill_parent"
         android:layout_height="80dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:animateLayoutChanges="true"
         android:background="@color/white"
+        android:clickable="true"
         android:orientation="horizontal"
         android:scrollbarAlwaysDrawVerticalTrack="true" >
 
@@ -419,7 +422,7 @@
             android:background="@color/green" />
 
         <LinearLayout
-            android:layout_width="156dp"
+            android:layout_width="160dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
             android:layout_weight="0.17"
@@ -464,12 +467,14 @@
         android:background="@color/grey_light" />
     
     <LinearLayout
+        android:id="@+id/house6"
         android:layout_width="fill_parent"
         android:layout_height="80dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:animateLayoutChanges="true"
         android:background="@color/white"
+        android:clickable="true"
         android:orientation="horizontal"
         android:scrollbarAlwaysDrawVerticalTrack="true" >
 
@@ -507,7 +512,7 @@
             android:background="@color/green" />
 
         <LinearLayout
-            android:layout_width="156dp"
+            android:layout_width="160dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
             android:layout_weight="0.17"
@@ -552,12 +557,14 @@
         android:background="@color/grey_light" />
     
     <LinearLayout
+        android:id="@+id/house7"
         android:layout_width="fill_parent"
         android:layout_height="80dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:animateLayoutChanges="true"
         android:background="@color/white"
+        android:clickable="true"
         android:orientation="horizontal"
         android:scrollbarAlwaysDrawVerticalTrack="true" >
 
@@ -595,7 +602,7 @@
             android:background="@color/green" />
 
         <LinearLayout
-            android:layout_width="156dp"
+            android:layout_width="160dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
             android:layout_weight="0.17"
