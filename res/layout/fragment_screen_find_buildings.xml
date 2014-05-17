@@ -39,10 +39,10 @@
             android:background="@color/green" />
 
         <LinearLayout
-            android:layout_width="72dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -92,7 +92,7 @@
             android:gravity="center_vertical" >
 
             <View
-                android:id="@+id/icPointer"
+                android:id="@+id/icPointer1"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginRight="8dp"
@@ -128,10 +128,10 @@
             android:background="@color/green" />
 
         <LinearLayout
-            android:layout_width="72dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -181,7 +181,7 @@
             android:gravity="center_vertical" >
 
             <View
-                android:id="@+id/icPointer"
+                android:id="@+id/icPointer2"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginRight="8dp"
@@ -216,10 +216,98 @@
             android:background="@color/green" />
 
         <LinearLayout
-            android:layout_width="72dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/calendarColorFrame2"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/green" />
+
+        <LinearLayout
+            android:layout_width="156dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="0.17"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/list_course_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:text="House 3"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.07"
+            android:gravity="center_vertical" >
+
+            <View
+                android:id="@+id/icPointer3"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/ic_action_next_item"
+                android:gravity="right" />
+
+        </LinearLayout>
+       
+
+    </LinearLayout>
+    
+    <ImageView
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey_light" />
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:animateLayoutChanges="true"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:scrollbarAlwaysDrawVerticalTrack="true" >
+
+        <ImageView
+            android:id="@+id/calendarColorFrame1"
+            android:layout_width="8dp"
+            android:layout_height="fill_parent"
+            android:background="@color/green" />
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -269,7 +357,7 @@
             android:gravity="center_vertical" >
 
             <View
-                android:id="@+id/icPointer"
+                android:id="@+id/icPointer4"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginRight="8dp"
@@ -304,10 +392,10 @@
             android:background="@color/green" />
 
         <LinearLayout
-            android:layout_width="72dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -357,7 +445,7 @@
             android:gravity="center_vertical" >
 
             <View
-                android:id="@+id/icPointer"
+                android:id="@+id/icPointer5"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginRight="8dp"
@@ -392,10 +480,10 @@
             android:background="@color/green" />
 
         <LinearLayout
-            android:layout_width="72dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -445,7 +533,7 @@
             android:gravity="center_vertical" >
 
             <View
-                android:id="@+id/icPointer"
+                android:id="@+id/icPointer6"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginRight="8dp"
@@ -480,10 +568,10 @@
             android:background="@color/green" />
 
         <LinearLayout
-            android:layout_width="72dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -533,95 +621,7 @@
             android:gravity="center_vertical" >
 
             <View
-                android:id="@+id/icPointer"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/ic_action_next_item"
-                android:gravity="right" />
-
-        </LinearLayout>
-       
-
-    </LinearLayout>
-    
-    <ImageView
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey_light" />
-    
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="80dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:animateLayoutChanges="true"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:scrollbarAlwaysDrawVerticalTrack="true" >
-
-        <ImageView
-            android:id="@+id/calendarColorFrame1"
-            android:layout_width="8dp"
-            android:layout_height="fill_parent"
-            android:background="@color/green" />
-
-        <LinearLayout
-            android:layout_width="72dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <View
-            android:id="@+id/calendarColorFrame2"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/green" />
-
-        <LinearLayout
-            android:layout_width="156dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_weight="0.17"
-            android:gravity="center_vertical"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/list_course_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:text="House 8"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
-        </LinearLayout>
-        
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.07"
-            android:gravity="center_vertical" >
-
-            <View
-                android:id="@+id/icPointer"
+                android:id="@+id/icPointer7"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginRight="8dp"
