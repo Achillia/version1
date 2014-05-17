@@ -21,7 +21,7 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-//import android.widget.Toast;
+import android.widget.Toast;
 
 public class FragmentFloorMap extends Fragment{
 	public static final String ARG_BUILDING = "building";
