@@ -7,6 +7,7 @@ import se.mah.kd330a.project.R;
 import se.mah.kd330a.project.find.data.RoomDbHandler;
 import se.mah.kd330a.project.find.view.FragmentBuilding;
 import se.mah.kd330a.project.find.view.FragmentFloorMap;
+import se.mah.kd330a.project.find.view.FragmentMaps;
 import se.mah.kd330a.project.find.view.FragmentResult;
 import android.content.Context;
 import android.content.Intent;
@@ -25,18 +26,27 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
-//Är det här Find on Campus är? -Gustaf
-public class FragmentFind extends Fragment {
+
+/**
+ * THIS JAVA CLASS IS OBSOLETE - IT'S FUNCTIONALITY HAS BEEN REPLACED BY FragmentBuildings.java
+ * 
+ * @author CWS
+ *
+ */
+
+public class FragmentFind extends Fragment implements OnClickListener {
 
 	private static final String FIND_SPINNER_STATE = "spinChoice";
 
@@ -44,10 +54,19 @@ public class FragmentFind extends Fragment {
 	private int spin_selected = -1;
 	private Spinner spinnerFind;
 	
+//	private LinearLayout house1;
+//	private LinearLayout house2;
+//	private LinearLayout house3;
+//	private LinearLayout house4;
+//	private LinearLayout house5;
+//	private LinearLayout house6;
+//	private LinearLayout house7;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
+        
+        setHasOptionsMenu(true);
 	}
 
 
@@ -57,6 +76,30 @@ public class FragmentFind extends Fragment {
 		ViewGroup rootView = (ViewGroup) inflater
 				//.inflate(R.layout.fragment_screen_find, container, false);			//this loads the old fragment
 				.inflate(R.layout.fragment_screen_find_buildings, container, false);	//this loads a test fragment made by CW
+		
+		
+		// Initialize the UI components and set listener        
+//        house1 = (LinearLayout) rootView.findViewById(R.id.house1);
+//        house1.setOnClickListener(this);
+//        
+//        house2 = (LinearLayout) rootView.findViewById(R.id.house2);
+//        house2.setOnClickListener(this);
+//        
+//        house3 = (LinearLayout) rootView.findViewById(R.id.house3);
+//        house3.setOnClickListener(this);
+//
+//        house4 = (LinearLayout) rootView.findViewById(R.id.house4);
+//        house4.setOnClickListener(this);
+//
+//        house5 = (LinearLayout) rootView.findViewById(R.id.house5);
+//        house5.setOnClickListener(this);
+//
+//        house6 = (LinearLayout) rootView.findViewById(R.id.house6);
+//        house6.setOnClickListener(this);
+//        
+//        house7 = (LinearLayout) rootView.findViewById(R.id.house7);
+//        house7.setOnClickListener(this);
+        
 		return rootView;
 	}
 
@@ -272,7 +315,6 @@ public class FragmentFind extends Fragment {
 		args.putString(FragmentResult. ARG_ROOMNR, roomNr);
 		args.putInt(FragmentResult.ARG_BUILDINGPOS, spin_selected);
 		fragment.setArguments(args);
-
 		FragmentManager	 fragmentManager = getActivity().getSupportFragmentManager();
 
 		FragmentTransaction fragmentTrans = fragmentManager.beginTransaction();	
@@ -280,6 +322,54 @@ public class FragmentFind extends Fragment {
 		fragmentTrans.addToBackStack(null);
 		fragmentTrans.commit();
 	}
+	
+	@Override
+	public void onClick(View v) { 
+//
+//		if(v.getId() == R.id.house1){
+//			selectBuilding(1);
+//		}else if(v.getId() == R.id.house2){
+//			selectBuilding(2);
+//		}else if(v.getId() == R.id.house3){
+//			selectBuilding(3);
+//		}else if(v.getId() == R.id.house4){
+//			selectBuilding(4);
+//		}else if(v.getId() == R.id.house5){
+//			selectBuilding(5);
+//		}else if(v.getId() == R.id.house6){
+//			selectBuilding(6);
+//		}else if(v.getId() == R.id.house7){
+//			selectBuilding(7);
+//		}
+//		
+	}
+//	
+//	private void selectBuilding(int pos) {
+//		String buildingCode;
+//		Resources res = getResources();
+//		String[] findCode = res
+//				.getStringArray(R.array.find_building_code_array);
+//		buildingCode = findCode[pos];
+//		showBuildingMap(buildingCode);
+//	}
+//	
+//	
+//	private void showBuildingMap(String buildingCode) {
+//		//COPIED FROM THE OLD CODE*******************************************************
+//		Log.i("search room", "method to show correct building's floor map initiated");
+//		Fragment fragment = new FragmentMaps();
+//		Bundle args = new Bundle();
+//		args.putString(FragmentMaps.ARG_BUILDING, buildingCode);
+//		fragment.setArguments(args);
+//
+//		FragmentManager	 fragmentManager = getActivity().getSupportFragmentManager();
+//		FragmentTransaction fragmentTrans = fragmentManager.beginTransaction();	
+//		fragmentTrans.replace(R.id.content_frame, fragment);
+//		fragmentTrans.addToBackStack(null);
+//		fragmentTrans.commit();		
+//	}
+	
+	
 
 	@Override
  public void onSaveInstanceState(Bundle outState) {

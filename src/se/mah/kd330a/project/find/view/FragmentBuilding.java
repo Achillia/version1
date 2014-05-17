@@ -23,6 +23,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+/**
+ * THIS JAVA CLASS IS OBSOLETE - IT'S FUNCTIONALITY HAS BEEN REPLACED BY FragmentMaps.java
+ * 
+ * @author CWS
+ *
+ */
+
 public class FragmentBuilding extends Fragment implements OnImageLoaderListener {
 	public static final String ARG_BUILDING = "building";
 	private String buildingCode;
