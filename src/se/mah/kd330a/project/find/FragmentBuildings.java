@@ -10,6 +10,7 @@ import se.mah.kd330a.project.find.view.FragmentBuilding;
 import se.mah.kd330a.project.find.view.FragmentFloorMap;
 import se.mah.kd330a.project.find.view.FragmentMaps;
 import se.mah.kd330a.project.find.view.FragmentResult;
+import se.mah.kd330a.project.find.view.SampleTabsDefault;
 import se.mah.kd330a.project.help.FragmentCredits;
 import se.mah.kd330a.project.home.FragmentHome;
 import se.mah.kd330a.project.itsl.FragmentITSL;
@@ -160,7 +161,7 @@ public class FragmentBuildings extends Fragment implements OnClickListener {
 	
 	//loads the fragment with the building maps
 	private void showBuildingMap(String buildingCode) {
-		Fragment fragment = new FragmentMaps();
+		SampleTabsDefault fragment = new SampleTabsDefault();
 		Bundle args = new Bundle();
 		args.putString(FragmentMaps.ARG_BUILDING, buildingCode);
 		fragment.setArguments(args);
