@@ -24,11 +24,11 @@ import android.widget.TextView;
 public final class FragmentFloorMap_v2 extends Fragment {
     private static final String KEY_CONTENT = "TestFragment:Content";
     private ToggledViewPager viewPager;
-    private int building_number;
-    public static FragmentFloorMap_v2 newInstance(int building_number, int position, ToggledViewPager tvp) {
+    private String building_code;
+    public static FragmentFloorMap_v2 newInstance(String building_code, int position, ToggledViewPager tvp) {
         FragmentFloorMap_v2 fragment = new FragmentFloorMap_v2();
         fragment.viewPager = tvp;
-        fragment.building_number = building_number;
+        fragment.building_code = building_code;
 /*	
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < 20; i++) {
@@ -77,7 +77,7 @@ public final class FragmentFloorMap_v2 extends Fragment {
     	
     	
     	// Temporary code. Will get replaced with code pulling image from database
-    	if(building_number == 0)
+    	if(building_code != "")
     	{
 			switch(mPosition){
 			case 0:
@@ -95,6 +95,7 @@ public final class FragmentFloorMap_v2 extends Fragment {
 	
 			default:
 				Log.i("julia", "Not implemented");
+				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.home_block);
 				break;
 			}
     	}
@@ -116,6 +117,7 @@ public final class FragmentFloorMap_v2 extends Fragment {
 	
 			default:
 				Log.i("julia", "Not implemented");
+				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.home_block);
 				break;
 			}
     	}

@@ -4,6 +4,8 @@ package se.mah.kd330a.project.find.view;
 import com.viewpagerindicator.TitlePageIndicator;
 
 import se.mah.kd330a.project.R;
+import se.mah.kd330a.project.find.data.BuildingHelper;
+import se.mah.kd330a.project.find.data.ImageLoader.OnImageLoaderListener;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,16 +25,20 @@ import android.widget.LinearLayout;
 
 // Use
 
-public class SampleTabsDefault extends Fragment {
-    private static final String[] CONTENT = new String[] { "Plan A", "Plan B", "Plan C", "Plan D"};
-    private int building_number;
+public class SampleTabsDefault extends Fragment //implements OnImageLoaderListener
+{
+    //private static final String[] CONTENT = new String[] { "Plan A", "Plan B", "Plan C", "Plan D"};
+
+    
+    
+    private String building_code;
     ToggledViewPager viewPager;
     PagerTabStrip pagerTabStrip;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle packet = getArguments();
-        building_number = packet.getInt("names");
+        building_code = packet.getString(FragmentMaps.ARG_BUILDING);
         
         //setContentView(R.layout.simple_tabs);
         View v =  inflater.inflate(R.layout.fragment_screen_find_floorplan_list, container, false);
@@ -57,17 +63,18 @@ public class SampleTabsDefault extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            return FragmentFloorMap_v2.newInstance(building_number, position, viewPager);   //CONTENT[position % CONTENT.length]);
+            return FragmentFloorMap_v2.newInstance(building_code, position, viewPager);   //CONTENT[position % CONTENT.length]);
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return CONTENT[position % CONTENT.length].toUpperCase();
+           // return CONTENT[position % CONTENT.length].toUpperCase();
+        	return BuildingHelper.GetBuildingFloorPlanTitle(building_code, position, getResources());
         }
 
         @Override
         public int getCount() {
-          return CONTENT.length;
+        	return BuildingHelper.FloorCount(building_code, getResources());
         }
     }
 }
