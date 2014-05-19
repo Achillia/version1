@@ -7,6 +7,8 @@ import se.mah.kd330a.project.R;
 import se.mah.kd330a.project.find.data.BuildingHelper;
 import se.mah.kd330a.project.find.data.ImageLoader.OnImageLoaderListener;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +18,9 @@ import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -77,5 +82,58 @@ public class SampleTabsDefault extends Fragment //implements OnImageLoaderListen
         	return BuildingHelper.FloorCount(building_code, getResources());
         }
     }
+      
+  	@Override
+  	public void onCreate(Bundle savedInstanceState) {
+  		super.onCreate(savedInstanceState);
+  		setHasOptionsMenu(true);
+  	}
+  	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.find, menu);
+	}
+	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+
+		//VARIABLES AND onClick-METHOD FOR LINKING OUT TO GOOGLE MAPS--------------------------------------------------------------------------------
+		switch (item.getItemId()) {
+		case R.id.find_menu_google:
+		String location = BuildingHelper.GetLocation(building_code);
+		/*
+			String[] buildingNames = getResources().getStringArray(R.array.find_building_code_array);
+			String location = buildingNames[building];
+
+			if(location.equals("Klerken (Kl)")){
+				Log.i("gmaps","klerken");
+				location = "Carl Gustafs vag 34";
+			}else if(location.equals("University Hospital (As)")){
+				Log.i("gmaps","university hospital");
+				location = "Jan Waldenstroms gata 25";
+			}else if(location.equals("Kranen (K2)") || location.equals("Ubåtshallen (K8)")){
+				Log.i("gmaps","kranen & ubåten");
+				location = "Östra Varvsgatan 11 A";
+			}else if(location.equals("Orkanen (Or)")){
+				Log.i("gmaps","orkanen");
+				location = "Nordenskiöldsgatan 10";
+			}else if(location.equals("Gäddan (G8)")){
+				Log.i("gmaps","gäddan");
+				location = "Citadellsvägen 7";
+			}
+*/
+			//getting the google map
+			Intent i = new Intent(android.content.Intent.ACTION_VIEW,
+					Uri.parse("geo:0,0?q="+location+"+Malmo+Sweden"));
+
+			startActivity(i);
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 }
 
