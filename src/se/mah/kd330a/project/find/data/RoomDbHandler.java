@@ -31,9 +31,9 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 	private static final String TABLE_ROOMS = "rooms";
 
 	private static final String ROW_ROOMNR = "roomNr";
-	//private static final String ROW_PATH = "path";
+	
 	private static final String ROW_TEXTS = "texts";
-	//private static final String ROW_ARROWS = "arrows";
+	
 	private static final String ROW_X = "x";
 	private static final String ROW_Y = "y";
 	private static final String ROW_MAP = "map";
@@ -397,9 +397,9 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 
 		ContentValues values = new ContentValues();
 		values.put(ROW_ROOMNR, roomNr); 
-		//values.put(ROW_PATH, path); 
+		
 		values.put(ROW_TEXTS, texts); 
-		//values.put(ROW_ARROWS, arrows); 
+		
 		values.put(ROW_X, x); 
 		values.put(ROW_Y, y); 
 		values.put(ROW_MAP, map); 
@@ -427,9 +427,9 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 			if (c != null) {
 				c.moveToFirst();
 				room = new PathToRoom(roomNr);
-			//	room.setPath(c.getString(c.getColumnIndex(ROW_PATH)));
+			
 				room.setTextList(c.getString(c.getColumnIndex(ROW_TEXTS)));
-			//	room.setArrowList(c.getString(c.getColumnIndex(ROW_ARROWS)));
+			
 				room.mMapPic = c.getString(c.getColumnIndex(ROW_MAP));
 				room.mCoord_x = c.getInt(c.getColumnIndex(ROW_X));
 				room.mCoord_y = c.getInt(c.getColumnIndex(ROW_Y));
