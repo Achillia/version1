@@ -59,4 +59,39 @@ public class BuildingHelper {
 			return currentFloorPlans.length;
 		return 0;
 	}
+	
+	public static String GetLocation(String building_code){
+		if(building_code.equals("k2"))
+		{
+			return "Östra Varvsgatan 11 A";
+			 
+		}
+		if(building_code.equals("k8"))
+		{
+			return  "Östra Varvsgatan 11 A";
+			 
+		}
+		if(building_code.equals("or"))
+		{
+			return  "Nordenskiöldsgatan 10";
+			 
+		}
+		if(building_code.equals("as"))
+		{
+			return  "Jan Waldenstroms gata 25";
+			 
+		}
+		if(building_code.equals("kl"))
+		{
+			return  "Carl Gustafs vag 34";
+			 
+		}
+		if(building_code.equals("g8"))
+		{
+			return  "Citadellsvägen 7";
+			 
+		}
+		return "Östra Varvsgatan 11 A";
+
+	}
 }
