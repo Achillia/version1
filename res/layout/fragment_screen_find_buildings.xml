@@ -48,7 +48,7 @@
             android:orientation="vertical" >
 
                 <ImageView
-                    android:src="@drawable/icon"
+                    android:src="@drawable/orkanen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
         </LinearLayout>
@@ -139,7 +139,7 @@
                 android:orientation="vertical" >
 
                 <ImageView
-                    android:src="@drawable/icon"
+                    android:src="@drawable/gaddan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -230,7 +230,7 @@
                 android:orientation="vertical" >
 
                 <ImageView
-                    android:src="@drawable/icon"
+                    android:src="@drawable/kranen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -321,7 +321,7 @@
                 android:orientation="vertical" >
 
                 <ImageView
-                    android:src="@drawable/icon"
+                    android:src="@drawable/ubatshallen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -412,7 +412,7 @@
                 android:orientation="vertical" >
 
                 <ImageView
-                    android:src="@drawable/icon"
+                    android:src="@drawable/odontologen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -503,7 +503,7 @@
                 android:orientation="vertical" >
 
                 <ImageView
-                    android:src="@drawable/icon"
+                    android:src="@drawable/hshuset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
