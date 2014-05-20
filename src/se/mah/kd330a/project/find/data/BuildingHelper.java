@@ -88,7 +88,7 @@ public class BuildingHelper {
 		}
 		if(building_code.equals("g8"))
 		{
-			return  "Citadellsvägen 7";
+			return  "Citadellsvägen 7, 21118, ";
 			 
 		}
 		return "Östra Varvsgatan 11 A";

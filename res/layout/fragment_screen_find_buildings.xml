@@ -48,6 +48,7 @@
             android:orientation="vertical" >
 
                 <ImageView
+                    android:src="@drawable/icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
         </LinearLayout>
@@ -138,6 +139,7 @@
                 android:orientation="vertical" >
 
                 <ImageView
+                    android:src="@drawable/icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -228,6 +230,7 @@
                 android:orientation="vertical" >
 
                 <ImageView
+                    android:src="@drawable/icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -318,6 +321,7 @@
                 android:orientation="vertical" >
 
                 <ImageView
+                    android:src="@drawable/icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -408,6 +412,7 @@
                 android:orientation="vertical" >
 
                 <ImageView
+                    android:src="@drawable/icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -498,6 +503,7 @@
                 android:orientation="vertical" >
 
                 <ImageView
+                    android:src="@drawable/icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>

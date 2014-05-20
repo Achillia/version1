@@ -94,6 +94,7 @@ public class FragmentBuildings extends Fragment implements OnClickListener {
 		((TextView) rootView.findViewById(R.id.building_name4)).setText(buildingNameArray[4]);
 		((TextView) rootView.findViewById(R.id.building_name5)).setText(buildingNameArray[5]);
 		((TextView) rootView.findViewById(R.id.building_name6)).setText(buildingNameArray[6]);
+		 
 		
 		return rootView;
 	}
@@ -120,7 +121,7 @@ public class FragmentBuildings extends Fragment implements OnClickListener {
 		switch (item.getItemId()) {
 		case R.id.find_menu_google_all:
 			//opening a kml file (google maps file) from res/raw that contains the pre-marked positions of all buildings
-			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=android.resource://res/raw/mah_buildings"));
+			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=dasdasdsd"));
 			startActivity(i);
 			return true;
 		default:
