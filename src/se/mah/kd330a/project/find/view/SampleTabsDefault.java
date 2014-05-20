@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
@@ -50,14 +52,15 @@ public class SampleTabsDefault extends Fragment //implements OnImageLoaderListen
         
         Bundle packet = getArguments();
         building_code = packet.getString(FragmentMaps.ARG_BUILDING);
-        
+        Log.i("julia", "We want to see stuff for building: " + building_code);
         //setContentView(R.layout.simple_tabs);
         View v =  inflater.inflate(R.layout.fragment_screen_find_floorplan_list, container, false);
 
-        FragmentPagerAdapter adapter = new FloorPlanViewerAdapter(getActivity().getSupportFragmentManager());
-
+        FloorPlanViewerAdapter adapter = new FloorPlanViewerAdapter(getActivity().getSupportFragmentManager());
+        
         viewPager = (ToggledViewPager)v.findViewById(R.id.pager);
         viewPager.setAdapter(adapter);
+
         
         //TitlePageIndicator indicator = (TitlePageIndicator)v.findViewById(R.id.indicator);
         //indicator.setViewPager(viewPager);
@@ -67,11 +70,10 @@ public class SampleTabsDefault extends Fragment //implements OnImageLoaderListen
 		pagerTabStrip.setDrawFullUnderline(true);
         return v;
     }
-      class FloorPlanViewerAdapter extends  FragmentPagerAdapter  {
+      class FloorPlanViewerAdapter extends  FragmentStatePagerAdapter  {
         public FloorPlanViewerAdapter(FragmentManager fm) {
             super(fm);
         }
-
         @Override
         public Fragment getItem(int position) {
             return FragmentFloorMap_v2.newInstance(building_code, position, viewPager);   //CONTENT[position % CONTENT.length]);
@@ -87,6 +89,7 @@ public class SampleTabsDefault extends Fragment //implements OnImageLoaderListen
         public int getCount() {
         	return BuildingHelper.FloorCount(building_code, getResources());
         }
+
     }
       
   	@Override

@@ -155,7 +155,13 @@ public class ZoomableImageView extends ImageView
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener
     {
-
+		 @Override 
+		 public void onScaleEnd(ScaleGestureDetector detector) {
+			 if(saveScale==1)
+                 tvp.setPagingEnabled(true);
+			 else
+				 tvp.setPagingEnabled(false);
+		 };
         @Override
         public boolean onScaleBegin(ScaleGestureDetector detector)
         {
@@ -173,15 +179,13 @@ public class ZoomableImageView extends ImageView
             {
                 saveScale = maxScale;
                 mScaleFactor = maxScale / origScale;
-                Log.i("julia", "TVP false1");
-                tvp.setPagingEnabled(false);
+
             }
             else if (saveScale < minScale)
             {
                 saveScale = minScale;
                 mScaleFactor = minScale / origScale;
-                Log.i("julia", "TVP true");
-                tvp.setPagingEnabled(true);
+
             }
             right = width * saveScale - width - (2 * redundantXSpace * saveScale);
             bottom = height * saveScale - height - (2 * redundantYSpace * saveScale);
@@ -201,8 +205,7 @@ public class ZoomableImageView extends ImageView
                                 matrix.postTranslate(0, -(y + bottom));
                             else if (y > 0)
                                 matrix.postTranslate(0, -y);
-                            Log.i("julia", "TVP false11");
-                            tvp.setPagingEnabled(false);
+
                         }
                         else
                         {
@@ -210,8 +213,7 @@ public class ZoomableImageView extends ImageView
                                 matrix.postTranslate(-(x + right), 0);
                             else if (x > 0)
                                 matrix.postTranslate(-x, 0);
-                            Log.i("julia", "TVP false12");
-                            tvp.setPagingEnabled(false);
+
                         }
                     }
                 }
@@ -233,8 +235,7 @@ public class ZoomableImageView extends ImageView
                     else if (y > 0)
                         matrix.postTranslate(0, -y);
                 }
-                Log.i("julia", "TVP False");
-                tvp.setPagingEnabled(false);
+
             }
             return true;
         }

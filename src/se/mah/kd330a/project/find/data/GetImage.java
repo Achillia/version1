@@ -6,10 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 public class GetImage {
 
@@ -22,11 +24,17 @@ public class GetImage {
 		c.deleteFile(filename);
 		return !doesFileExists(filename,c);
 	}
+	public static boolean doesImageFromLocalStorageExists(String filename,Context c){
+		File fname=new File(c.getFilesDir(), filename);
+		return fname.exists();
+	}
 
 	//Gets a picture from local storage
 	public static Bitmap getImageFromLocalStorage(String filename, Context c){
 		String fname=new File(c.getFilesDir(), filename).getAbsolutePath();
+		Log.i("julia", "Loading bitmap from: " + fname);
 		Bitmap bitmap = BitmapFactory.decodeFile(fname);
+		
 		return bitmap;
 	}
 

@@ -183,6 +183,7 @@ public class FragmentHome extends Fragment implements FeedManager.FeedManagerDon
 	@Override
 	public void onFeedManagerDone(FeedManager fm, ArrayList<Article> articles)
 	{
+		/*
 		try
 		{
 			//View widget = (View)rootView.findViewById(R.id.itslearning_widget);
@@ -215,7 +216,7 @@ public class FragmentHome extends Fragment implements FeedManager.FeedManagerDon
 		catch(Exception e)
 		{
 			Log.e(TAG, "onFeedManagerDone(): " + e.toString());
-		}
+		}*/
 	}
 
 	@Override

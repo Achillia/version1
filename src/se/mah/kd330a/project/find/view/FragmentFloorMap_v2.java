@@ -33,6 +33,7 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
         FragmentFloorMap_v2 fragment = new FragmentFloorMap_v2();
         fragment.viewPager = tvp;
         fragment.building_code = building_code;
+        
 /*	
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < 20; i++) {
@@ -46,23 +47,39 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     }
     private int mPosition = 0;
     private String mContent = "???";
-
+    public void StartImageDownload()
+    {
+    	String imageName = BuildingHelper.GetFloorPlanImage(building_code, mPosition);
+    	
+    	if(GetImage.doesImageFromLocalStorageExists(imageName, getActivity()))
+    	{
+    		Log.i("julia", "Using cached image: "+ imageName);
+    		bitmap = GetImage.getImageFromLocalStorage(imageName, getActivity());
+    		myImageView.setImageBitmap(bitmap);
+    		return;
+    	}
+    	Log.i("julia", "Downloading image: "+ imageName);
+    	new ImageLoader(getActivity(), this).execute(imageName);
+    }
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if ((savedInstanceState != null) && savedInstanceState.containsKey(KEY_CONTENT)) {
             mContent = savedInstanceState.getString(KEY_CONTENT);
-        }
+        } 
+
     }
 
-    
     ZoomableImageView myImageView;
     Bitmap bitmap;
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View v =  inflater.inflate(R.layout.fragment_screen_find_floorplan, container, false);
-     
+
+    	
     //mPosition is the position in the pager.
    	
      //  int position = getArguments().getInt("position");
@@ -75,8 +92,7 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     	//myImageView.setScaleType(ImageView.ScaleType.MATRIX);
     	myImageView.SetToggledViewPager(this.viewPager);
     	myImageView.saveScale = 1;
-    	String imageName = BuildingHelper.GetFloorPlanImage(building_code, mPosition);
-    	new ImageLoader(getActivity(), this).execute(imageName);
+    	StartImageDownload();
     	
     	//Get img from database(Will be used later):	bitmap = getImageFromDatabase(building_number, mPosition);
     	
@@ -134,6 +150,7 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(KEY_CONTENT, mContent);
+    	
     }
     @Override
 	public void onImageReceived(String fileName) {

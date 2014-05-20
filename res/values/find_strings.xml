@@ -27,6 +27,7 @@
     </string-array>
     <string-array name="find_floorG8_array">
         <item>Floor 1</item>
+        <item>Floor 2</item>
         <item>Floor 3</item>
         <item>Floor 4</item>
         <item>Floor 5</item>
@@ -46,6 +47,7 @@
     </string-array>
     <string-array name="find_floorK8_array">
         <item>Floor 1</item>
+        <item>Floor 2</item>
         <item>Floor 3</item>
         <item>Floor 4</item>
         <item>Floor 5</item>
