@@ -94,4 +94,28 @@ public class BuildingHelper {
 		return "Östra Varvsgatan 11 A";
 
 	}
+	public static String GetFloorPlanImage(String building_code, int floorIndex){
+		String resultString = "" + building_code +"_";
+		if(building_code.equals("k2"))
+			switch(floorIndex)	
+			{
+				case 0: 
+					resultString+="a";
+					break;
+				case 1:
+					resultString+="b";
+					break;
+				case 2:
+					resultString+="c";
+					break;
+				case 3:
+					resultString+="d";
+					break;
+					
+			}
+		else
+			resultString+=(floorIndex+1)+"";
+		resultString += ".jpg";
+		return resultString;
+	}
 }

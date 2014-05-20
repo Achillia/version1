@@ -1,5 +1,9 @@
 package se.mah.kd330a.project.find.view;
 import se.mah.kd330a.project.R;
+import se.mah.kd330a.project.find.data.BuildingHelper;
+import se.mah.kd330a.project.find.data.GetImage;
+import se.mah.kd330a.project.find.data.ImageLoader;
+import se.mah.kd330a.project.find.data.ImageLoader.OnImageLoaderListener;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,7 +25,7 @@ import android.widget.TextView;
 
 // Use
 
-public final class FragmentFloorMap_v2 extends Fragment {
+public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoaderListener {
     private static final String KEY_CONTENT = "TestFragment:Content";
     private ToggledViewPager viewPager;
     private String building_code;
@@ -71,13 +75,14 @@ public final class FragmentFloorMap_v2 extends Fragment {
     	//myImageView.setScaleType(ImageView.ScaleType.MATRIX);
     	myImageView.SetToggledViewPager(this.viewPager);
     	myImageView.saveScale = 1;
-    	
+    	String imageName = BuildingHelper.GetFloorPlanImage(building_code, mPosition);
+    	new ImageLoader(getActivity(), this).execute(imageName);
     	
     	//Get img from database(Will be used later):	bitmap = getImageFromDatabase(building_number, mPosition);
     	
     	
     	// Temporary code. Will get replaced with code pulling image from database
-    	if(building_code != "")
+    	/*if(building_code != "")
     	{
 			switch(mPosition){
 			case 0:
@@ -120,8 +125,8 @@ public final class FragmentFloorMap_v2 extends Fragment {
 				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.home_block);
 				break;
 			}
-    	}
-		myImageView.setImageBitmap(bitmap);
+    	}*/
+		
         return v;
     }
     
@@ -130,4 +135,12 @@ public final class FragmentFloorMap_v2 extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putString(KEY_CONTENT, mContent);
     }
+    @Override
+	public void onImageReceived(String fileName) {
+	/*	prgBar.setVisibility(View.INVISIBLE);
+		imgNav.setImageBitmap(GetImage.getImageFromLocalStorage(fileName, getActivity()));
+		imgNav.setVisibility(View.VISIBLE);	*/
+    	bitmap = GetImage.getImageFromLocalStorage(fileName, getActivity());
+    	myImageView.setImageBitmap(bitmap);
+	}
 }
