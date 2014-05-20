@@ -6,8 +6,10 @@ import com.viewpagerindicator.TitlePageIndicator;
 import se.mah.kd330a.project.R;
 import se.mah.kd330a.project.find.data.BuildingHelper;
 import se.mah.kd330a.project.find.data.ImageLoader.OnImageLoaderListener;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -42,6 +44,10 @@ public class SampleTabsDefault extends Fragment //implements OnImageLoaderListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+    // Sets orientation to portrait, temporary fix to horizontal view crash
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        
         Bundle packet = getArguments();
         building_code = packet.getString(FragmentMaps.ARG_BUILDING);
         
@@ -135,5 +141,7 @@ public class SampleTabsDefault extends Fragment //implements OnImageLoaderListen
 			return super.onOptionsItemSelected(item);
 		}
 	}
+	
+
 }
 

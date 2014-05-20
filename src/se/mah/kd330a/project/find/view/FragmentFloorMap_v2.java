@@ -81,16 +81,16 @@ public final class FragmentFloorMap_v2 extends Fragment {
     	{
 			switch(mPosition){
 			case 0:
-				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.home_block);
+				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.orkanen_plan_4_400px);
 				break;
 			case 1:
-				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mah_logotyp_original);
+				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.orkanen_plan_4_300px);
 				break;
 			case 2:
-				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.map_view);
+				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.orkanen_plan_4_200px);
 				break;
 			case 3:
-				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.splash_view);
+				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.orkanen_plan4_pride);
 				break;
 	
 			default:
