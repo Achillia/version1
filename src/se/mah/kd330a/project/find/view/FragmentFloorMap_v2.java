@@ -55,8 +55,20 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     	{
     		Log.i("julia", "Using cached image: "+ imageName);
     		bitmap = GetImage.getImageFromLocalStorage(imageName, getActivity());
-    		myImageView.setImageBitmap(bitmap);
-    		return;
+    		if(bitmap!=null)
+    		{
+    			if(myImageView!=null)
+    			{
+	    			myImageView.setImageBitmap(bitmap);
+	    			//return;
+    			}
+    			else
+    			{
+    				Log.e("julia", "Why is that one null?");
+    			}
+    		}
+    		else
+    			Log.e("julia", "Image was null! We will redownload it instead of crashing.");
     	}
     	Log.i("julia", "Downloading image: "+ imageName);
     	new ImageLoader(getActivity(), this).execute(imageName);
@@ -154,10 +166,22 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     }
     @Override
 	public void onImageReceived(String fileName) {
-	/*	prgBar.setVisibility(View.INVISIBLE);
-		imgNav.setImageBitmap(GetImage.getImageFromLocalStorage(fileName, getActivity()));
-		imgNav.setVisibility(View.VISIBLE);	*/
     	bitmap = GetImage.getImageFromLocalStorage(fileName, getActivity());
-    	myImageView.setImageBitmap(bitmap);
+
+		if(bitmap!=null)
+		{
+			if(myImageView!=null)
+			{
+				myImageView.setImageBitmap(bitmap);
+				return;
+			}
+			else
+			{
+				Log.e("julia", "So we downloaded the picture but the view has probably been destroyed.?");
+			}
+			
+		}
+		else
+			Log.e("julia", "Failed to set the image to the control, because the image was null!");
 	}
 }

@@ -115,7 +115,7 @@ public class BuildingHelper {
 			}
 		else
 			resultString+=(floorIndex+1)+"";
-		resultString += ".jpg";
+		resultString += ".png";
 		return resultString;
 	}
 }
