@@ -36,8 +36,7 @@ import android.widget.LinearLayout;
 
 public class SampleTabsDefault extends Fragment //implements OnImageLoaderListener
 {
-    //private static final String[] CONTENT = new String[] { "Plan A", "Plan B", "Plan C", "Plan D"};
-
+  
     
     
     private String building_code;
@@ -112,27 +111,7 @@ public class SampleTabsDefault extends Fragment //implements OnImageLoaderListen
 		switch (item.getItemId()) {
 		case R.id.find_menu_google:
 		String location = BuildingHelper.GetLocation(building_code);
-		/*
-			String[] buildingNames = getResources().getStringArray(R.array.find_building_code_array);
-			String location = buildingNames[building];
-
-			if(location.equals("Klerken (Kl)")){
-				Log.i("gmaps","klerken");
-				location = "Carl Gustafs vag 34";
-			}else if(location.equals("University Hospital (As)")){
-				Log.i("gmaps","university hospital");
-				location = "Jan Waldenstroms gata 25";
-			}else if(location.equals("Kranen (K2)") || location.equals("Ubåtshallen (K8)")){
-				Log.i("gmaps","kranen & ubåten");
-				location = "Östra Varvsgatan 11 A";
-			}else if(location.equals("Orkanen (Or)")){
-				Log.i("gmaps","orkanen");
-				location = "Nordenskiöldsgatan 10";
-			}else if(location.equals("Gäddan (G8)")){
-				Log.i("gmaps","gäddan");
-				location = "Citadellsvägen 7";
-			}
-*/
+		
 			//getting the google map
 			Intent i = new Intent(android.content.Intent.ACTION_VIEW,
 					Uri.parse("geo:0,0?q="+location+"+Malmo+Sweden"));
