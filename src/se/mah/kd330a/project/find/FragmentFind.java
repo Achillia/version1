@@ -257,7 +257,7 @@ public class FragmentFind extends Fragment implements OnClickListener {
 	}
 
 	private void runNavigation(RoomDbHandler dbHandler, String roomNr, int errorString) {
-		Log.i("search room", "method to redirect to correct room initiated");
+		/*Log.i("search room", "method to redirect to correct room initiated");
 		if (dbHandler.isRoomExists(roomNr)) {
 			//THIS IS WHERE THE REDIRECTION HAPPENS TO THE CORRECT FLOOR PLAN WITH MARKED PIN----------------------------------------------------------------------
 			//MAYBE MODIFY THE METHOD showFloorMap OR MAKE A NEW ONE
@@ -266,12 +266,14 @@ public class FragmentFind extends Fragment implements OnClickListener {
 		else if (dbHandler.isRoomExistsAll(roomNr)) {
 			//go to floor maps
 			Log.i("search room", "floor map shown");
-			showFloorMap(dbHandler.getMapName());
+			//Group High Five Removed This.
+			//showFloorMap(dbHandler.getMapName());
+			//End of Group High Five Removed This.
 			//Toast.makeText(getActivity(), "floorMapCode: "+dbHandler.getMapName(), Toast.LENGTH_LONG).show();
 		}
 		else
 			Toast.makeText(getActivity(), getString(errorString), Toast.LENGTH_LONG).show();
-
+*/
 
 	}
 	

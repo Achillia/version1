@@ -18,6 +18,9 @@ import se.mah.kd330a.project.adladok.model.ScheduleFixedDelay.UpdateType;
 import se.mah.kd330a.project.faq.FragmentFaq;
 import se.mah.kd330a.project.find.FragmentBuildings;
 import se.mah.kd330a.project.find.FragmentFind;
+import se.mah.kd330a.project.find.data.BuildingHelper;
+import se.mah.kd330a.project.find.data.RoomDbHandler;
+import se.mah.kd330a.project.find.data.RoomDbHandler.Room;
 import se.mah.kd330a.project.help.FragmentCredits;
 import se.mah.kd330a.project.home.FragmentHome;
 import se.mah.kd330a.project.home.data.RSSFeed;
@@ -207,8 +210,11 @@ public class MainActivity extends FragmentActivity implements Observer{
 			break;
 		case FIND:
 			//fragment = new FragmentFind();		//loads the old fragment
-			fragment = new FragmentBuildings();			//loads the new fragment
-			transaction.addToBackStack(null);
+			//fragment = new FragmentBuildings();			//loads the new fragment
+			
+
+			fragment = new FragmentBuildings();
+
 			break;
 		case FAQ:
 			fragment = new FragmentFaq();

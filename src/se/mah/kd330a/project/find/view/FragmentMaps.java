@@ -36,6 +36,7 @@ import android.widget.TextView;
 
 public class FragmentMaps extends Fragment implements OnImageLoaderListener {
 	public static final String ARG_BUILDING = "building";
+	public static final String ARG_FLOORINDEX= "floorindex";
 	private String buildingCode;
 	
 	private ImageView imgNav;

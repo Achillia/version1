@@ -83,9 +83,11 @@ public class FragmentResult extends Fragment {
 		}
 		if (roomNr != null) {
 
-			mDbHandler = new RoomDbHandler(getActivity());
+			//Group High Five Removed This.
+			/*mDbHandler = new RoomDbHandler(getActivity());
 			if (mDbHandler.isRoomExists(roomNr))
-				Log.i("project", mDbHandler.getRoomNr());
+				Log.i("project", mDbHandler.getRoomNr());*/
+			//End of Group High Five Removed This.
 		}
 
 		return rootView;
@@ -95,8 +97,10 @@ public class FragmentResult extends Fragment {
 	public void onStart() {
 		super.onStart();
 		Log.i("project", "onStart " + mSelectedTab);
+		//Group High Five Removed This.
 		mResultPagerAdapter = new ResultPagerAdapter(getChildFragmentManager(), 
-				mDbHandler.getRoomDetails());
+				null);//mDbHandler.getRoomDetails());
+		//End of Group High Five Removed This.
 		mViewPager = (ViewPager) getView().findViewById(R.id.vp_Find_Pager);
 		mViewPager.setAdapter(mResultPagerAdapter);
 
