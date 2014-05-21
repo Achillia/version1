@@ -8,5 +8,13 @@
         android:showAsAction="always"
         android:title="@string/find_menu_google">
     </item>
+    <item 
+        android:id="@+id/menu_search"
+        android:title="@string/menu_search"
+        android:showAsAction="collapseActionView|ifRoom"
+        android:actionViewClass="android.widget.SearchView">
+          
+	</item>
+	
    
 </menu>

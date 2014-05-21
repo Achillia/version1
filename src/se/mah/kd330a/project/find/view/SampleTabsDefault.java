@@ -114,8 +114,8 @@ public class SampleTabsDefault extends Fragment //implements OnImageLoaderListen
 		
 			//getting the google map
 			Intent i = new Intent(android.content.Intent.ACTION_VIEW,
-					Uri.parse("geo:0,0?q="+location+"+Malmo+Sweden"));
-
+					//Uri.parse("geo:0,0?q="+location+"+Malmo+Sweden"));
+					Uri.parse("geo:0,0?q=http://195.178.234.7/mahapp/images/raw/mahbyggnader.kml"));
 			startActivity(i);
 			return true;
 
