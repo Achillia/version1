@@ -3,6 +3,7 @@ package se.mah.kd330a.project.find.view;
 import java.util.Arrays;
 
 import se.mah.kd330a.project.R;
+import se.mah.kd330a.project.find.data.BuildingHelper;
 import se.mah.kd330a.project.find.data.GetImage;
 import se.mah.kd330a.project.find.data.ImageLoader;
 import se.mah.kd330a.project.find.data.ImageLoader.OnImageLoaderListener;
@@ -31,7 +32,6 @@ import android.widget.TextView;
  */
 
 public class FragmentBuilding extends Fragment implements OnImageLoaderListener {
-	public static final String ARG_BUILDING = "building";
 	private String buildingCode;
 	
 	private ImageView imgNav;
@@ -62,7 +62,7 @@ public class FragmentBuilding extends Fragment implements OnImageLoaderListener 
 		super.onStart();
 		Bundle args = getArguments();
 		
-		buildingCode = args.getString(ARG_BUILDING);
+		buildingCode = args.getString(BuildingHelper.ARG_BUILDING);
 		String[] buildings = getResources().getStringArray(R.array.find_building_code_array);
 		final int pos = Arrays.asList(buildings).indexOf(buildingCode);
 		
@@ -80,7 +80,7 @@ public class FragmentBuilding extends Fragment implements OnImageLoaderListener 
 			public void onClick(View view) {
 				Fragment fragment = new FragmentFloorMap();
 				Bundle args = new Bundle();
-				args.putString(FragmentBuilding.ARG_BUILDING, buildingCode);
+				args.putString(BuildingHelper.ARG_BUILDING, buildingCode);
 				fragment.setArguments(args);
 
 				FragmentManager	 fragmentManager = getActivity().getSupportFragmentManager();

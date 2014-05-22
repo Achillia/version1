@@ -85,7 +85,7 @@ public class FragmentMaps extends Fragment implements OnImageLoaderListener {
 			public void onClick(View view) {
 				Fragment fragment = new FragmentFloorMap();
 				Bundle args = new Bundle();
-				args.putString(FragmentBuilding.ARG_BUILDING, buildingCode);
+				args.putString(BuildingHelper.ARG_BUILDING, buildingCode);
 				fragment.setArguments(args);
 
 				FragmentManager	 fragmentManager = getActivity().getSupportFragmentManager();
