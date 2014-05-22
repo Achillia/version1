@@ -43,11 +43,11 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 
 	//private static final String LOG = "MAH RoomDbHandler";
     public class Room{
-    	String roomNr;
-    	int x;
-    	int y;
-    	String building_code;
-    	String floor_name;
+    	public String roomNr;
+    	public int x;
+    	public int y;
+    	public String building_code;
+    	public String floor_name;
     	public Room(String rNr)
     	{
     		this.roomNr = rNr;
@@ -57,9 +57,13 @@ public class RoomDbHandler extends SQLiteOpenHelper {
     		
     		return roomNr;
     	}
+    	public String GetFloorplanFilename()
+    	{
+    		return building_code + "_" + floor_name +  ".png";
+    	}
     }
 	private static final String DATABASE_NAME = "find_rooms_DB";
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION =5;
 	private static RoomDbHandler instance = null;
 
 	   public static RoomDbHandler getInstance() {
@@ -154,7 +158,7 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 		addRow(db, "K2B204", 0, 0, "k2", "b");
 		addRow(db, "K2B210", 0, 0, "k2", "b");
 		addRow(db, "K2B211", 0, 0, "k2", "b");
-		addRow(db, "K2B212", 0, 0, "k2", "b");
+		addRow(db, "K2B212", 545, 290, "k2", "b");
 		addRow(db, "K2B205", 0, 0, "k2", "b");
 		addRow(db, "K2B206", 0, 0, "k2", "b");
 		addRow(db, "K2B207", 0, 0, "k2", "b");
@@ -447,7 +451,8 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 	}
 	//Finds a room, returns null if it wasn't found.
 	public Room FindRoom(String roomNr) {
-
+		if(roomNr == null)
+			return null;
 		String selectQuery = "SELECT  * FROM rooms WHERE roomNr = '" + roomNr.toUpperCase(Locale.getDefault()) + "'";
 		SQLiteDatabase db = this.getReadableDatabase();
 		Room room;

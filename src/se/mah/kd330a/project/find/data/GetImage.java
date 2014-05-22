@@ -10,6 +10,7 @@ import java.net.URL;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -35,7 +36,9 @@ public class GetImage {
 		{
 			String fname=new File(c.getFilesDir(), filename).getAbsolutePath();
 			Log.i("julia", "Loading bitmap from: " + fname);
-			Bitmap bitmap = BitmapFactory.decodeFile(fname);
+			Options bitmapOptions = new Options();
+			bitmapOptions.inMutable = true;
+			Bitmap bitmap = BitmapFactory.decodeFile(fname, bitmapOptions);
 			
 			return bitmap;
 		}

@@ -48,6 +48,7 @@ public class SampleTabsDefault extends Fragment implements SearchView.OnQueryTex
     ToggledViewPager viewPager;
     PagerTabStrip pagerTabStrip;
 	private SearchView mSearchView;
+	private Room preSelectedRoom;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +59,7 @@ public class SampleTabsDefault extends Fragment implements SearchView.OnQueryTex
         Bundle packet = getArguments();
         building_code = packet.getString(BuildingHelper.ARG_BUILDING);
         preSelectedFloor = packet.getInt(BuildingHelper.ARG_FLOORINDEX, 0);
+        preSelectedRoom = RoomDbHandler.getInstance().FindRoom(packet.getString(BuildingHelper.ARG_ROOMNAME, null));
         Log.i("julia", "We want to see stuff for building: " + building_code);
         //setContentView(R.layout.simple_tabs);
         View v =  inflater.inflate(R.layout.fragment_screen_find_floorplan_list, container, false);
@@ -86,7 +88,7 @@ public class SampleTabsDefault extends Fragment implements SearchView.OnQueryTex
         }
         @Override
         public Fragment getItem(int position) {
-            return FragmentFloorMap_v2.newInstance(building_code, position, viewPager);   //CONTENT[position % CONTENT.length]);
+            return FragmentFloorMap_v2.newInstance(building_code, position, preSelectedRoom, viewPager);   //CONTENT[position % CONTENT.length]);
         }
 
         @Override

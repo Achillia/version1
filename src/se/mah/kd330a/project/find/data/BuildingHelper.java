@@ -19,6 +19,7 @@ public class BuildingHelper {
 	public static final String ARG_BUILDING = "building";
 	public static final String ARG_FLOORINDEX= "floorindex";
 	public static final String ARG_SEARCHSTRING= "searchstring";
+	public static final String ARG_ROOMNAME= "roomnamestring";
 	public static String GetBuildingFloorPlanTitle(String building_code, int position, Resources res)
 	{
 
@@ -153,6 +154,7 @@ public class BuildingHelper {
 		}
 		return floor_index;
 	}
+
 	//returns the fragment with the building map of the specified building.
 	public static Fragment getFragmentBuildingMap(String buildingCode) {
 		SampleTabsDefault fragment = new SampleTabsDefault();
@@ -163,16 +165,15 @@ public class BuildingHelper {
 
 	}
 	//returns the fragment with the building map of the specified building. And opens the floor at floor INDEX.
-	public static Fragment getFragmentBuildingMapOnFloor(String buildingCode, String floor_name) {
-		int floorindex = ConvertFloorNameToFloorIndex(floor_name);
+	public static Fragment getFragmentBuildingMapForRoom(Room room) {
+		int floorindex = ConvertFloorNameToFloorIndex(room.floor_name);
 		SampleTabsDefault fragment = new SampleTabsDefault();
 		Bundle args = new Bundle();
-		args.putString(BuildingHelper.ARG_BUILDING, buildingCode);
+		args.putString(BuildingHelper.ARG_BUILDING, room.building_code);
 		args.putInt(BuildingHelper.ARG_FLOORINDEX, floorindex);
+		args.putString(BuildingHelper.ARG_ROOMNAME, room.roomNr);
 		fragment.setArguments(args);
 		return fragment;
-	}
-	public static Fragment getFragmentBuildingMapOnFloor(Room room) {
-		return getFragmentBuildingMapOnFloor(room.building_code, room.floor_name);
+		
 	}
 }

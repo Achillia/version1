@@ -65,7 +65,7 @@ public class FragmentSearchResultList extends DialogFragment {
 	          int position, long id) {
 	    	  Log.i("julia", "You clicked on " + position);
 	    	 
-	    	  	Fragment fragment = BuildingHelper.getFragmentBuildingMapOnFloor( list.get(position));
+	    	  	Fragment fragment = BuildingHelper.getFragmentBuildingMapForRoom( list.get(position));
 				FragmentManager	 fragmentManager = getActivity().getSupportFragmentManager();
 				FragmentTransaction fragmentTrans = fragmentManager.beginTransaction();
 				//Popping the stack so we don't have multiple of the fragmentfloormaps open, from clicking around or searching multiple times.

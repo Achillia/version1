@@ -4,10 +4,13 @@ import se.mah.kd330a.project.find.data.BuildingHelper;
 import se.mah.kd330a.project.find.data.GetImage;
 import se.mah.kd330a.project.find.data.ImageLoader;
 import se.mah.kd330a.project.find.data.ImageLoader.OnImageLoaderListener;
+import se.mah.kd330a.project.find.data.RoomDbHandler.Room;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,11 +34,12 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     private static final String KEY_CONTENT = "TestFragment:Content";
     private ToggledViewPager viewPager;
     private String building_code;
-    public static FragmentFloorMap_v2 newInstance(String building_code, int position, ToggledViewPager tvp) {
+    private Room specificRoom;
+    public static FragmentFloorMap_v2 newInstance(String building_code, int position, Room r, ToggledViewPager tvp) {
         FragmentFloorMap_v2 fragment = new FragmentFloorMap_v2();
         fragment.viewPager = tvp;
         fragment.building_code = building_code;
-        
+        fragment.specificRoom = r;
 /*	
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < 20; i++) {
@@ -58,6 +62,17 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     	{
     		Log.i("julia", "Using cached image: "+ imageName);
     		bitmap = GetImage.getImageFromLocalStorage(imageName, getActivity());
+    		//If we find a room and we are on the correct floor plan, we want to show a pin.
+    		if(specificRoom!=null && specificRoom.GetFloorplanFilename().endsWith(imageName) && specificRoom.x!=0 && specificRoom.y!=0)
+    		{
+    		    Canvas canvas = new Canvas(bitmap);
+    		    Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+    		    Bitmap overlay = BitmapFactory.decodeResource(getActivity().getResources(),
+                        R.drawable.find_pin);
+    		    //Height of image is 50 x 60. Hence the values.
+    		    canvas.drawBitmap(overlay, specificRoom.x-50, specificRoom.y-120, paint);
+    		}
+    		
     		if(bitmap!=null)
     		{
     			if(myImageView!=null)
@@ -74,7 +89,8 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     			Log.e("julia", "Image was null! We will redownload it instead of crashing.");
     	}
     	Log.i("julia", "Downloading image: "+ imageName);
-    	new ImageLoader(getActivity(), this).execute(imageName);
+    	//Julia forgot to comment in the line below this.
+    	//new ImageLoader(getActivity(), this).execute(imageName);
     }
     
     @Override
