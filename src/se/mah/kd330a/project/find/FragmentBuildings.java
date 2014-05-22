@@ -121,7 +121,7 @@ public class FragmentBuildings extends Fragment implements OnClickListener {
 		switch (item.getItemId()) {
 		case R.id.find_menu_google_all:
 			//opening a kml file (google maps file) from res/raw that contains the pre-marked positions of all buildings
-			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=dasdasdsd"));
+			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=http://195.178.234.7/mahapp/images/raw/mahbyggnader.kml"));
 			startActivity(i);
 			return true;
 		default:
