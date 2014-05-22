@@ -53,6 +53,19 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     }
     private int mPosition = 0;
     private String mContent = "???";
+    public void PutPinOnBitmap(String imageName)
+    {
+    	if(specificRoom!=null && specificRoom.GetFloorplanFilename().endsWith(imageName) && specificRoom.x!=0 && specificRoom.y!=0)
+		{
+		    Canvas canvas = new Canvas(bitmap);
+		    Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+		    Bitmap overlay = BitmapFactory.decodeResource(getActivity().getResources(),
+                    R.drawable.find_pin);
+		    //Height of image is 50 x 60. Hence the values.
+		    canvas.drawBitmap(overlay, specificRoom.x-50, specificRoom.y-120, paint);
+		}	
+    
+    }
     public void StartImageDownload()
     {
     	String imageName = BuildingHelper.GetFloorPlanImage(building_code, mPosition);
@@ -63,15 +76,7 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     		Log.i("julia", "Using cached image: "+ imageName);
     		bitmap = GetImage.getImageFromLocalStorage(imageName, getActivity());
     		//If we find a room and we are on the correct floor plan, we want to show a pin.
-    		if(specificRoom!=null && specificRoom.GetFloorplanFilename().endsWith(imageName) && specificRoom.x!=0 && specificRoom.y!=0)
-    		{
-    		    Canvas canvas = new Canvas(bitmap);
-    		    Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
-    		    Bitmap overlay = BitmapFactory.decodeResource(getActivity().getResources(),
-                        R.drawable.find_pin);
-    		    //Height of image is 50 x 60. Hence the values.
-    		    canvas.drawBitmap(overlay, specificRoom.x-50, specificRoom.y-120, paint);
-    		}
+    		PutPinOnBitmap(imageName);
     		
     		if(bitmap!=null)
     		{
@@ -89,8 +94,7 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     			Log.e("julia", "Image was null! We will redownload it instead of crashing.");
     	}
     	Log.i("julia", "Downloading image: "+ imageName);
-    	//Julia forgot to comment in the line below this.
-    	//new ImageLoader(getActivity(), this).execute(imageName);
+    	new ImageLoader(getActivity(), this).execute(imageName);
     }
     
     @Override
@@ -198,7 +202,7 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     	if(bitmap!=null)
     		bitmap.recycle();
     	bitmap = GetImage.getImageFromLocalStorage(fileName, getActivity());
-
+    	PutPinOnBitmap(fileName);
 		if(bitmap!=null)
 		{
 			if(myImageView!=null)
