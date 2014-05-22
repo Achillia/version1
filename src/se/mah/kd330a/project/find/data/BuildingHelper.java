@@ -16,6 +16,9 @@ import android.support.v4.app.FragmentTransaction;
 
 public class BuildingHelper {
 
+	public static final String ARG_BUILDING = "building";
+	public static final String ARG_FLOORINDEX= "floorindex";
+	public static final String ARG_SEARCHSTRING= "searchstring";
 	public static String GetBuildingFloorPlanTitle(String building_code, int position, Resources res)
 	{
 
@@ -154,7 +157,7 @@ public class BuildingHelper {
 	public static Fragment getFragmentBuildingMap(String buildingCode) {
 		SampleTabsDefault fragment = new SampleTabsDefault();
 		Bundle args = new Bundle();
-		args.putString(FragmentMaps.ARG_BUILDING, buildingCode);
+		args.putString(BuildingHelper.ARG_BUILDING, buildingCode);
 		fragment.setArguments(args);
 		return fragment;
 
@@ -164,8 +167,8 @@ public class BuildingHelper {
 		int floorindex = ConvertFloorNameToFloorIndex(floor_name);
 		SampleTabsDefault fragment = new SampleTabsDefault();
 		Bundle args = new Bundle();
-		args.putString(FragmentMaps.ARG_BUILDING, buildingCode);
-		args.putInt(FragmentMaps.ARG_FLOORINDEX, floorindex);
+		args.putString(BuildingHelper.ARG_BUILDING, buildingCode);
+		args.putInt(BuildingHelper.ARG_FLOORINDEX, floorindex);
 		fragment.setArguments(args);
 		return fragment;
 	}

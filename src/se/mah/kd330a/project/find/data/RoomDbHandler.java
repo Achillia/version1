@@ -52,6 +52,11 @@ public class RoomDbHandler extends SQLiteOpenHelper {
     	{
     		this.roomNr = rNr;
     	}    	
+    	@Override
+    	public String toString() {
+    		
+    		return roomNr;
+    	}
     }
 	private static final String DATABASE_NAME = "find_rooms_DB";
 	private static final int DATABASE_VERSION = 3;
@@ -468,6 +473,47 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	public List<Room> SearchForRooms(String searchString){
+		//Select id from sometable where name like '%omm%'
+		List<Room> strs = new ArrayList<Room>();
+		
+		String selectQuery = "SELECT * FROM rooms where roomNr like '%"+searchString+"%'";
+		SQLiteDatabase db = this.getReadableDatabase();
+		try {
+			Cursor c = db.rawQuery(selectQuery, null);
+
+			if (c != null) {
+				//c.moveToFirst();
+				while(c.moveToNext())
+				{
+					
+					Room room = new Room(c.getString(c.getColumnIndex("roomNr")));
+					room.x = c.getInt(c.getColumnIndex("x"));
+					room.y = c.getInt(c.getColumnIndex("y"));
+					room.building_code = c.getString(c.getColumnIndex("building_code"));
+					room.floor_name = c.getString(c.getColumnIndex("floor_name"));
+					strs.add(room);
+					/*room = new Room(roomNr);
+					room.x = c.getInt(c.getColumnIndex("x"));
+					room.y = c.getInt(c.getColumnIndex("y"));
+					room.building_code = c.getString(c.getColumnIndex("building_code"));
+					room.floor_name = c.getString(c.getColumnIndex("floor_name"));*/
+					
+				}
+				
+				
+				db.close();
+				//return room;
+			}
+		}
+		catch (Exception e) {
+			db.close();
+			e.printStackTrace();
+		}
+		//return null;
+		Log.i("julia", "We found " + strs.size() + " rooms!");
+		return strs;
 	}
 	public List<String> GetAllRoomNumbers()
 	{

@@ -18,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -99,8 +101,6 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     	
    
     	//Touch event related variables
-
-    	
     	myImageView = (ZoomableImageView)v.findViewById(R.id.img_floorplan);
     	//myImageView.setScaleType(ImageView.ScaleType.MATRIX);
     	myImageView.SetToggledViewPager(this.viewPager);

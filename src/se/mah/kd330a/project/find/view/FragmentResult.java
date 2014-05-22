@@ -1,5 +1,5 @@
 package se.mah.kd330a.project.find.view;
-
+//Delete this file
 import edu.emory.mathcs.backport.java.util.Arrays;
 import se.mah.kd330a.project.R;
 import se.mah.kd330a.project.find.data.ResultPagerAdapter;

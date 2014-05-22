@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
+//Delete this file
 
 public class FragmentStep extends Fragment implements OnImageLoaderListener {
 	public static final String ARG_PICNAME = "pic";
