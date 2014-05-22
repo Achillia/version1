@@ -35,7 +35,6 @@ public class GetImage {
 		if(c!=null)
 		{
 			String fname=new File(c.getFilesDir(), filename).getAbsolutePath();
-			Log.i("julia", "Loading bitmap from: " + fname);
 			Options bitmapOptions = new Options();
 			bitmapOptions.inMutable = true;
 			Bitmap bitmap = BitmapFactory.decodeFile(fname, bitmapOptions);

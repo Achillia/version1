@@ -63,26 +63,16 @@ public class RoomDbHandler extends SQLiteOpenHelper {
     	}
     }
 	private static final String DATABASE_NAME = "find_rooms_DB";
-	private static final int DATABASE_VERSION =5;
+	private static final int DATABASE_VERSION =5; //Remember to increment this number if there has been made changes to the database!
 	private static RoomDbHandler instance = null;
 
 	   public static RoomDbHandler getInstance() {
 	      if(instance == null) {
 	    	  Log.e("julia", "database is not ready PREPARE FOR CRASH!!");
 	    	  return  null;
-	    //     instance = new RoomDbHandler();
 	      }
 	      return instance;
 	   }
-	/*private static final String TABLE_ROOMS = "rooms";
-
-	private static final String ROW_ROOMNR = "roomNr";
-	
-	private static final String ROW_TEXTS = "texts";
-	
-	private static final String ROW_X = "x";
-	private static final String ROW_Y = "y";
-	private static final String ROW_MAP = "map";*/
 
 	static final String TABLE_CREATE = "CREATE TABLE rooms (" + BaseColumns._ID + " int primary key, roomNr TEXT, x INTEGER, y INTEGER, building_code TEXT, floor_name TEXT);";
 

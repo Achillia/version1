@@ -59,10 +59,13 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
 		{
 		    Canvas canvas = new Canvas(bitmap);
 		    Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
-		    Bitmap overlay = BitmapFactory.decodeResource(getActivity().getResources(),
+		    Bitmap overlay_ori = BitmapFactory.decodeResource(getActivity().getResources(),
                     R.drawable.find_pin);
-		    //Height of image is 50 x 60. Hence the values.
-		    canvas.drawBitmap(overlay, specificRoom.x-50, specificRoom.y-120, paint);
+		    float scale = 2f; //Change the size of the pin.
+		    int pinWidth = Math.round(50*scale); //The pin is 50 pixels in width
+		    int pinHeight = Math.round(60*scale); //The pin is 60 pixels in height
+		    Bitmap overlay = Bitmap.createScaledBitmap(overlay_ori,  pinWidth, pinHeight, true);
+		    canvas.drawBitmap(overlay, specificRoom.x-Math.round(pinWidth/2f), specificRoom.y-pinHeight, paint);
 		}	
     
     }
@@ -73,7 +76,6 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     		bitmap.recycle();
     	if(GetImage.doesImageFromLocalStorageExists(imageName, getActivity()))
     	{
-    		Log.i("julia", "Using cached image: "+ imageName);
     		bitmap = GetImage.getImageFromLocalStorage(imageName, getActivity());
     		//If we find a room and we are on the correct floor plan, we want to show a pin.
     		PutPinOnBitmap(imageName);
@@ -93,7 +95,6 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     		else
     			Log.e("julia", "Image was null! We will redownload it instead of crashing.");
     	}
-    	Log.i("julia", "Downloading image: "+ imageName);
     	new ImageLoader(getActivity(), this).execute(imageName);
     }
     
