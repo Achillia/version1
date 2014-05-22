@@ -78,10 +78,11 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     	{
     		bitmap = GetImage.getImageFromLocalStorage(imageName, getActivity());
     		//If we find a room and we are on the correct floor plan, we want to show a pin.
-    		PutPinOnBitmap(imageName);
+    		
     		
     		if(bitmap!=null)
     		{
+    			PutPinOnBitmap(imageName);
     			if(myImageView!=null)
     			{
 	    			myImageView.setImageBitmap(bitmap);
@@ -203,9 +204,10 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     	if(bitmap!=null)
     		bitmap.recycle();
     	bitmap = GetImage.getImageFromLocalStorage(fileName, getActivity());
-    	PutPinOnBitmap(fileName);
+    	
 		if(bitmap!=null)
 		{
+			PutPinOnBitmap(fileName);
 			if(myImageView!=null)
 			{
 				myImageView.setImageBitmap(bitmap);
