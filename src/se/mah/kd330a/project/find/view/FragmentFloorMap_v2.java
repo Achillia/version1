@@ -50,7 +50,8 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     public void StartImageDownload()
     {
     	String imageName = BuildingHelper.GetFloorPlanImage(building_code, mPosition);
-    	
+    	if(bitmap!=null)
+    		bitmap.recycle();
     	if(GetImage.doesImageFromLocalStorageExists(imageName, getActivity()))
     	{
     		Log.i("julia", "Using cached image: "+ imageName);
@@ -157,7 +158,19 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
 		
         return v;
     }
-    
+    @Override
+    public void onDestroy() {
+    	super.onDestroy();
+    	if(bitmap!=null)
+    		bitmap.recycle();
+    };
+    @Override
+    public void onDestroyView() {
+    	super.onDestroyView();
+    	if(bitmap!=null)
+    		bitmap.recycle();
+    }; 
+   
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -166,6 +179,8 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     }
     @Override
 	public void onImageReceived(String fileName) {
+    	if(bitmap!=null)
+    		bitmap.recycle();
     	bitmap = GetImage.getImageFromLocalStorage(fileName, getActivity());
 
 		if(bitmap!=null)

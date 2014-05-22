@@ -86,10 +86,10 @@ public class GetImage {
 			FileOutputStream fos = c.openFileOutput(filename, Context.MODE_PRIVATE);
 			if(filename.endsWith(".png")){
 				success = b.compress(Bitmap.CompressFormat.PNG, 100, fos); 
-				Log.i("julia", "Downloading" + filename + "PNG");
+				Log.i("julia", "Storing: " + filename);
 			}else if (filename.endsWith(".jpg")){
 				success = b.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-				Log.i("julia", "Downloading"  + filename + "JPEG");
+				Log.i("julia", "Storing: "  + filename + "JPEG");
 			}
 			if (success){
 				fos.close();

@@ -28,12 +28,21 @@ public class ImageLoader extends AsyncTask<String, Void, Bitmap> {
 	
 	@Override
 	protected Bitmap doInBackground(String... params) {
+		Bitmap output = null;
+		try {
 		mLoadingFile = params[0];
-		if (!GetImage.doesFileExists(mLoadingFile, mContext)){
+		//if (!GetImage.doesFileExists(mLoadingFile, mContext)){
 			Log.i("project", "DownloadFilesTask " + mLoadingFile);
 			GetImage.getImageFromNet(mLoadingFile, true, mContext);		
+		//}
+		output =  GetImage.getImageFromLocalStorage(mLoadingFile, mContext);
 		}
-		return GetImage.getImageFromLocalStorage(mLoadingFile, mContext);
+		catch(Exception e)
+		{
+		Log.e("julia", "Could not download the picture, so we are writing this instead of crashing");	
+		
+		}
+		return output;
 	}
 
 	@Override
