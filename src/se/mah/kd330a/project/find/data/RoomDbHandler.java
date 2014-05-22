@@ -1,5 +1,6 @@
 package se.mah.kd330a.project.find.data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -10,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 //import android.util.Log;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 /*
  *	Database handler class for searching for rooms 
@@ -19,16 +21,51 @@ import android.provider.BaseColumns;
  *	in the database. If it returns true then with the appropriate 
  *	function you can access the stored data for the room.
  *	functions are: getRoomPathPics, getPathPicTexts, getMapName ...
+ *
+ *
+EXAMPLE OF HOW TO FIND A ROOM AND A FRAGMENT
+Room r = RoomDbHandler.getInstance().FindRoom("ORF208");
+if(r!=null)
+{
+ fragment = BuildingHelper.getFragmentBuildingMapOnFloor(r);
+}else
+{
+	//No room found.
+}
+ *
+ *
+ *
+ *
+ *
  */
 
 public class RoomDbHandler extends SQLiteOpenHelper {
 
 	//private static final String LOG = "MAH RoomDbHandler";
+    public class Room{
+    	String roomNr;
+    	int x;
+    	int y;
+    	String building_code;
+    	String floor_name;
+    	public Room(String rNr)
+    	{
+    		this.roomNr = rNr;
+    	}    	
+    }
+	private static final String DATABASE_NAME = "find_rooms_DB";
+	private static final int DATABASE_VERSION = 3;
+	private static RoomDbHandler instance = null;
 
-	private static final String DATABASE_NAME = "find_roomsDB";
-	private static final int DATABASE_VERSION = 1;
-
-	private static final String TABLE_ROOMS = "rooms";
+	   public static RoomDbHandler getInstance() {
+	      if(instance == null) {
+	    	  Log.e("julia", "database is not ready PREPARE FOR CRASH!!");
+	    	  return  null;
+	    //     instance = new RoomDbHandler();
+	      }
+	      return instance;
+	   }
+	/*private static final String TABLE_ROOMS = "rooms";
 
 	private static final String ROW_ROOMNR = "roomNr";
 	
@@ -36,355 +73,340 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 	
 	private static final String ROW_X = "x";
 	private static final String ROW_Y = "y";
-	private static final String ROW_MAP = "map";
+	private static final String ROW_MAP = "map";*/
 
-	static final String TABLE_CREATE = "CREATE TABLE rooms (" + BaseColumns._ID + " int primary key, roomNr TEXT, path TEXT, texts TEXT, arrows TEXT," + 
-			" x INTEGER, y INTEGER, map TEXT);";
+	static final String TABLE_CREATE = "CREATE TABLE rooms (" + BaseColumns._ID + " int primary key, roomNr TEXT, x INTEGER, y INTEGER, building_code TEXT, floor_name TEXT);";
 
-	private PathToRoom room;
-
+	public static void Init(Context context)
+	{
+		Log.i("julia", "creating a db reference");
+		instance = new RoomDbHandler(context);
+	}
+	
 	public RoomDbHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		Log.i("julia", "Fixing the database");
 	}
 
 	private void dbCreate(SQLiteDatabase db) {
+		Log.i("julia", "Creating database");
 		db.execSQL(TABLE_CREATE);
-		
-		addRow(db, "K2C107", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C108", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C109", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C110", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C117", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C119", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C121", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C122", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C123", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C124A", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C124B", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C133", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C135A", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C135B", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C136", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C138", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C307", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C308", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C309", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C310", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C311", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C314", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C316", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C320", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C323", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C325", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C332", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C333", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C339", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C340", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C341", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C342", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C343", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C345", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C346", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C347", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C348", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C349", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C350", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C351", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C352", null, null, null, null, null, "k2_c");
-		addRow(db, "K2C353", null, null, null, null, null, "k2_c");
-		addRow(db, "K2B105", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B106", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B107", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B108", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B109", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B110", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B111", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B117", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B118", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B119", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B202", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B203", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B204", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B210", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B211", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B212", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B205", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B206", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B207", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B208", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B209", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B302", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B303", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B304", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B305", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B306", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B352", null, null, null, null, null, "k2_b");
-		addRow(db, "K2B353", null, null, null, null, null, "k2_b");
-		addRow(db, "K2A126", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A129", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A130", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A131", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A132", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A104", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A134", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A136", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A133", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A135", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A137", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A138", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A139", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A140", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A146", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A150", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A164", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A142", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A160", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A161", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A162", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A163", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A202", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A203", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A204", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A209", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A205", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A206", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A207", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A302", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A303", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A304", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A305", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A306", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A307", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A308", null, null, null, null, null, "k2_a");
-		addRow(db, "K2A309", null, null, null, null, null, "k2_a");
-		addRow(db, "K2D155", null, null, null, null, null, "k2_d");
-		addRow(db, "K2D156", null, null, null, null, null, "k2_d");
-		addRow(db, "K2D157", null, null, null, null, null, "k2_d");
-		addRow(db, "K2D202", null, null, null, null, null, "k2_d");
-		addRow(db, "K2D204", null, null, null, null, null, "k2_d");
-		addRow(db, "K2D205", null, null, null, null, null, "k2_d");
-		addRow(db, "K2D213", null, null, null, null, null, "k2_d");
-		addRow(db, "K2D214", null, null, null, null, null, "k2_d");
 
-		addRow(db, "ORD131", null, null, null, null, null, "or_1");
-		addRow(db, "ORD138", null, null, null, null, null, "or_1");
-
-		addRow(db, "ORC236", null, null, null, null, null, "or_2");
-		addRow(db, "ORD222", null, null, null, null, null, "or_2");
-		addRow(db, "ORE222", null, null, null, null, null, "or_2");
-		addRow(db, "ORE223", null, null, null, null, null, "or_2");
-		addRow(db, "ORE235", null, null, null, null, null, "or_2");
-		addRow(db, "ORE239", null, null, null, null, null, "or_2");
-		addRow(db, "ORE240", null, null, null, null, null, "or_2");
-		addRow(db, "ORE477", null, null, null, null, null, "or_2");
-		addRow(db, "ORF206", null, null, null, null, null, "or_2");
-		addRow(db, "ORF208", null, null, null, null, null, "or_2");
-		addRow(db, "ORF209", null, null, null, null, null, "or_2");
-		addRow(db, "ORF211", null, null, null, null, null, "or_2");
-		addRow(db, "ORF215", null, null, null, null, null, "or_2");
-		addRow(db, "ORF219", null, null, null, null, null, "or_2");
-		addRow(db, "ORF220", null, null, null, null, null, "or_2");
+		addRow(db, "K2C107", 0, 0, "k2", "c");
+		addRow(db, "K2C108", 0, 0, "k2", "c");
+		addRow(db, "K2C109", 0, 0, "k2", "c");
+		addRow(db, "K2C110", 0, 0, "k2", "c");
+		addRow(db, "K2C117", 0, 0, "k2", "c");
+		addRow(db, "K2C119", 0, 0, "k2", "c");
+		addRow(db, "K2C121", 0, 0, "k2", "c");
+		addRow(db, "K2C122", 0, 0, "k2", "c");
+		addRow(db, "K2C123", 0, 0, "k2", "c");
+		addRow(db, "K2C124A", 0, 0, "k2", "c");
+		addRow(db, "K2C124B", 0, 0, "k2", "c");
+		addRow(db, "K2C133", 0, 0, "k2", "c");
+		addRow(db, "K2C135A", 0, 0, "k2", "c");
+		addRow(db, "K2C135B", 0, 0, "k2", "c");
+		addRow(db, "K2C136", 0, 0, "k2", "c");
+		addRow(db, "K2C138", 0, 0, "k2", "c");
+		addRow(db, "K2C307", 0, 0, "k2", "c");
+		addRow(db, "K2C308", 0, 0, "k2", "c");
+		addRow(db, "K2C309", 0, 0, "k2", "c");
+		addRow(db, "K2C310", 0, 0, "k2", "c");
+		addRow(db, "K2C311", 0, 0, "k2", "c");
+		addRow(db, "K2C314", 0, 0, "k2", "c");
+		addRow(db, "K2C316", 0, 0, "k2", "c");
+		addRow(db, "K2C320", 0, 0, "k2", "c");
+		addRow(db, "K2C323", 0, 0, "k2", "c");
+		addRow(db, "K2C325", 0, 0, "k2", "c");
+		addRow(db, "K2C332", 0, 0, "k2", "c");
+		addRow(db, "K2C333", 0, 0, "k2", "c");
+		addRow(db, "K2C339", 0, 0, "k2", "c");
+		addRow(db, "K2C340", 0, 0, "k2", "c");
+		addRow(db, "K2C341", 0, 0, "k2", "c");
+		addRow(db, "K2C342", 0, 0, "k2", "c");
+		addRow(db, "K2C343", 0, 0, "k2", "c");
+		addRow(db, "K2C345", 0, 0, "k2", "c");
+		addRow(db, "K2C346", 0, 0, "k2", "c");
+		addRow(db, "K2C347", 0, 0, "k2", "c");
+		addRow(db, "K2C348", 0, 0, "k2", "c");
+		addRow(db, "K2C349", 0, 0, "k2", "c");
+		addRow(db, "K2C350", 0, 0, "k2", "c");
+		addRow(db, "K2C351", 0, 0, "k2", "c");
+		addRow(db, "K2C352", 0, 0, "k2", "c");
+		addRow(db, "K2C353", 0, 0, "k2", "c");
+		addRow(db, "K2B105", 0, 0, "k2", "b");
+		addRow(db, "K2B106", 0, 0, "k2", "b");
+		addRow(db, "K2B107", 0, 0, "k2", "b");
+		addRow(db, "K2B108", 0, 0, "k2", "b");
+		addRow(db, "K2B109", 0, 0, "k2", "b");
+		addRow(db, "K2B110", 0, 0, "k2", "b");
+		addRow(db, "K2B111", 0, 0, "k2", "b");
+		addRow(db, "K2B117", 0, 0, "k2", "b");
+		addRow(db, "K2B118", 0, 0, "k2", "b");
+		addRow(db, "K2B119", 0, 0, "k2", "b");
+		addRow(db, "K2B202", 0, 0, "k2", "b");
+		addRow(db, "K2B203", 0, 0, "k2", "b");
+		addRow(db, "K2B204", 0, 0, "k2", "b");
+		addRow(db, "K2B210", 0, 0, "k2", "b");
+		addRow(db, "K2B211", 0, 0, "k2", "b");
+		addRow(db, "K2B212", 0, 0, "k2", "b");
+		addRow(db, "K2B205", 0, 0, "k2", "b");
+		addRow(db, "K2B206", 0, 0, "k2", "b");
+		addRow(db, "K2B207", 0, 0, "k2", "b");
+		addRow(db, "K2B208", 0, 0, "k2", "b");
+		addRow(db, "K2B209", 0, 0, "k2", "b");
+		addRow(db, "K2B302", 0, 0, "k2", "b");
+		addRow(db, "K2B303", 0, 0, "k2", "b");
+		addRow(db, "K2B304", 0, 0, "k2", "b");
+		addRow(db, "K2B305", 0, 0, "k2", "b");
+		addRow(db, "K2B306", 0, 0, "k2", "b");
+		addRow(db, "K2B352", 0, 0, "k2", "b");
+		addRow(db, "K2B353", 0, 0, "k2", "b");
+		addRow(db, "K2A126", 0, 0, "k2", "a");
+		addRow(db, "K2A129", 0, 0, "k2", "a");
+		addRow(db, "K2A130", 0, 0, "k2", "a");
+		addRow(db, "K2A131", 0, 0, "k2", "a");
+		addRow(db, "K2A132", 0, 0, "k2", "a");
+		addRow(db, "K2A104", 0, 0, "k2", "a");
+		addRow(db, "K2A134", 0, 0, "k2", "a");
+		addRow(db, "K2A136", 0, 0, "k2", "a");
+		addRow(db, "K2A133", 0, 0, "k2", "a");
+		addRow(db, "K2A135", 0, 0, "k2", "a");
+		addRow(db, "K2A137", 0, 0, "k2", "a");
+		addRow(db, "K2A138", 0, 0, "k2", "a");
+		addRow(db, "K2A139", 0, 0, "k2", "a");
+		addRow(db, "K2A140", 0, 0, "k2", "a");
+		addRow(db, "K2A146", 0, 0, "k2", "a");
+		addRow(db, "K2A150", 0, 0, "k2", "a");
+		addRow(db, "K2A164", 0, 0, "k2", "a");
+		addRow(db, "K2A142", 0, 0, "k2", "a");
+		addRow(db, "K2A160", 0, 0, "k2", "a");
+		addRow(db, "K2A161", 0, 0, "k2", "a");
+		addRow(db, "K2A162", 0, 0, "k2", "a");
+		addRow(db, "K2A163", 0, 0, "k2", "a");
+		addRow(db, "K2A202", 0, 0, "k2", "a");
+		addRow(db, "K2A203", 0, 0, "k2", "a");
+		addRow(db, "K2A204", 0, 0, "k2", "a");
+		addRow(db, "K2A209", 0, 0, "k2", "a");
+		addRow(db, "K2A205", 0, 0, "k2", "a");
+		addRow(db, "K2A206", 0, 0, "k2", "a");
+		addRow(db, "K2A207", 0, 0, "k2", "a");
+		addRow(db, "K2A302", 0, 0, "k2", "a");
+		addRow(db, "K2A303", 0, 0, "k2", "a");
+		addRow(db, "K2A304", 0, 0, "k2", "a");
+		addRow(db, "K2A305", 0, 0, "k2", "a");
+		addRow(db, "K2A306", 0, 0, "k2", "a");
+		addRow(db, "K2A307", 0, 0, "k2", "a");
+		addRow(db, "K2A308", 0, 0, "k2", "a");
+		addRow(db, "K2A309", 0, 0, "k2", "a");
+		addRow(db, "K2D155", 0, 0, "k2", "d");
+		addRow(db, "K2D156", 0, 0, "k2", "d");
+		addRow(db, "K2D157", 0, 0, "k2", "d");
+		addRow(db, "K2D202", 0, 0, "k2", "d");
+		addRow(db, "K2D204", 0, 0, "k2", "d");
+		addRow(db, "K2D205", 0, 0, "k2", "d");
+		addRow(db, "K2D213", 0, 0, "k2", "d");
+		addRow(db, "K2D214", 0, 0, "k2", "d");
+		addRow(db, "ORD131", 0, 0, "or", "1");
+		addRow(db, "ORD138", 0, 0, "or", "1");
+		addRow(db, "ORC236", 0, 0, "or", "2");
+		addRow(db, "ORD222", 0, 0, "or", "2");
+		addRow(db, "ORE222", 0, 0, "or", "2");
+		addRow(db, "ORE223", 0, 0, "or", "2");
+		addRow(db, "ORE235", 0, 0, "or", "2");
+		addRow(db, "ORE239", 0, 0, "or", "2");
+		addRow(db, "ORE240", 0, 0, "or", "2");
+		addRow(db, "ORE477", 0, 0, "or", "2");
+		addRow(db, "ORF206", 0, 0, "or", "2");
+		addRow(db, "ORF208", 0, 0, "or", "2");
+		addRow(db, "ORF209", 0, 0, "or", "2");
+		addRow(db, "ORF211", 0, 0, "or", "2");
+		addRow(db, "ORF215", 0, 0, "or", "2");
+		addRow(db, "ORF219", 0, 0, "or", "2");
+		addRow(db, "ORF220", 0, 0, "or", "2");
+		addRow(db, "ORC323", 0, 0, "or", "3");
+		addRow(db, "ORC333", 0, 0, "or", "3");
+		addRow(db, "ORC334", 0, 0, "or", "3");
+		addRow(db, "ORC335", 0, 0, "or", "3");
+		addRow(db, "ORC336", 0, 0, "or", "3");
+		addRow(db, "ORC339", 0, 0, "or", "3");
+		addRow(db, "ORC340", 0, 0, "or", "3");
+		addRow(db, "ORC341", 0, 0, "or", "3");
+		addRow(db, "ORC344", 0, 0, "or", "3");
+		addRow(db, "ORC345", 0, 0, "or", "3");
+		addRow(db, "ORC377", 0, 0, "or", "3");
+		addRow(db, "ORD326", 0, 0, "or", "3");
+		addRow(db, "ORD328", 0, 0, "or", "3");
+		addRow(db, "ORD331", 0, 0, "or", "3");
+		addRow(db, "ORD337", 0, 0, "or", "3");
+		addRow(db, "ORD377", 0, 0, "or", "3");
+		addRow(db, "ORE323", 0, 0, "or", "3");
+		addRow(db, "ORE336", 0, 0, "or", "3");
+		addRow(db, "ORE337", 0, 0, "or", "3");
+		addRow(db, "ORE340", 0, 0, "or", "3");
+		addRow(db, "ORE341", 0, 0, "or", "3");
+		addRow(db, "ORF306", 0, 0, "or", "3");
+		addRow(db, "ORF307", 0, 0, "or", "3");
+		addRow(db, "ORF309", 0, 0, "or", "3");
+		addRow(db, "ORF312", 0, 0, "or", "3");
+		addRow(db, "ORF314", 0, 0, "or", "3");
+		addRow(db, "ORF315", 0, 0, "or", "3");
+		addRow(db, "ORC435", 0, 0, "or", "4");
+		addRow(db, "ORC436", 0, 0, "or", "4");
+		addRow(db, "ORC440", 0, 0, "or", "4");
+		addRow(db, "ORD436", 0, 0, "or", "4");
+		addRow(db, "ORE436", 0, 0, "or", "4");
+		addRow(db, "ORE439", 0, 0, "or", "4");
+		addRow(db, "ORE477", 0, 0, "or", "4");
+		addRow(db, "ORC525", 0, 0, "or", "5");
+		addRow(db, "ORC526", 0, 0, "or", "5");
+		addRow(db, "ORC527", 0, 0, "or", "5");
+		addRow(db, "ORC528", 0, 0, "or", "5");
+		addRow(db, "K8U042", 0, 0, "k8", "1");
+		addRow(db, "K8U301", 0, 0, "k8", "3");
+		addRow(db, "K8U302", 0, 0, "k8", "3");
+		addRow(db, "K8U303", 0, 0, "k8", "3");
+		addRow(db, "K8U304", 0, 0, "k8", "3");
+		addRow(db, "K8U305", 0, 0, "k8", "3");
+		addRow(db, "K8U306", 0, 0, "k8", "3");
+		addRow(db, "K8U307", 0, 0, "k8", "3");
+		addRow(db, "K8U401", 0, 0, "k8", "4");
+		addRow(db, "K8U402", 0, 0, "k8", "4");
+		addRow(db, "K8U403", 0, 0, "k8", "4");
+		addRow(db, "K8U404", 0, 0, "k8", "4");
+		addRow(db, "K8U405", 0, 0, "k8", "4");
+		addRow(db, "K8U406", 0, 0, "k8", "4");
+		addRow(db, "K8U407", 0, 0, "k8", "4");
+		addRow(db, "K8U408", 0, 0, "k8", "4");
+		addRow(db, "K8U428", 0, 0, "k8", "4");
+		addRow(db, "K8U429", 0, 0, "k8", "4");
+		addRow(db, "K8U430", 0, 0, "k8", "4");
+		addRow(db, "K8U431", 0, 0, "k8", "4");
+		addRow(db, "K8U432", 0, 0, "k8", "4");
+		addRow(db, "K8U433", 0, 0, "k8", "4");
+		addRow(db, "K8U434", 0, 0, "k8", "4");
+		addRow(db, "K8U455", 0, 0, "k8", "4");
+		addRow(db, "K8U456", 0, 0, "k8", "4");
+		addRow(db, "K8U457", 0, 0, "k8", "4");
+		addRow(db, "K8U458", 0, 0, "k8", "4");
+		addRow(db, "K8U459", 0, 0, "k8", "4");
+		addRow(db, "K8U460", 0, 0, "k8", "4");
+		addRow(db, "K8U461", 0, 0, "k8", "4");
+		addRow(db, "K8U520", 0, 0, "k8", "5");
+		addRow(db, "K8U521", 0, 0, "k8", "5");
+		addRow(db, "K8U522", 0, 0, "k8", "5");
+		addRow(db, "K8U523", 0, 0, "k8", "5");
+		addRow(db, "K8U524", 0, 0, "k8", "5");
+		addRow(db, "K8U527", 0, 0, "k8", "5");
+		addRow(db, "K8U528", 0, 0, "k8", "5");
+		addRow(db, "K8U529", 0, 0, "k8", "5");
+		addRow(db, "K8U530", 0, 0, "k8", "5");
+		addRow(db, "K8U531", 0, 0, "k8", "5");
+		addRow(db, "K8U532", 0, 0, "k8", "5");
+		addRow(db, "K8U533", 0, 0, "k8", "5");
+		addRow(db, "G8104", 0, 0, "g8", "1");
+		addRow(db, "G8107", 0, 0, "g8", "1");
+		addRow(db, "G8124", 0, 0, "g8", "1");
+		addRow(db, "G8125", 0, 0, "g8", "1");
+		addRow(db, "G8174", 0, 0, "g8", "1");
+		addRow(db, "G8305", 0, 0, "g8", "3");
+		addRow(db, "G8307", 0, 0, "g8", "3");
+		addRow(db, "G8308", 0, 0, "g8", "3");
+		addRow(db, "G8323", 0, 0, "g8", "3");
+		addRow(db, "G8324", 0, 0, "g8", "3");
+		addRow(db, "G8325", 0, 0, "g8", "3");
+		addRow(db, "G8355", 0, 0, "g8", "3");
+		addRow(db, "G8360", 0, 0, "g8", "3");
+		addRow(db, "G8405", 0, 0, "g8", "4");
+		addRow(db, "G8407", 0, 0, "g8", "4");
+		addRow(db, "G8408", 0, 0, "g8", "4");
+		addRow(db, "G8423", 0, 0, "g8", "4");
+		addRow(db, "G8424", 0, 0, "g8", "4");
+		addRow(db, "G8425", 0, 0, "g8", "4");
+		addRow(db, "G8471", 0, 0, "g8", "4");
+		addRow(db, "G8505", 0, 0, "g8", "5");
+		addRow(db, "G8507", 0, 0, "g8", "5");
+		addRow(db, "G8508", 0, 0, "g8", "5");
+		addRow(db, "G8523", 0, 0, "g8", "5");
+		addRow(db, "G8524", 0, 0, "g8", "5");
+		addRow(db, "G8525", 0, 0, "g8", "5");
+		addRow(db, "G8549", 0, 0, "g8", "5");
+		addRow(db, "AS9U103", 0, 0, "as", "1");
+		addRow(db, "AS9U104", 0, 0, "as", "1");
+		addRow(db, "AS9U106", 0, 0, "as", "1");
+		addRow(db, "AS9U107", 0, 0, "as", "1");
+		addRow(db, "AS9U108", 0, 0, "as", "1");
+		addRow(db, "AS9U123", 0, 0, "as", "1");
+		addRow(db, "AS9U202", 0, 0, "as", "2");
+		addRow(db, "AS9U204", 0, 0, "as", "2");
+		addRow(db, "AS9U206", 0, 0, "as", "2");
+		addRow(db, "AS9U208", 0, 0, "as", "2");
+		addRow(db, "AS9U210", 0, 0, "as", "2");
+		addRow(db, "AS9U211", 0, 0, "as", "2");
+		addRow(db, "AS9U212", 0, 0, "as", "2");
+		addRow(db, "AS9U214", 0, 0, "as", "2");
+		addRow(db, "AS9U216", 0, 0, "as", "2");
+		addRow(db, "AS9U217", 0, 0, "as", "2");
+		addRow(db, "AS9U306", 0, 0, "as", "3");
+		addRow(db, "AS9U310", 0, 0, "as", "3");
+		addRow(db, "AS9U316", 0, 0, "as", "3");
+		addRow(db, "AS9U317", 0, 0, "as", "3");
+		addRow(db, "AS9U402", 0, 0, "as", "4");
+		addRow(db, "AS9U404", 0, 0, "as", "4");
+		addRow(db, "AS9U406", 0, 0, "as", "4");
+		addRow(db, "AS9U407", 0, 0, "as", "4");
+		addRow(db, "AS9U408", 0, 0, "as", "4");
+		addRow(db, "AS9U410", 0, 0, "as", "4");
+		addRow(db, "AS9U416", 0, 0, "as", "4");
+		addRow(db, "AS9U417", 0, 0, "as", "4");
+		addRow(db, "KL1097", 0, 0, "kl", "1");
+		addRow(db, "KL1151", 0, 0, "kl", "1");
+		addRow(db, "KL1237", 0, 0, "kl", "1");
+		addRow(db, "KL1382", 0, 0, "kl", "1");
+		addRow(db, "KL2110", 0, 0, "kl", "2");
+		addRow(db, "KL2370", 0, 0, "kl", "2");
+		addRow(db, "KL2690", 0, 0, "kl", "2");
+		addRow(db, "KL3047", 0, 0, "kl", "3");
+		addRow(db, "KL3080", 0, 0, "kl", "3");
+		addRow(db, "KL3181", 0, 0, "kl", "3");
+		addRow(db, "KL3450", 0, 0, "kl", "3");
+		addRow(db, "KL3451", 0, 0, "kl", "3");
+		addRow(db, "KL3482", 0, 0, "kl", "3");
+		addRow(db, "KL3520", 0, 0, "kl", "3");
+		addRow(db, "KL3521", 0, 0, "kl", "3");
+		addRow(db, "KL3540", 0, 0, "kl", "3");
+		addRow(db, "KL3541", 0, 0, "kl", "3");
+		addRow(db, "KL3550", 0, 0, "kl", "3");
+		addRow(db, "KL3560", 0, 0, "kl", "3");
+		addRow(db, "KL3561", 0, 0, "kl", "3");
+		addRow(db, "KL3580", 0, 0, "kl", "3");
+		addRow(db, "KL3583", 0, 0, "kl", "3");
+		addRow(db, "KL3600", 0, 0, "kl", "3");
+		addRow(db, "KL3601", 0, 0, "kl", "3");
+		addRow(db, "KL3620", 0, 0, "kl", "3");
+		addRow(db, "KL3621", 0, 0, "kl", "3");
+		addRow(db, "KL3690", 0, 0, "kl", "3");
+		addRow(db, "KL4091", 0, 0, "kl", "4");
+		addRow(db, "KL4146", 0, 0, "kl", "4");
+		addRow(db, "KL4201", 0, 0, "kl", "4");
+		addRow(db, "KL4321", 0, 0, "kl", "4");
+		addRow(db, "KL4391", 0, 0, "kl", "4");
+		addRow(db, "KL4400", 0, 0, "kl", "4");
+		addRow(db, "KL4410", 0, 0, "kl", "4");
+		addRow(db, "KL4511", 0, 0, "kl", "4");
+		addRow(db, "KL4561", 0, 0, "kl", "4");
+		addRow(db, "KL4621", 0, 0, "kl", "4");
+		addRow(db, "KL4690", 0, 0, "kl", "4");
+		addRow(db, "KL5091", 0, 0, "kl", "5");
+		addRow(db, "KL5231", 0, 0, "kl", "5");
+		addRow(db, "KL5301", 0, 0, "kl", "5");
+		addRow(db, "KL5511", 0, 0, "kl", "5");
+		addRow(db, "KL5531", 0, 0, "kl", "5");
+		addRow(db, "KL5540", 0, 0, "kl", "5");
+		addRow(db, "KL5643", 0, 0, "kl", "5");
+		addRow(db, "KL5690", 0, 0, "kl", "5");
 		
-		addRow(db, "ORC323", null, null, null, null, null, "or_3");
-		addRow(db, "ORC333", null, null, null, null, null, "or_3");
-		addRow(db, "ORC334", null, null, null, null, null, "or_3");
-		addRow(db, "ORC335", null, null, null, null, null, "or_3");
-		addRow(db, "ORC336", null, null, null, null, null, "or_3");
-		addRow(db, "ORC339", null, null, null, null, null, "or_3");
-		addRow(db, "ORC340", null, null, null, null, null, "or_3");
-		addRow(db, "ORC341", null, null, null, null, null, "or_3");
-		addRow(db, "ORC344", null, null, null, null, null, "or_3");
-		addRow(db, "ORC345", null, null, null, null, null, "or_3");
-		addRow(db, "ORC377", null, null, null, null, null, "or_3");
-		addRow(db, "ORD326", null, null, null, null, null, "or_3");
-		addRow(db, "ORD328", null, null, null, null, null, "or_3");
-		addRow(db, "ORD331", null, null, null, null, null, "or_3");
-		addRow(db, "ORD337", null, null, null, null, null, "or_3");
-		addRow(db, "ORD377", null, null, null, null, null, "or_3");
-		addRow(db, "ORE323", null, null, null, null, null, "or_3");
-		addRow(db, "ORE336", null, null, null, null, null, "or_3");
-		addRow(db, "ORE337", null, null, null, null, null, "or_3");
-		addRow(db, "ORE340", null, null, null, null, null, "or_3");
-		addRow(db, "ORE341", null, null, null, null, null, "or_3");
-		addRow(db, "ORF306", null, null, null, null, null, "or_3");
-		addRow(db, "ORF307", null, null, null, null, null, "or_3");
-		addRow(db, "ORF309", null, null, null, null, null, "or_3");
-		addRow(db, "ORF312", null, null, null, null, null, "or_3");
-		addRow(db, "ORF314", null, null, null, null, null, "or_3");
-		addRow(db, "ORF315", null, null, null, null, null, "or_3");
-		
-		addRow(db, "ORC435", null, null, null, null, null, "or_4");
-		addRow(db, "ORC436", null, null, null, null, null, "or_4");
-		addRow(db, "ORC440", null, null, null, null, null, "or_4");
-		addRow(db, "ORD436", null, null, null, null, null, "or_4");
-		addRow(db, "ORE436", null, null, null, null, null, "or_4");
-		addRow(db, "ORE439", null, null, null, null, null, "or_4");
-		addRow(db, "ORE477", null, null, null, null, null, "or_4");
-		
-		addRow(db, "ORC525", null, null, null, null, null, "or_5");
-		addRow(db, "ORC526", null, null, null, null, null, "or_5");
-		addRow(db, "ORC527", null, null, null, null, null, "or_5");
-		addRow(db, "ORC528", null, null, null, null, null, "or_5");
-		
-		addRow(db, "K8U042", null, null, null, null, null, "k8_1");
-		
-		addRow(db, "K8U301", null, null, null, null, null, "k8_3");
-		addRow(db, "K8U302", null, null, null, null, null, "k8_3");
-		addRow(db, "K8U303", null, null, null, null, null, "k8_3");
-		addRow(db, "K8U304", null, null, null, null, null, "k8_3");
-		addRow(db, "K8U305", null, null, null, null, null, "k8_3");
-		addRow(db, "K8U306", null, null, null, null, null, "k8_3");
-		addRow(db, "K8U307", null, null, null, null, null, "k8_3");
-		
-		addRow(db, "K8U401", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U402", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U403", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U404", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U405", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U406", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U407", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U408", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U428", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U429", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U430", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U431", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U432", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U433", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U434", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U455", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U456", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U457", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U458", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U459", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U460", null, null, null, null, null, "k8_4");
-		addRow(db, "K8U461", null, null, null, null, null, "k8_4");
-		
-		addRow(db, "K8U520", null, null, null, null, null, "k8_5");
-		addRow(db, "K8U521", null, null, null, null, null, "k8_5");
-		addRow(db, "K8U522", null, null, null, null, null, "k8_5");
-		addRow(db, "K8U523", null, null, null, null, null, "k8_5");
-		addRow(db, "K8U524", null, null, null, null, null, "k8_5");
-		addRow(db, "K8U527", null, null, null, null, null, "k8_5");
-		addRow(db, "K8U528", null, null, null, null, null, "k8_5");
-		addRow(db, "K8U529", null, null, null, null, null, "k8_5");
-		addRow(db, "K8U530", null, null, null, null, null, "k8_5");
-		addRow(db, "K8U531", null, null, null, null, null, "k8_5");
-		addRow(db, "K8U532", null, null, null, null, null, "k8_5");
-		addRow(db, "K8U533", null, null, null, null, null, "k8_5");
-
-		addRow(db, "G8104", null, null, null, null, null, "g8_1");
-		addRow(db, "G8107", null, null, null, null, null, "g8_1");
-		addRow(db, "G8124", null, null, null, null, null, "g8_1");
-		addRow(db, "G8125", null, null, null, null, null, "g8_1");
-		addRow(db, "G8174", null, null, null, null, null, "g8_1");
-		
-		addRow(db, "G8305", null, null, null, null, null, "g8_3");
-		addRow(db, "G8307", null, null, null, null, null, "g8_3");
-		addRow(db, "G8308", null, null, null, null, null, "g8_3");
-		addRow(db, "G8323", null, null, null, null, null, "g8_3");
-		addRow(db, "G8324", null, null, null, null, null, "g8_3");
-		addRow(db, "G8325", null, null, null, null, null, "g8_3");
-		addRow(db, "G8355", null, null, null, null, null, "g8_3");
-		addRow(db, "G8360", null, null, null, null, null, "g8_3");
-		
-		addRow(db, "G8405", null, null, null, null, null, "g8_4");
-		addRow(db, "G8407", null, null, null, null, null, "g8_4");
-		addRow(db, "G8408", null, null, null, null, null, "g8_4");
-		addRow(db, "G8423", null, null, null, null, null, "g8_4");
-		addRow(db, "G8424", null, null, null, null, null, "g8_4");
-		addRow(db, "G8425", null, null, null, null, null, "g8_4");
-		addRow(db, "G8471", null, null, null, null, null, "g8_4");
-		
-		addRow(db, "G8505", null, null, null, null, null, "g8_5");
-		addRow(db, "G8507", null, null, null, null, null, "g8_5");
-		addRow(db, "G8508", null, null, null, null, null, "g8_5");
-		addRow(db, "G8523", null, null, null, null, null, "g8_5");
-		addRow(db, "G8524", null, null, null, null, null, "g8_5");
-		addRow(db, "G8525", null, null, null, null, null, "g8_5");
-		addRow(db, "G8549", null, null, null, null, null, "g8_5");
-		
-		addRow(db, "AS9U103", null, null, null, null, null, "as_1");
-		addRow(db, "AS9U104", null, null, null, null, null, "as_1");
-		addRow(db, "AS9U106", null, null, null, null, null, "as_1");
-		addRow(db, "AS9U107", null, null, null, null, null, "as_1");
-		addRow(db, "AS9U108", null, null, null, null, null, "as_1");
-		addRow(db, "AS9U123", null, null, null, null, null, "as_1");
-		
-		addRow(db, "AS9U202", null, null, null, null, null, "as_2");
-		addRow(db, "AS9U204", null, null, null, null, null, "as_2");
-		addRow(db, "AS9U206", null, null, null, null, null, "as_2");
-		addRow(db, "AS9U208", null, null, null, null, null, "as_2");
-		addRow(db, "AS9U210", null, null, null, null, null, "as_2");
-		addRow(db, "AS9U211", null, null, null, null, null, "as_2");
-		addRow(db, "AS9U212", null, null, null, null, null, "as_2");
-		addRow(db, "AS9U214", null, null, null, null, null, "as_2");
-		addRow(db, "AS9U216", null, null, null, null, null, "as_2");
-		addRow(db, "AS9U217", null, null, null, null, null, "as_2");
-
-		addRow(db, "AS9U306", null, null, null, null, null, "as_3");
-		addRow(db, "AS9U310", null, null, null, null, null, "as_3");
-		addRow(db, "AS9U316", null, null, null, null, null, "as_3");
-		addRow(db, "AS9U317", null, null, null, null, null, "as_3");
-		
-		addRow(db, "AS9U402", null, null, null, null, null, "as_4");
-		addRow(db, "AS9U404", null, null, null, null, null, "as_4");
-		addRow(db, "AS9U406", null, null, null, null, null, "as_4");
-		addRow(db, "AS9U407", null, null, null, null, null, "as_4");
-		addRow(db, "AS9U408", null, null, null, null, null, "as_4");
-		addRow(db, "AS9U410", null, null, null, null, null, "as_4");
-		addRow(db, "AS9U416", null, null, null, null, null, "as_4");
-		addRow(db, "AS9U417", null, null, null, null, null, "as_4");
-		
-		addRow(db, "KL1097", null, null, null, null, null, "kl_1");
-		addRow(db, "KL1151", null, null, null, null, null, "kl_1");
-		addRow(db, "KL1237", null, null, null, null, null, "kl_1");
-		addRow(db, "KL1382", null, null, null, null, null, "kl_1");
-		
-		addRow(db, "KL2110", null, null, null, null, null, "kl_2");
-		addRow(db, "KL2370", null, null, null, null, null, "kl_2");
-		addRow(db, "KL2690", null, null, null, null, null, "kl_2");
-		
-		addRow(db, "KL3047", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3080", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3181", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3450", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3451", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3482", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3520", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3521", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3540", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3541", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3550", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3560", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3561", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3580", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3583", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3600", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3601", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3620", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3621", null, null, null, null, null, "kl_3");
-		addRow(db, "KL3690", null, null, null, null, null, "kl_3");
-		
-		addRow(db, "KL4091", null, null, null, null, null, "kl_4");
-		addRow(db, "KL4146", null, null, null, null, null, "kl_4");
-		addRow(db, "KL4201", null, null, null, null, null, "kl_4");
-		addRow(db, "KL4321", null, null, null, null, null, "kl_4");
-		addRow(db, "KL4391", null, null, null, null, null, "kl_4");
-		addRow(db, "KL4400", null, null, null, null, null, "kl_4");
-		addRow(db, "KL4410", null, null, null, null, null, "kl_4");
-		addRow(db, "KL4511", null, null, null, null, null, "kl_4");
-		addRow(db, "KL4561", null, null, null, null, null, "kl_4");
-		addRow(db, "KL4621", null, null, null, null, null, "kl_4");
-		addRow(db, "KL4690", null, null, null, null, null, "kl_4");
-		
-		addRow(db, "KL5091", null, null, null, null, null, "kl_5");
-		addRow(db, "KL5231", null, null, null, null, null, "kl_5");
-		addRow(db, "KL5301", null, null, null, null, null, "kl_5");
-		addRow(db, "KL5511", null, null, null, null, null, "kl_5");
-		addRow(db, "KL5531", null, null, null, null, null, "kl_5");
-		addRow(db, "KL5540", null, null, null, null, null, "kl_5");
-		addRow(db, "KL5643", null, null, null, null, null, "kl_5");
-		addRow(db, "KL5690", null, null, null, null, null, "kl_5");
+		Log.i("julia", "Database should be ready to use!");
 	}
 	
 	@Override
@@ -392,61 +414,101 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 	
 		dbCreate(db);
 	} 
-
-	private void addRow(SQLiteDatabase db, String roomNr, String path, String texts, String arrows, String x, String y, String map) {
+	//	int primary key, roomNr TEXT, x INTEGER, y INTEGER, building_code TEXT, floor_index INT
+	private void addRow(SQLiteDatabase db, String roomNr, int x, int y, String building_code, String floor_name) {
 
 		ContentValues values = new ContentValues();
-		values.put(ROW_ROOMNR, roomNr); 
-		
-		values.put(ROW_TEXTS, texts); 
-		
-		values.put(ROW_X, x); 
-		values.put(ROW_Y, y); 
-		values.put(ROW_MAP, map); 
+		values.put("roomNr", roomNr); 
+		values.put("x", x);
+		values.put("y", y);
+		values.put("building_code", building_code);
+		values.put("floor_name", floor_name);
+
 
 		// Inserting Row
-		db.insert(TABLE_ROOMS, null, values);
+		try{
+		db.insert("rooms", null, values);
+		}
+		catch(Exception e)
+		{
+			Log.e("julia", "Couldn't do it! " + e.getMessage());
+		}
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_ROOMS);
+		db.execSQL("DROP TABLE IF EXISTS rooms");
 		dbCreate(db);
 	}
+	//Finds a room, returns null if it wasn't found.
+	public Room FindRoom(String roomNr) {
 
-	public boolean isRoomExists(String roomNr) {
-
-		String selectQuery = "SELECT  * FROM " + TABLE_ROOMS + " WHERE "
-				+ ROW_ROOMNR + " = '" + roomNr.toUpperCase(Locale.getDefault()) + "'";
-
+		String selectQuery = "SELECT  * FROM rooms WHERE roomNr = '" + roomNr.toUpperCase(Locale.getDefault()) + "'";
 		SQLiteDatabase db = this.getReadableDatabase();
-
+		Room room;
 		try {
 			Cursor c = db.rawQuery(selectQuery, null);
 
 			if (c != null) {
 				c.moveToFirst();
-				room = new PathToRoom(roomNr);
-			
-				room.setTextList(c.getString(c.getColumnIndex(ROW_TEXTS)));
-			
-				room.mMapPic = c.getString(c.getColumnIndex(ROW_MAP));
-				room.mCoord_x = c.getInt(c.getColumnIndex(ROW_X));
-				room.mCoord_y = c.getInt(c.getColumnIndex(ROW_Y));
+				
+				room = new Room(roomNr);
+				room.x = c.getInt(c.getColumnIndex("x"));
+				room.y = c.getInt(c.getColumnIndex("y"));
+				room.building_code = c.getString(c.getColumnIndex("building_code"));
+				room.floor_name = c.getString(c.getColumnIndex("floor_name"));
+				
+				
 				db.close();
-				return true;
+				return room;
 			}
 		}
 		catch (Exception e) {
 			db.close();
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
+	public List<String> GetAllRoomNumbers()
+	{
+		List<String> strs = new ArrayList<String>();
+		
+		String selectQuery = "SELECT roomNr FROM rooms";
+		SQLiteDatabase db = this.getReadableDatabase();
+		try {
+			Cursor c = db.rawQuery(selectQuery, null);
 
+			if (c != null) {
+				//c.moveToFirst();
+				while(c.moveToNext())
+				{
+					strs.add(c.getString(c.getColumnIndex("roomNr")));
+					/*room = new Room(roomNr);
+					room.x = c.getInt(c.getColumnIndex("x"));
+					room.y = c.getInt(c.getColumnIndex("y"));
+					room.building_code = c.getString(c.getColumnIndex("building_code"));
+					room.floor_name = c.getString(c.getColumnIndex("floor_name"));*/
+					
+				}
+				
+				
+				db.close();
+				//return room;
+			}
+		}
+		catch (Exception e) {
+			db.close();
+			e.printStackTrace();
+		}
+		//return null;
+		Log.i("julia", "We found " + strs.size() + " rooms!");
+		return strs;
+	}
+	//Do not use this function.
+	@Deprecated
 	public boolean isRoomExistsAll(String roomNr) {
 
-		String selectQuery = "SELECT  * FROM " + TABLE_ROOMS + " WHERE "
+		/*String selectQuery = "SELECT  * FROM " + TABLE_ROOMS + " WHERE "
 				+ ROW_ROOMNR + " = '" + roomNr.toUpperCase(Locale.getDefault()) + "'";
 
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -467,10 +529,10 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 		catch (Exception e) {
 			db.close();
 			e.printStackTrace();
-		}
+		}*/
 		return false;
 	}
-
+/*
 	public PathToRoom getRoomDetails() {
 		return room;
 	}
@@ -522,5 +584,5 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 			return room.mCoord_y;
 		else 
 			return -1;
-	}
+	}*/
 }

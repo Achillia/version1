@@ -29,13 +29,21 @@ public class GetImage {
 		return fname.exists();
 	}
 
-	//Gets a picture from local storage
+	///Gets a picture from local storage. Will return null if the context is null, since this might be called async.
 	public static Bitmap getImageFromLocalStorage(String filename, Context c){
-		String fname=new File(c.getFilesDir(), filename).getAbsolutePath();
-		Log.i("julia", "Loading bitmap from: " + fname);
-		Bitmap bitmap = BitmapFactory.decodeFile(fname);
-		
-		return bitmap;
+		if(c!=null)
+		{
+			String fname=new File(c.getFilesDir(), filename).getAbsolutePath();
+			Log.i("julia", "Loading bitmap from: " + fname);
+			Bitmap bitmap = BitmapFactory.decodeFile(fname);
+			
+			return bitmap;
+		}
+		else
+		{
+			Log.e("julia", "Seems like the activity context was null");
+			return null;
+		}
 	}
 
 	//gets a picture from the net should be enclosed in AsyncTask
@@ -76,10 +84,12 @@ public class GetImage {
 		boolean success = false;
 		try {
 			FileOutputStream fos = c.openFileOutput(filename, Context.MODE_PRIVATE);
-			if (filename.endsWith(".jpg")){
+			if(filename.endsWith(".png")){
+				success = b.compress(Bitmap.CompressFormat.PNG, 100, fos); 
+				Log.i("julia", "Downloading" + filename + "PNG");
+			}else if (filename.endsWith(".jpg")){
 				success = b.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-			}else if (filename.endsWith(".png")){
-				success = b.compress(Bitmap.CompressFormat.PNG, 100, fos);
+				Log.i("julia", "Downloading"  + filename + "JPEG");
 			}
 			if (success){
 				fos.close();
@@ -87,6 +97,7 @@ public class GetImage {
 				success = true;
 			}
 		} catch (Exception e) {
+			Log.e("julia", "We crashed: " + e.getMessage());
 			e.printStackTrace();
 		} 
 		return success;

@@ -187,7 +187,7 @@ public class FragmentScheduleWeek extends Fragment implements OnChildClickListen
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					try {
+					/*try {
 						String[] locs = location.split(" ");
 						RoomDbHandler dbHandler = new RoomDbHandler(getActivity());
 						if (dbHandler.isRoomExists(locs[0])) {
@@ -195,7 +195,11 @@ public class FragmentScheduleWeek extends Fragment implements OnChildClickListen
 						}
 						else if (dbHandler.isRoomExistsAll(locs[0])) {
 							//go to floor maps
-							showFloorMap(dbHandler.getMapName());
+							//Group High Five Removed This.
+							//showFloorMap(dbHandler.getMapName());
+							//End of Group High Five Removed This.
+
+
 							//Toast.makeText(getActivity(), "floorMapCode: "+dbHandler.getMapName(), Toast.LENGTH_LONG).show();
 						}
 						else
@@ -203,7 +207,7 @@ public class FragmentScheduleWeek extends Fragment implements OnChildClickListen
 					}
 					catch (Exception e) {
 						
-					}
+					}*/
 				}
 			});
 			

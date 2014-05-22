@@ -6,6 +6,7 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import se.mah.kd330a.project.adladok.model.Me;
+import se.mah.kd330a.project.find.data.RoomDbHandler;
 import se.mah.kd330a.project.framework.MainActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ public class StartActivity extends Activity
 		}else{
 			showLoginView(LOGINMESSAGE.NOSHOW);
 		}
+		RoomDbHandler.Init(getApplicationContext());
 	}
 
 	public void showLoginView(LOGINMESSAGE loginmessage)

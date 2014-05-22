@@ -1,10 +1,13 @@
 package se.mah.kd330a.project.find.view;
 
 
+import java.util.List;
+
 import com.viewpagerindicator.TitlePageIndicator;
 
 import se.mah.kd330a.project.R;
 import se.mah.kd330a.project.find.data.BuildingHelper;
+import se.mah.kd330a.project.find.data.RoomDbHandler;
 import se.mah.kd330a.project.find.data.ImageLoader.OnImageLoaderListener;
 import android.app.Activity;
 import android.content.Context;
@@ -27,21 +30,24 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 
 //import com.viewpagerindicator.TabPageIndicator;
 //import com.viewpagerindicator.TitlePageIndicator;
 
 // Use
 
-public class SampleTabsDefault extends Fragment //implements OnImageLoaderListener
+public class SampleTabsDefault extends Fragment implements SearchView.OnQueryTextListener, SearchView.OnCloseListener
 {
-  
-    
-    
+
+    private int preSelectedFloor;
     private String building_code;
     ToggledViewPager viewPager;
     PagerTabStrip pagerTabStrip;
+	private SearchView mSearchView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +57,7 @@ public class SampleTabsDefault extends Fragment //implements OnImageLoaderListen
         
         Bundle packet = getArguments();
         building_code = packet.getString(FragmentMaps.ARG_BUILDING);
+        preSelectedFloor = packet.getInt(FragmentMaps.ARG_FLOORINDEX, 0);
         Log.i("julia", "We want to see stuff for building: " + building_code);
         //setContentView(R.layout.simple_tabs);
         View v =  inflater.inflate(R.layout.fragment_screen_find_floorplan_list, container, false);
@@ -59,7 +66,7 @@ public class SampleTabsDefault extends Fragment //implements OnImageLoaderListen
         
         viewPager = (ToggledViewPager)v.findViewById(R.id.pager);
         viewPager.setAdapter(adapter);
-
+        viewPager.setCurrentItem(preSelectedFloor);
         
         //TitlePageIndicator indicator = (TitlePageIndicator)v.findViewById(R.id.indicator);
         //indicator.setViewPager(viewPager);
@@ -67,8 +74,12 @@ public class SampleTabsDefault extends Fragment //implements OnImageLoaderListen
 		pagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.green));
         pagerTabStrip.setTextSpacing(1);
 		pagerTabStrip.setDrawFullUnderline(true);
+		
+		
+		
         return v;
     }
+
       class FloorPlanViewerAdapter extends  FragmentStatePagerAdapter  {
         public FloorPlanViewerAdapter(FragmentManager fm) {
             super(fm);
@@ -100,9 +111,26 @@ public class SampleTabsDefault extends Fragment //implements OnImageLoaderListen
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.find, menu);
+		mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        setupSearchView();
 	}
 	
-	
+  	private void setupSearchView() {
+
+        mSearchView.setIconifiedByDefault(true);
+        mSearchView.setOnQueryTextListener(this);
+        mSearchView.setOnCloseListener(this);
+    }
+
+  	public boolean onQueryTextChange(String newText) {
+        Log.i("julia","Changed to: " + newText);
+        return false;
+    }
+
+    public boolean onQueryTextSubmit(String query) {
+    	Log.i("julia","Submitted to: " + query);
+        return false;
+    }
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -117,10 +145,14 @@ public class SampleTabsDefault extends Fragment //implements OnImageLoaderListen
 					Uri.parse("geo:0,0?q="+location+"+Malmo+Sweden"));
 			startActivity(i);
 			return true;
-
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+	@Override
+	public boolean onClose() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 

@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import se.mah.kd330a.project.R;
 import se.mah.kd330a.project.faq.FragmentFaq;
+import se.mah.kd330a.project.find.data.BuildingHelper;
 import se.mah.kd330a.project.find.data.RoomDbHandler;
 import se.mah.kd330a.project.find.view.FragmentBuilding;
 import se.mah.kd330a.project.find.view.FragmentFloorMap;
@@ -41,6 +42,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -112,6 +114,7 @@ public class FragmentBuildings extends Fragment implements OnClickListener {
 	    // TODO Add your menu entries here
 	    super.onCreateOptionsMenu(menu, inflater);
 	    inflater.inflate(R.menu.find_all, menu);
+
 	}
 	
 	//setting an action to what happens when the option item is clicked
@@ -123,6 +126,10 @@ public class FragmentBuildings extends Fragment implements OnClickListener {
 			//opening a kml file (google maps file) from res/raw that contains the pre-marked positions of all buildings
 			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=http://195.178.234.7/mahapp/images/raw/mahbyggnader.kml"));
 			startActivity(i);
+			return true;
+		case R.id.menu_search:
+			SearchView txt_room_code = (SearchView) getView().findViewById(R.id.menu_search);
+			Log.i("julia", "Search for: " + txt_room_code.getQuery());
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -157,21 +164,13 @@ public class FragmentBuildings extends Fragment implements OnClickListener {
 		String[] findCode = res
 				.getStringArray(R.array.find_building_code_array);
 		buildingCode = findCode[pos];
-		showBuildingMap(buildingCode);
-	}
-	
-	//loads the fragment with the building maps
-	private void showBuildingMap(String buildingCode) {
-		SampleTabsDefault fragment = new SampleTabsDefault();
-		Bundle args = new Bundle();
-		args.putString(FragmentMaps.ARG_BUILDING, buildingCode);
-		fragment.setArguments(args);
-
+		Fragment fragment = BuildingHelper.getFragmentBuildingMap(buildingCode);
 		FragmentManager	 fragmentManager = getActivity().getSupportFragmentManager();
 		FragmentTransaction fragmentTrans = fragmentManager.beginTransaction();	
 		fragmentTrans.replace(R.id.content_frame, fragment);
 		fragmentTrans.addToBackStack(null);
-		fragmentTrans.commit();		
+		fragmentTrans.commit();	
 	}
 	
+
 }
