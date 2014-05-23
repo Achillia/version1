@@ -23,9 +23,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 // Use
@@ -71,6 +73,10 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     }
     public void StartImageDownload()
     {
+
+        spinner.setVisibility(View.VISIBLE);
+       
+
     	String imageName = BuildingHelper.GetFloorPlanImage(building_code, mPosition);
     	if(bitmap!=null)
     		bitmap.recycle();
@@ -85,6 +91,7 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     			PutPinOnBitmap(imageName);
     			if(myImageView!=null)
     			{
+    				spinner.setVisibility(View.GONE);
 	    			myImageView.setImageBitmap(bitmap);
 	    			return;
     			}
@@ -111,73 +118,33 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
 
     ZoomableImageView myImageView;
     Bitmap bitmap;
-    
+    ProgressBar spinner;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View v =  inflater.inflate(R.layout.fragment_screen_find_floorplan, container, false);
 
-    	
     //mPosition is the position in the pager.
    	
      //  int position = getArguments().getInt("position");
-    	
+ 	
    
     	//Touch event related variables
     	myImageView = (ZoomableImageView)v.findViewById(R.id.img_floorplan);
     	//myImageView.setScaleType(ImageView.ScaleType.MATRIX);
     	myImageView.SetToggledViewPager(this.viewPager);
     	myImageView.saveScale = 1;
+    	
+    	spinner = (ProgressBar) v.findViewById(R.id.pb_find_loading);
+    	spinner.setVisibility(View.VISIBLE);  
     	StartImageDownload();
-    	
-    	//Get img from database(Will be used later):	bitmap = getImageFromDatabase(building_number, mPosition);
-    	
-    	
-    	// Temporary code. Will get replaced with code pulling image from database
-    	/*if(building_code != "")
-    	{
-			switch(mPosition){
-			case 0:
-				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.orkanen_plan_4_400px);
-				break;
-			case 1:
-				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.orkanen_plan_4_300px);
-				break;
-			case 2:
-				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.orkanen_plan_4_200px);
-				break;
-			case 3:
-				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.orkanen_plan4_pride);
-				break;
-	
-			default:
-				Log.i("julia", "Not implemented");
-				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.home_block);
-				break;
-			}
-    	}
-    	else
-    	{
-			switch(mPosition){
-			case 0:
-				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.splash_view);
-				break;
-			case 1:
-				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.map_view);
-				break;
-			case 2:
-				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mah_logotyp_original);
-				break;
-			case 3:
-				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.home_block);
-				break;
-	
-			default:
-				Log.i("julia", "Not implemented");
-				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.home_block);
-				break;
-			}
-    	}*/
-		
+
+/*
+        final FrameLayout imageLayout = (FrameLayout) inflater.inflate(R.layout.fragment_screen_find_floorplan, null);
+        final ImageView imageView = (ImageView) imageLayout.findViewById(R.id.image);*/
+        
+             
+     
+
         return v;
     }
     @Override
@@ -210,6 +177,7 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
 			PutPinOnBitmap(fileName);
 			if(myImageView!=null)
 			{
+				spinner.setVisibility(View.GONE);
 				myImageView.setImageBitmap(bitmap);
 				return;
 			}
