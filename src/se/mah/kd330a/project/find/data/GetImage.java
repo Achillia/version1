@@ -34,7 +34,7 @@ public class GetImage {
 	public static Bitmap getImageFromLocalStorage(String filename, Context c){
 		if(c!=null)
 		{
-			String fname=new File(c.getFilesDir(), filename).getAbsolutePath();
+			String fname=new File(c.getFilesDir(), BuildingHelper.FLOOR_PLAN_IMAGE_VERSION+ "_" +filename).getAbsolutePath();
 			Options bitmapOptions = new Options();
 			bitmapOptions.inMutable = true;
 			Bitmap bitmap = BitmapFactory.decodeFile(fname, bitmapOptions);
@@ -56,7 +56,7 @@ public class GetImage {
 		try {
 			bitmap = BitmapFactory.decodeStream((InputStream)new URL(imageUrl).getContent());
 			if (storeImageLocally){
-				storeImageLocal(filename,bitmap,c);
+				storeImageLocal(BuildingHelper.FLOOR_PLAN_IMAGE_VERSION+ "_" +filename,bitmap,c);
 				return bitmap;
 			}
 		} catch (MalformedURLException e) {

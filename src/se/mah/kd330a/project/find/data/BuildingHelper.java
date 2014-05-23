@@ -21,7 +21,7 @@ public class BuildingHelper {
 	public static final String ARG_SEARCHSTRING= "searchstring";
 	public static final String ARG_ROOMNAME= "roomnamestring";
 	
-	public static final int FLOOR_PLAN_IMAGE_VERSION = 1;
+	public static final int FLOOR_PLAN_IMAGE_VERSION = 2;
 	public static String GetBuildingFloorPlanTitle(String building_code, int position, Resources res)
 	{
 
@@ -109,7 +109,7 @@ public class BuildingHelper {
 
 	}
 	public static String GetFloorPlanImage(String building_code, int floorIndex){
-		String resultString =FLOOR_PLAN_IMAGE_VERSION+ "_" + building_code +"_";
+		String resultString = building_code +"_";
 		if(building_code.equals("k2"))
 			switch(floorIndex)	
 			{

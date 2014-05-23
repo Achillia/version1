@@ -59,7 +59,7 @@ public class RoomDbHandler extends SQLiteOpenHelper {
     	}
     	public String GetFloorplanFilename()
     	{
-    		return BuildingHelper.FLOOR_PLAN_IMAGE_VERSION+ "_" + building_code + "_" + floor_name +  ".png";
+    		return building_code + "_" + floor_name +  ".png";
     	}
     }
 	private static final String DATABASE_NAME = "find_rooms_DB";
