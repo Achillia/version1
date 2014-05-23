@@ -43,37 +43,36 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 
 	//private static final String LOG = "MAH RoomDbHandler";
     public class Room{
-    	String roomNr;
-    	int x;
-    	int y;
-    	String building_code;
-    	String floor_name;
+    	public String roomNr;
+    	public int x;
+    	public int y;
+    	public String building_code;
+    	public String floor_name;
     	public Room(String rNr)
     	{
     		this.roomNr = rNr;
     	}    	
+    	@Override
+    	public String toString() {
+    		
+    		return roomNr;
+    	}
+    	public String GetFloorplanFilename()
+    	{
+    		return building_code + "_" + floor_name +  ".png";
+    	}
     }
 	private static final String DATABASE_NAME = "find_rooms_DB";
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION =5; //Remember to increment this number if there has been made changes to the database!
 	private static RoomDbHandler instance = null;
 
 	   public static RoomDbHandler getInstance() {
 	      if(instance == null) {
 	    	  Log.e("julia", "database is not ready PREPARE FOR CRASH!!");
 	    	  return  null;
-	    //     instance = new RoomDbHandler();
 	      }
 	      return instance;
 	   }
-	/*private static final String TABLE_ROOMS = "rooms";
-
-	private static final String ROW_ROOMNR = "roomNr";
-	
-	private static final String ROW_TEXTS = "texts";
-	
-	private static final String ROW_X = "x";
-	private static final String ROW_Y = "y";
-	private static final String ROW_MAP = "map";*/
 
 	static final String TABLE_CREATE = "CREATE TABLE rooms (" + BaseColumns._ID + " int primary key, roomNr TEXT, x INTEGER, y INTEGER, building_code TEXT, floor_name TEXT);";
 
@@ -149,7 +148,7 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 		addRow(db, "K2B204", 0, 0, "k2", "b");
 		addRow(db, "K2B210", 0, 0, "k2", "b");
 		addRow(db, "K2B211", 0, 0, "k2", "b");
-		addRow(db, "K2B212", 0, 0, "k2", "b");
+		addRow(db, "K2B212", 545, 290, "k2", "b");
 		addRow(db, "K2B205", 0, 0, "k2", "b");
 		addRow(db, "K2B206", 0, 0, "k2", "b");
 		addRow(db, "K2B207", 0, 0, "k2", "b");
@@ -442,7 +441,8 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 	}
 	//Finds a room, returns null if it wasn't found.
 	public Room FindRoom(String roomNr) {
-
+		if(roomNr == null)
+			return null;
 		String selectQuery = "SELECT  * FROM rooms WHERE roomNr = '" + roomNr.toUpperCase(Locale.getDefault()) + "'";
 		SQLiteDatabase db = this.getReadableDatabase();
 		Room room;
@@ -468,6 +468,47 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	public List<Room> SearchForRooms(String searchString){
+		//Select id from sometable where name like '%omm%'
+		List<Room> strs = new ArrayList<Room>();
+		
+		String selectQuery = "SELECT * FROM rooms where roomNr like '%"+searchString+"%'";
+		SQLiteDatabase db = this.getReadableDatabase();
+		try {
+			Cursor c = db.rawQuery(selectQuery, null);
+
+			if (c != null) {
+				//c.moveToFirst();
+				while(c.moveToNext())
+				{
+					
+					Room room = new Room(c.getString(c.getColumnIndex("roomNr")));
+					room.x = c.getInt(c.getColumnIndex("x"));
+					room.y = c.getInt(c.getColumnIndex("y"));
+					room.building_code = c.getString(c.getColumnIndex("building_code"));
+					room.floor_name = c.getString(c.getColumnIndex("floor_name"));
+					strs.add(room);
+					/*room = new Room(roomNr);
+					room.x = c.getInt(c.getColumnIndex("x"));
+					room.y = c.getInt(c.getColumnIndex("y"));
+					room.building_code = c.getString(c.getColumnIndex("building_code"));
+					room.floor_name = c.getString(c.getColumnIndex("floor_name"));*/
+					
+				}
+				
+				
+				db.close();
+				//return room;
+			}
+		}
+		catch (Exception e) {
+			db.close();
+			e.printStackTrace();
+		}
+		//return null;
+		Log.i("julia", "We found " + strs.size() + " rooms!");
+		return strs;
 	}
 	public List<String> GetAllRoomNumbers()
 	{

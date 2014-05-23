@@ -4,11 +4,11 @@ package se.mah.kd330a.project.find.view;
 import java.util.List;
 
 import com.viewpagerindicator.TitlePageIndicator;
-
 import se.mah.kd330a.project.R;
 import se.mah.kd330a.project.find.data.BuildingHelper;
 import se.mah.kd330a.project.find.data.RoomDbHandler;
 import se.mah.kd330a.project.find.data.ImageLoader.OnImageLoaderListener;
+import se.mah.kd330a.project.find.data.RoomDbHandler.Room;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -48,6 +48,7 @@ public class SampleTabsDefault extends Fragment implements SearchView.OnQueryTex
     ToggledViewPager viewPager;
     PagerTabStrip pagerTabStrip;
 	private SearchView mSearchView;
+	private Room preSelectedRoom;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +57,9 @@ public class SampleTabsDefault extends Fragment implements SearchView.OnQueryTex
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
         Bundle packet = getArguments();
-        building_code = packet.getString(FragmentMaps.ARG_BUILDING);
-        preSelectedFloor = packet.getInt(FragmentMaps.ARG_FLOORINDEX, 0);
+        building_code = packet.getString(BuildingHelper.ARG_BUILDING);
+        preSelectedFloor = packet.getInt(BuildingHelper.ARG_FLOORINDEX, 0);
+        preSelectedRoom = RoomDbHandler.getInstance().FindRoom(packet.getString(BuildingHelper.ARG_ROOMNAME, null));
         Log.i("julia", "We want to see stuff for building: " + building_code);
         //setContentView(R.layout.simple_tabs);
         View v =  inflater.inflate(R.layout.fragment_screen_find_floorplan_list, container, false);
@@ -86,7 +88,7 @@ public class SampleTabsDefault extends Fragment implements SearchView.OnQueryTex
         }
         @Override
         public Fragment getItem(int position) {
-            return FragmentFloorMap_v2.newInstance(building_code, position, viewPager);   //CONTENT[position % CONTENT.length]);
+            return FragmentFloorMap_v2.newInstance(building_code, position, preSelectedRoom, viewPager);   //CONTENT[position % CONTENT.length]);
         }
 
         @Override
@@ -111,6 +113,8 @@ public class SampleTabsDefault extends Fragment implements SearchView.OnQueryTex
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.find, menu);
+		
+		///SEARCH Code below here until next //SEARCH is for search!
 		mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         setupSearchView();
 	}
@@ -123,14 +127,19 @@ public class SampleTabsDefault extends Fragment implements SearchView.OnQueryTex
     }
 
   	public boolean onQueryTextChange(String newText) {
-        Log.i("julia","Changed to: " + newText);
         return false;
     }
-
     public boolean onQueryTextSubmit(String query) {
-    	Log.i("julia","Submitted to: " + query);
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		FragmentSearchResultList newFragment = new FragmentSearchResultList();
+		Bundle args = new Bundle();
+		args.putString(BuildingHelper.ARG_SEARCHSTRING, query);
+		newFragment.setArguments(args);
+		newFragment.show(ft, "dialog");
+
         return false;
     }
+    //SEARCH Till here.
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 

@@ -10,6 +10,7 @@ import java.net.URL;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -33,9 +34,10 @@ public class GetImage {
 	public static Bitmap getImageFromLocalStorage(String filename, Context c){
 		if(c!=null)
 		{
-			String fname=new File(c.getFilesDir(), filename).getAbsolutePath();
-			Log.i("julia", "Loading bitmap from: " + fname);
-			Bitmap bitmap = BitmapFactory.decodeFile(fname);
+			String fname=new File(c.getFilesDir(), BuildingHelper.FLOOR_PLAN_IMAGE_VERSION+ "_" +filename).getAbsolutePath();
+			Options bitmapOptions = new Options();
+			bitmapOptions.inMutable = true;
+			Bitmap bitmap = BitmapFactory.decodeFile(fname, bitmapOptions);
 			
 			return bitmap;
 		}
@@ -54,7 +56,7 @@ public class GetImage {
 		try {
 			bitmap = BitmapFactory.decodeStream((InputStream)new URL(imageUrl).getContent());
 			if (storeImageLocally){
-				storeImageLocal(filename,bitmap,c);
+				storeImageLocal(BuildingHelper.FLOOR_PLAN_IMAGE_VERSION+ "_" +filename,bitmap,c);
 				return bitmap;
 			}
 		} catch (MalformedURLException e) {
@@ -86,10 +88,10 @@ public class GetImage {
 			FileOutputStream fos = c.openFileOutput(filename, Context.MODE_PRIVATE);
 			if(filename.endsWith(".png")){
 				success = b.compress(Bitmap.CompressFormat.PNG, 100, fos); 
-				Log.i("julia", "Downloading" + filename + "PNG");
+				Log.i("julia", "Storing: " + filename);
 			}else if (filename.endsWith(".jpg")){
 				success = b.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-				Log.i("julia", "Downloading"  + filename + "JPEG");
+				Log.i("julia", "Storing: "  + filename + "JPEG");
 			}
 			if (success){
 				fos.close();

@@ -12,6 +12,7 @@ import se.mah.kd330a.project.find.view.FragmentBuilding;
 import se.mah.kd330a.project.find.view.FragmentFloorMap;
 import se.mah.kd330a.project.find.view.FragmentMaps;
 import se.mah.kd330a.project.find.view.FragmentResult;
+import se.mah.kd330a.project.find.view.FragmentSearchResultList;
 import se.mah.kd330a.project.find.view.SampleTabsDefault;
 import se.mah.kd330a.project.help.FragmentCredits;
 import se.mah.kd330a.project.home.FragmentHome;
@@ -51,7 +52,7 @@ import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
 
 
-public class FragmentBuildings extends Fragment implements OnClickListener {
+public class FragmentBuildings extends Fragment implements OnClickListener, SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
 	//creating objects for each item in the buildings list
 	private LinearLayout house1;
@@ -61,7 +62,7 @@ public class FragmentBuildings extends Fragment implements OnClickListener {
 	private LinearLayout house5;
 	private LinearLayout house6;
 	private LinearLayout house7;
-	
+	private SearchView mSearchView;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -116,9 +117,32 @@ public class FragmentBuildings extends Fragment implements OnClickListener {
 	    // TODO Add your menu entries here
 	    super.onCreateOptionsMenu(menu, inflater);
 	    inflater.inflate(R.menu.find_all, menu);
-
+		///SEARCH Code below here until next //SEARCH is for search!
+		mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        setupSearchView();
 	}
 	
+  	private void setupSearchView() {
+
+        mSearchView.setIconifiedByDefault(true);
+        mSearchView.setOnQueryTextListener(this);
+        mSearchView.setOnCloseListener(this);
+    }
+
+  	public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+    public boolean onQueryTextSubmit(String query) {
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		FragmentSearchResultList newFragment = new FragmentSearchResultList();
+		Bundle args = new Bundle();
+		args.putString(BuildingHelper.ARG_SEARCHSTRING, query);
+		newFragment.setArguments(args);
+		newFragment.show(ft, "dialog");
+
+        return false;
+    }
+    //SEARCH Till here.
 	//setting an action to what happens when the option item is clicked
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -168,6 +192,12 @@ public class FragmentBuildings extends Fragment implements OnClickListener {
 		fragmentTrans.replace(R.id.content_frame, fragment);
 		fragmentTrans.addToBackStack(null);
 		fragmentTrans.commit();	
+	}
+
+	@Override
+	public boolean onClose() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 

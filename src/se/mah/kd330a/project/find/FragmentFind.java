@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.Locale;
 
 import se.mah.kd330a.project.R;
+import se.mah.kd330a.project.find.data.BuildingHelper;
 import se.mah.kd330a.project.find.data.RoomDbHandler;
 import se.mah.kd330a.project.find.view.FragmentBuilding;
 import se.mah.kd330a.project.find.view.FragmentFloorMap;
@@ -299,7 +300,7 @@ public class FragmentFind extends Fragment implements OnClickListener {
 		Log.i("search room", "method for showing building initiated");
 		Fragment fragment = new FragmentBuilding();
 		Bundle args = new Bundle();
-		args.putString(FragmentBuilding.ARG_BUILDING, buildingCode);
+		args.putString(BuildingHelper.ARG_BUILDING, buildingCode);
 		fragment.setArguments(args);
 
 		FragmentManager	 fragmentManager = getActivity().getSupportFragmentManager();
