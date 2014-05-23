@@ -86,7 +86,7 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     			if(myImageView!=null)
     			{
 	    			myImageView.setImageBitmap(bitmap);
-	    			//return;
+	    			return;
     			}
     			else
     			{
