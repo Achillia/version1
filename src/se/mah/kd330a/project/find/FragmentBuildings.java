@@ -7,6 +7,7 @@ import se.mah.kd330a.project.R;
 import se.mah.kd330a.project.faq.FragmentFaq;
 import se.mah.kd330a.project.find.data.BuildingHelper;
 import se.mah.kd330a.project.find.data.RoomDbHandler;
+import se.mah.kd330a.project.find.data.RoomDbHandler.Room;
 import se.mah.kd330a.project.find.view.FragmentBuilding;
 import se.mah.kd330a.project.find.view.FragmentFloorMap;
 import se.mah.kd330a.project.find.view.FragmentMaps;
@@ -16,6 +17,7 @@ import se.mah.kd330a.project.help.FragmentCredits;
 import se.mah.kd330a.project.home.FragmentHome;
 import se.mah.kd330a.project.itsl.FragmentITSL;
 import se.mah.kd330a.project.schedule.view.FragmentScheduleWeekPager;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -120,16 +122,12 @@ public class FragmentBuildings extends Fragment implements OnClickListener {
 	//setting an action to what happens when the option item is clicked
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
+		Fragment fragment;
 		switch (item.getItemId()) {
 		case R.id.find_menu_google_all:
 			//opening a kml file (google maps file) from res/raw that contains the pre-marked positions of all buildings
 			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=http://195.178.234.7/mahapp/images/raw/mahbyggnader.kml"));
 			startActivity(i);
-			return true;
-		case R.id.menu_search:
-			SearchView txt_room_code = (SearchView) getView().findViewById(R.id.menu_search);
-			Log.i("julia", "Search for: " + txt_room_code.getQuery());
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
