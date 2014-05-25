@@ -21,7 +21,7 @@ public class BuildingHelper {
 	public static final String ARG_SEARCHSTRING= "searchstring";
 	public static final String ARG_ROOMNAME= "roomnamestring";
 	
-	public static final int FLOOR_PLAN_IMAGE_VERSION = 2;
+	public static final int FLOOR_PLAN_IMAGE_VERSION = 3; //Change this to force a new version of the floor plans to be downloaded.
 	public static String GetBuildingFloorPlanTitle(String building_code, int position, Resources res)
 	{
 

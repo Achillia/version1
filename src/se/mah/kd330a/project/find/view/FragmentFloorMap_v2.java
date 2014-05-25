@@ -82,6 +82,7 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     		bitmap.recycle();
     	if(GetImage.doesImageFromLocalStorageExists(imageName, getActivity()))
     	{
+    		Log.i("julia", "Cached " + imageName);
     		bitmap = GetImage.getImageFromLocalStorage(imageName, getActivity());
     		//If we find a room and we are on the correct floor plan, we want to show a pin.
     		
@@ -103,6 +104,7 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     		else
     			Log.e("julia", "Image was null! We will redownload it instead of crashing.");
     	}
+    	Log.i("julia", "Downloading " + imageName);
     	new ImageLoader(getActivity(), this).execute(imageName);
     }
     

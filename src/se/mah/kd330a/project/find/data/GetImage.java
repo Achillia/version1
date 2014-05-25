@@ -26,7 +26,7 @@ public class GetImage {
 		return !doesFileExists(filename,c);
 	}
 	public static boolean doesImageFromLocalStorageExists(String filename,Context c){
-		File fname=new File(c.getFilesDir(), filename);
+		File fname=new File(c.getFilesDir(),BuildingHelper.FLOOR_PLAN_IMAGE_VERSION+"_"+ filename);
 		return fname.exists();
 	}
 
