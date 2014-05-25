@@ -40,7 +40,7 @@ import android.widget.SearchView;
 
 // Use
 
-public class SampleTabsDefault extends Fragment implements SearchView.OnQueryTextListener, SearchView.OnCloseListener
+public class FragmentFloorPlanViewer extends Fragment implements SearchView.OnQueryTextListener, SearchView.OnCloseListener
 {
 
     private int preSelectedFloor;

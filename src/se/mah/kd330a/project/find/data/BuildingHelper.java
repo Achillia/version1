@@ -3,7 +3,7 @@ package se.mah.kd330a.project.find.data;
 import se.mah.kd330a.project.R;
 import se.mah.kd330a.project.find.data.RoomDbHandler.Room;
 import se.mah.kd330a.project.find.view.FragmentMaps;
-import se.mah.kd330a.project.find.view.SampleTabsDefault;
+import se.mah.kd330a.project.find.view.FragmentFloorPlanViewer;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -159,7 +159,7 @@ public class BuildingHelper {
 
 	//returns the fragment with the building map of the specified building.
 	public static Fragment getFragmentBuildingMap(String buildingCode) {
-		SampleTabsDefault fragment = new SampleTabsDefault();
+		FragmentFloorPlanViewer fragment = new FragmentFloorPlanViewer();
 		Bundle args = new Bundle();
 		args.putString(BuildingHelper.ARG_BUILDING, buildingCode);
 		fragment.setArguments(args);
@@ -169,7 +169,7 @@ public class BuildingHelper {
 	//returns the fragment with the building map of the specified building. And opens the floor at floor INDEX.
 	public static Fragment getFragmentBuildingMapForRoom(Room room) {
 		int floorindex = ConvertFloorNameToFloorIndex(room.floor_name);
-		SampleTabsDefault fragment = new SampleTabsDefault();
+		FragmentFloorPlanViewer fragment = new FragmentFloorPlanViewer();
 		Bundle args = new Bundle();
 		args.putString(BuildingHelper.ARG_BUILDING, room.building_code);
 		args.putInt(BuildingHelper.ARG_FLOORINDEX, floorindex);
