@@ -49,6 +49,7 @@ public class StartActivity extends Activity
 		}else{
 			showLoginView(LOGINMESSAGE.NOSHOW);
 		}
+		//Make sure to init the database early on in the application life span, so the room links will work.
 		RoomDbHandler.Init(getApplicationContext());
 	}
 

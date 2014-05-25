@@ -1,5 +1,5 @@
 package se.mah.kd330a.project.find.data;
-
+//Delete this file.
 import se.mah.kd330a.project.find.view.FragmentStep;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

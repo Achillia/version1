@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import se.mah.kd330a.project.R;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,6 +12,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 //import android.util.Log;
 import android.provider.BaseColumns;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 /*
@@ -24,14 +28,22 @@ import android.util.Log;
  *
  *
 EXAMPLE OF HOW TO FIND A ROOM AND A FRAGMENT
-Room r = RoomDbHandler.getInstance().FindRoom("ORF208");
-if(r!=null)
-{
- fragment = BuildingHelper.getFragmentBuildingMapOnFloor(r);
-}else
-{
-	//No room found.
-}
+		Room r = RoomDbHandler.getInstance().FindRoom("ORF208");
+		if(r!=null)
+		{
+			Fragment fragment = BuildingHelper.getFragmentBuildingMapForRoom(r);
+			
+			//Open the fragment as usual:
+			FragmentManager	 fragmentManager = getActivity().getSupportFragmentManager();
+			FragmentTransaction fragmentTrans = fragmentManager.beginTransaction();
+			fragmentTrans.replace(R.id.content_frame, fragment);
+			fragmentTrans.addToBackStack(null);
+			fragmentTrans.commit();	
+			//End of open fragment.
+		}else
+		{
+			//No room found.
+		}
  *
  *
  *
@@ -40,8 +52,7 @@ if(r!=null)
  */
 
 public class RoomDbHandler extends SQLiteOpenHelper {
-
-	//private static final String LOG = "MAH RoomDbHandler";
+	//Class for containing a room
     public class Room{
     	public String roomNr;
     	public int x;
@@ -52,11 +63,13 @@ public class RoomDbHandler extends SQLiteOpenHelper {
     	{
     		this.roomNr = rNr;
     	}    	
+    	//Overriding toString for when it is used in the search listview, each element there will be written with this string.
     	@Override
     	public String toString() {
     		
     		return roomNr;
     	}
+    	//Bruteforce way of finding the floorplan png name for this room.
     	public String GetFloorplanFilename()
     	{
     		return building_code + "_" + floor_name +  ".png";
@@ -66,27 +79,28 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION =5; //Remember to increment this number if there has been made changes to the database!
 	private static RoomDbHandler instance = null;
 
-	   public static RoomDbHandler getInstance() {
-	      if(instance == null) {
-	    	  Log.e("julia", "database is not ready PREPARE FOR CRASH!!");
-	    	  return  null;
-	      }
-	      return instance;
-	   }
+	//Basic singleton. This class can only be instantiated by the Init static function.
+	public static RoomDbHandler getInstance() {
+		if(instance == null) {
+			Log.e("julia", "database is not ready PREPARE FOR CRASH!!");
+			return  null;
+		}
+		return instance;
+	}
 
 	static final String TABLE_CREATE = "CREATE TABLE rooms (" + BaseColumns._ID + " int primary key, roomNr TEXT, x INTEGER, y INTEGER, building_code TEXT, floor_name TEXT);";
-
+	//Call this function in the beginning of the application, before anyone accesses the database. To make sure it is prepaired and ready for use.
 	public static void Init(Context context)
 	{
 		Log.i("julia", "creating a db reference");
 		instance = new RoomDbHandler(context);
 	}
-	
-	public RoomDbHandler(Context context) {
+	//Private constructor that intializes the database.
+	private RoomDbHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		Log.i("julia", "Fixing the database");
 	}
-
+	//Creates all the data in the database.
 	private void dbCreate(SQLiteDatabase db) {
 		Log.i("julia", "Creating database");
 		db.execSQL(TABLE_CREATE);
@@ -413,7 +427,7 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 	
 		dbCreate(db);
 	} 
-	//	int primary key, roomNr TEXT, x INTEGER, y INTEGER, building_code TEXT, floor_index INT
+	//Adds a row to the database, for convinience.
 	private void addRow(SQLiteDatabase db, String roomNr, int x, int y, String building_code, String floor_name) {
 
 		ContentValues values = new ContentValues();
@@ -469,8 +483,8 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 		}
 		return null;
 	}
+	//Returns a list of rooms based on a search string.
 	public List<Room> SearchForRooms(String searchString){
-		//Select id from sometable where name like '%omm%'
 		List<Room> strs = new ArrayList<Room>();
 		
 		String selectQuery = "SELECT * FROM rooms where roomNr like '%"+searchString+"%'";
@@ -479,7 +493,6 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 			Cursor c = db.rawQuery(selectQuery, null);
 
 			if (c != null) {
-				//c.moveToFirst();
 				while(c.moveToNext())
 				{
 					
@@ -488,28 +501,19 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 					room.y = c.getInt(c.getColumnIndex("y"));
 					room.building_code = c.getString(c.getColumnIndex("building_code"));
 					room.floor_name = c.getString(c.getColumnIndex("floor_name"));
-					strs.add(room);
-					/*room = new Room(roomNr);
-					room.x = c.getInt(c.getColumnIndex("x"));
-					room.y = c.getInt(c.getColumnIndex("y"));
-					room.building_code = c.getString(c.getColumnIndex("building_code"));
-					room.floor_name = c.getString(c.getColumnIndex("floor_name"));*/
-					
+					strs.add(room);				
 				}
-				
-				
 				db.close();
-				//return room;
 			}
 		}
 		catch (Exception e) {
 			db.close();
 			e.printStackTrace();
 		}
-		//return null;
 		Log.i("julia", "We found " + strs.size() + " rooms!");
 		return strs;
 	}
+	//Returns all room names in a list. Can be used in an AutoCompleteView.
 	public List<String> GetAllRoomNumbers()
 	{
 		List<String> strs = new ArrayList<String>();
@@ -520,28 +524,17 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 			Cursor c = db.rawQuery(selectQuery, null);
 
 			if (c != null) {
-				//c.moveToFirst();
 				while(c.moveToNext())
 				{
-					strs.add(c.getString(c.getColumnIndex("roomNr")));
-					/*room = new Room(roomNr);
-					room.x = c.getInt(c.getColumnIndex("x"));
-					room.y = c.getInt(c.getColumnIndex("y"));
-					room.building_code = c.getString(c.getColumnIndex("building_code"));
-					room.floor_name = c.getString(c.getColumnIndex("floor_name"));*/
-					
+					strs.add(c.getString(c.getColumnIndex("roomNr")));				
 				}
-				
-				
 				db.close();
-				//return room;
 			}
 		}
 		catch (Exception e) {
 			db.close();
 			e.printStackTrace();
 		}
-		//return null;
 		Log.i("julia", "We found " + strs.size() + " rooms!");
 		return strs;
 	}

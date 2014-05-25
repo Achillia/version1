@@ -1,9 +1,11 @@
 package se.mah.kd330a.project.find.view;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.viewpagerindicator.TitlePageIndicator;
+
 import se.mah.kd330a.project.R;
 import se.mah.kd330a.project.find.data.BuildingHelper;
 import se.mah.kd330a.project.find.data.RoomDbHandler;
@@ -52,7 +54,7 @@ public class FragmentFloorPlanViewer extends Fragment implements SearchView.OnQu
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+        listOfFragments = new ArrayList<FragmentFloorMap_v2>();
     // Sets orientation to portrait, temporary fix to horizontal view crash
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
@@ -81,19 +83,35 @@ public class FragmentFloorPlanViewer extends Fragment implements SearchView.OnQu
 		
         return v;
     }
-
+    List<FragmentFloorMap_v2> listOfFragments;
+    //Make sure that we clean up all our child fragments when this fragment is detatched.
+    @Override
+    public void onDetach() {
+    	super.onDetach();
+    	FragmentManager frMan = getActivity().getSupportFragmentManager();
+    	FragmentTransaction frTr = frMan.beginTransaction();
+    	for(FragmentFloorMap_v2 fr:listOfFragments)
+    	{
+    		fr.CleanUp();
+    		frTr.remove(fr);
+    		fr = null;
+    	}
+    };
+    
       class FloorPlanViewerAdapter extends  FragmentStatePagerAdapter  {
         public FloorPlanViewerAdapter(FragmentManager fm) {
             super(fm);
         }
+        //When the page view wants a new element, we create it and put it in a list, so we can easily clean up later.
         @Override
         public Fragment getItem(int position) {
-            return FragmentFloorMap_v2.newInstance(building_code, position, preSelectedRoom, viewPager);   //CONTENT[position % CONTENT.length]);
+        	FragmentFloorMap_v2 createdFragment =  FragmentFloorMap_v2.newInstance(building_code, position, preSelectedRoom, viewPager);   //CONTENT[position % CONTENT.length]);
+            listOfFragments.add(createdFragment);
+            return createdFragment;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-           // return CONTENT[position % CONTENT.length].toUpperCase();
         	return BuildingHelper.GetBuildingFloorPlanTitle(building_code, position, getResources());
         }
 
@@ -114,7 +132,7 @@ public class FragmentFloorPlanViewer extends Fragment implements SearchView.OnQu
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.find, menu);
 		
-		///SEARCH Code below here until next //SEARCH is for search!
+	///SEARCH Code below here until next //SEARCH is for search!
 		mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         setupSearchView();
 	}
@@ -139,7 +157,7 @@ public class FragmentFloorPlanViewer extends Fragment implements SearchView.OnQu
 
         return false;
     }
-    //SEARCH Till here.
+    //SEARCH ends here.
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 

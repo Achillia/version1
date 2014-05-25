@@ -218,7 +218,7 @@ public class FragmentFind extends Fragment implements OnClickListener {
 		RoomDbHandler dbHandler;
 		String textInput = txt_room_code.getText().toString().toLowerCase(Locale.getDefault());
 		String roomNr = selposFind + textInput;
-		dbHandler = new RoomDbHandler(getActivity());
+		dbHandler = RoomDbHandler.getInstance();
 		Log.i("search room", "finished building dependencies");
 		
 		if (spinnerFind.getSelectedItemPosition() < 1){

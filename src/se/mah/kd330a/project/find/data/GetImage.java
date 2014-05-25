@@ -25,18 +25,21 @@ public class GetImage {
 		c.deleteFile(filename);
 		return !doesFileExists(filename,c);
 	}
+	//Checks if a floorplan is in local storage. Automaticly checking for the correct image version.
 	public static boolean doesImageFromLocalStorageExists(String filename,Context c){
 		File fname=new File(c.getFilesDir(),BuildingHelper.FLOOR_PLAN_IMAGE_VERSION+"_"+ filename);
 		return fname.exists();
 	}
 
-	///Gets a picture from local storage. Will return null if the context is null, since this might be called async.
+	///Gets a picture from local storage. Will return null if the context is null, since this might be called async. Automaticly checking for the correct image version
 	public static Bitmap getImageFromLocalStorage(String filename, Context c){
 		if(c!=null)
 		{
 			String fname=new File(c.getFilesDir(), BuildingHelper.FLOOR_PLAN_IMAGE_VERSION+ "_" +filename).getAbsolutePath();
 			Options bitmapOptions = new Options();
 			bitmapOptions.inMutable = true;
+			bitmapOptions.inTempStorage = new byte[16*1024];
+			bitmapOptions.inPurgeable = true;
 			Bitmap bitmap = BitmapFactory.decodeFile(fname, bitmapOptions);
 			
 			return bitmap;
@@ -81,17 +84,15 @@ public class GetImage {
 			return "mdpi";
 		}
 	}
-
+	//Stores a bitmap to the file system. (Only called from this class)
 	private static boolean storeImageLocal(String filename, Bitmap b, Context c){
 		boolean success = false;
 		try {
 			FileOutputStream fos = c.openFileOutput(filename, Context.MODE_PRIVATE);
 			if(filename.endsWith(".png")){
 				success = b.compress(Bitmap.CompressFormat.PNG, 100, fos); 
-				Log.i("julia", "Storing: " + filename);
 			}else if (filename.endsWith(".jpg")){
 				success = b.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-				Log.i("julia", "Storing: "  + filename + "JPEG");
 			}
 			if (success){
 				fos.close();

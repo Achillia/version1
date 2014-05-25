@@ -11,7 +11,9 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
 
-// Use
+
+//Based on http://stackoverflow.com/a/17649895
+//Changed was made to include our ToggledViewPager, so it toggles it on when the image is at Scale 1 else off. So when the user has zoomed the user can pan without going to the next page.
 
 public class ZoomableImageView extends ImageView
 {

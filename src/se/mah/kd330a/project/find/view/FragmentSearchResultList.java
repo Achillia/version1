@@ -27,7 +27,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 public class FragmentSearchResultList extends DialogFragment {
-	
+
 	List<Room> list;
 	@Override
 	public void onCreate(android.os.Bundle savedInstanceState) {
@@ -38,34 +38,29 @@ public class FragmentSearchResultList extends DialogFragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View v =  inflater.inflate(R.layout.fragment_screen_find_searchresultlist, container, false);
 		Bundle packet = getArguments();
-        String searchString = packet.getString(BuildingHelper.ARG_SEARCHSTRING);
-        
+		String searchString = packet.getString(BuildingHelper.ARG_SEARCHSTRING);
+
 		ListView listview = (ListView)v.findViewById(R.id.searchResultList);
-		
-		/*imgNav = (ImageView) rootView.findViewById(R.id.img_find_navigation);
-		imgNav.setVisibility(View.INVISIBLE);
-		prgBar = (ProgressBar) rootView.findViewById(R.id.pb_find_loading);
-		prgBar.setVisibility(View.VISIBLE);
-		
-		return rootView;*/
+
 		list = RoomDbHandler.getInstance().SearchForRooms(searchString);//new ArrayList<Room>();
-		
+
 		if(list.size()==0)
 			getDialog().setTitle("No results!");
 		else
 			getDialog().setTitle("Search results");
-		
-	    final StableArrayAdapter adapter = new StableArrayAdapter(getActivity(),R.layout.fragment_screen_find_searchresultlist_item, list);
-	    listview.setAdapter(adapter);
 
-	    listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		final StableArrayAdapter adapter = new StableArrayAdapter(getActivity(),R.layout.fragment_screen_find_searchresultlist_item, list);
+		listview.setAdapter(adapter);
 
-	      @Override
-	      public void onItemClick(AdapterView<?> parent, final View view,
-	          int position, long id) {
-	    	  Log.i("julia", "You clicked on " + position);
-	    	 
-	    	  	Fragment fragment = BuildingHelper.getFragmentBuildingMapForRoom( list.get(position));
+		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			//When an item in teh list is clicked, we open the floorplan with a pin on the room.
+			@Override
+			public void onItemClick(AdapterView<?> parent, final View view,
+					int position, long id) {
+				Log.i("julia", "You clicked on " + position);
+
+				Fragment fragment = BuildingHelper.getFragmentBuildingMapForRoom( list.get(position));
 				FragmentManager	 fragmentManager = getActivity().getSupportFragmentManager();
 				FragmentTransaction fragmentTrans = fragmentManager.beginTransaction();
 				//Popping the stack so we don't have multiple of the fragmentfloormaps open, from clicking around or searching multiple times.
@@ -74,50 +69,36 @@ public class FragmentSearchResultList extends DialogFragment {
 				fragmentTrans.addToBackStack(null);
 				fragmentTrans.commit();	
 				dismiss();
+			}
 
-	       /* final String item = (String) parent.getItemAtPosition(position);
-	        view.animate().setDuration(2000).alpha(0)
-	            .withEndAction(new Runnable() {
-	              @Override
-	              public void run() {
-	                list.remove(item);
-	                adapter.notifyDataSetChanged();
-	                view.setAlpha(1);
-	              }
-	            });*/
-	      }
+		});
 
-	    });
-	    
 		return v;
-		
+
 	};
 
-  
 
-  private class StableArrayAdapter extends ArrayAdapter<Room> {
 
-    //HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-	  List<Room> mRooms =  new ArrayList<Room>();
-    public StableArrayAdapter(Context context, int textViewResourceId,
-        List<Room> objects) {
-      super(context, textViewResourceId, objects);
-      for (int i = 0; i < objects.size(); ++i) {
-    	  mRooms.add(objects.get(i));
-      }
-    }
-    
-    @Override
-    public long getItemId(int position) {
-      //String item = getItem(position);
-      return position;//mRooms.indexOf(object)get(position);
-    }
+	private class StableArrayAdapter extends ArrayAdapter<Room> {
+		List<Room> mRooms =  new ArrayList<Room>();
+		public StableArrayAdapter(Context context, int textViewResourceId,
+				List<Room> objects) {
+			super(context, textViewResourceId, objects);
+			for (int i = 0; i < objects.size(); ++i) {
+				mRooms.add(objects.get(i));
+			}
+		}
 
-    @Override
-    public boolean hasStableIds() {
-      return true;
-    }
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
 
-  }
+		@Override
+		public boolean hasStableIds() {
+			return true;
+		}
+
+	}
 
 }

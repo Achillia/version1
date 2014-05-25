@@ -6,6 +6,7 @@ import se.mah.kd330a.project.find.data.ImageLoader;
 import se.mah.kd330a.project.find.data.ImageLoader.OnImageLoaderListener;
 import se.mah.kd330a.project.find.data.RoomDbHandler.Room;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -37,24 +38,18 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     private ToggledViewPager viewPager;
     private String building_code;
     private Room specificRoom;
+    //Creates a new instance of this fragment. It is used in the page viewer.
     public static FragmentFloorMap_v2 newInstance(String building_code, int position, Room r, ToggledViewPager tvp) {
         FragmentFloorMap_v2 fragment = new FragmentFloorMap_v2();
         fragment.viewPager = tvp;
         fragment.building_code = building_code;
         fragment.specificRoom = r;
-/*	
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < 20; i++) {
-            builder.append(content).append(" ");
-        }
-        builder.deleteCharAt(builder.length() - 1);
-        fragment.mContent = builder.toString();
-*/
         fragment.mPosition = position;
         return fragment;
     }
     private int mPosition = 0;
     private String mContent = "???";
+    //Creates a pin based on the data in the class. If the fragment was instantiated with a specific room, a pin on that room will be shown.
     public void PutPinOnBitmap(String imageName)
     {
     	if(specificRoom!=null && specificRoom.GetFloorplanFilename().endsWith(imageName) && specificRoom.x!=0 && specificRoom.y!=0)
@@ -68,9 +63,13 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
 		    int pinHeight = Math.round(60*scale); //The pin is 60 pixels in height
 		    Bitmap overlay = Bitmap.createScaledBitmap(overlay_ori,  pinWidth, pinHeight, true);
 		    canvas.drawBitmap(overlay, specificRoom.x-Math.round(pinWidth/2f), specificRoom.y-pinHeight, paint);
+		    overlay.recycle();
+		    overlay = null;
+		    canvas = null;
 		}	
     
     }
+    //Starts the download of the image, or uses the local storage cached version if it exists.
     public void StartImageDownload()
     {
 
@@ -78,15 +77,18 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
        
 
     	String imageName = BuildingHelper.GetFloorPlanImage(building_code, mPosition);
-    	if(bitmap!=null)
+    	//Force garbage collector. Might not be needed anymore.
+    	System.gc();
+    	if(bitmap!=null) //Make sure we recycle the old image first. Just in case.
+    	{
     		bitmap.recycle();
+    		bitmap = null;
+    	}
     	if(GetImage.doesImageFromLocalStorageExists(imageName, getActivity()))
     	{
     		Log.i("julia", "Cached " + imageName);
     		bitmap = GetImage.getImageFromLocalStorage(imageName, getActivity());
     		//If we find a room and we are on the correct floor plan, we want to show a pin.
-    		
-    		
     		if(bitmap!=null)
     		{
     			PutPinOnBitmap(imageName);
@@ -125,53 +127,59 @@ public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoade
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View v =  inflater.inflate(R.layout.fragment_screen_find_floorplan, container, false);
 
-    //mPosition is the position in the pager.
-   	
-     //  int position = getArguments().getInt("position");
- 	
-   
-    	//Touch event related variables
+    	
     	myImageView = (ZoomableImageView)v.findViewById(R.id.img_floorplan);
-    	//myImageView.setScaleType(ImageView.ScaleType.MATRIX);
     	myImageView.SetToggledViewPager(this.viewPager);
     	myImageView.saveScale = 1;
-    	
+
     	spinner = (ProgressBar) v.findViewById(R.id.pb_find_loading);
     	spinner.setVisibility(View.VISIBLE);  
     	StartImageDownload();
 
-/*
-        final FrameLayout imageLayout = (FrameLayout) inflater.inflate(R.layout.fragment_screen_find_floorplan, null);
-        final ImageView imageView = (ImageView) imageLayout.findViewById(R.id.image);*/
-        
-             
-     
-
         return v;
     }
-    @Override
-    public void onDestroy() {
-    	super.onDestroy();
-    	if(bitmap!=null)
-    		bitmap.recycle();
-    };
-    @Override
-    public void onDestroyView() {
-    	super.onDestroyView();
-    	if(bitmap!=null)
-    		bitmap.recycle();
-    }; 
-   
+  
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(KEY_CONTENT, mContent);
     	
     }
+    //Cleans up everything in this fragment. It will be unusable after this has been run.
+    public void CleanUp(){
+    	if(bitmap!=null)
+    	{
+    		bitmap.recycle(); //Recycle the bitmap, make sure it is no longer in memory.
+    	}
+    	if(myImageView!=null) 
+    	{
+    		myImageView.setImageResource(android.R.color.transparent);//Resets the ImageView to a solid transparent color, to make sure it is not referencing the bitmap.
+    	}
+    	//Remove all references
+    	bitmap = null;
+    	viewPager = null;
+    	specificRoom = null;
+    	myImageView = null;
+    	//Force garbage collector. Might not be needed anymore.
+    	System.gc();
+    	
+    }
+    
+    @Override
+    public void onDetach() {
+    	super.onDetach();
+    	
+    	CleanUp();
+    };
+    
+    //When the image has been downloaded, we set it on the image view.
     @Override
 	public void onImageReceived(String fileName) {
     	if(bitmap!=null)
+    	{
+    		Log.e("julia", "We forgot to clean up last time. This should not be called.");
     		bitmap.recycle();
+    	}
     	bitmap = GetImage.getImageFromLocalStorage(fileName, getActivity());
     	
 		if(bitmap!=null)

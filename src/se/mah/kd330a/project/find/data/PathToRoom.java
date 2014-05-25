@@ -1,5 +1,5 @@
 package se.mah.kd330a.project.find.data;
-
+//Delete this file.
 import java.util.ArrayList;
 import java.util.List;
 
