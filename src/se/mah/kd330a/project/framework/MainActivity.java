@@ -17,7 +17,6 @@ import se.mah.kd330a.project.adladok.model.Me;
 import se.mah.kd330a.project.adladok.model.ScheduleFixedDelay.UpdateType;
 import se.mah.kd330a.project.faq.FragmentFaq;
 import se.mah.kd330a.project.find.FragmentBuildings;
-import se.mah.kd330a.project.find.FragmentFind;
 import se.mah.kd330a.project.find.data.BuildingHelper;
 import se.mah.kd330a.project.find.data.RoomDbHandler;
 import se.mah.kd330a.project.find.data.RoomDbHandler.Room;
