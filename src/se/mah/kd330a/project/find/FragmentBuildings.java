@@ -2,7 +2,6 @@ package se.mah.kd330a.project.find;
 
 import java.io.InputStream;
 import java.util.Locale;
-
 import se.mah.kd330a.project.R;
 import se.mah.kd330a.project.faq.FragmentFaq;
 import se.mah.kd330a.project.find.data.BuildingHelper;
@@ -11,7 +10,6 @@ import se.mah.kd330a.project.find.data.RoomDbHandler.Room;
 import se.mah.kd330a.project.find.view.FragmentBuilding;
 import se.mah.kd330a.project.find.view.FragmentFloorMap;
 import se.mah.kd330a.project.find.view.FragmentMaps;
-import se.mah.kd330a.project.find.view.FragmentResult;
 import se.mah.kd330a.project.find.view.FragmentSearchResultList;
 import se.mah.kd330a.project.find.view.FragmentFloorPlanViewer;
 import se.mah.kd330a.project.help.FragmentCredits;
