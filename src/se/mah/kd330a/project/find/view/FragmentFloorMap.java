@@ -31,16 +31,14 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-// Use
-
-public final class FragmentFloorMap_v2 extends Fragment  implements OnImageLoaderListener {
+public final class FragmentFloorMap extends Fragment  implements OnImageLoaderListener {
     private static final String KEY_CONTENT = "TestFragment:Content";
     private ToggledViewPager viewPager;
     private String building_code;
     private Room specificRoom;
     //Creates a new instance of this fragment. It is used in the page viewer.
-    public static FragmentFloorMap_v2 newInstance(String building_code, int position, Room r, ToggledViewPager tvp) {
-        FragmentFloorMap_v2 fragment = new FragmentFloorMap_v2();
+    public static FragmentFloorMap newInstance(String building_code, int position, Room r, ToggledViewPager tvp) {
+        FragmentFloorMap fragment = new FragmentFloorMap();
         fragment.viewPager = tvp;
         fragment.building_code = building_code;
         fragment.specificRoom = r;

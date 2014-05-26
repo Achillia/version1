@@ -37,11 +37,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 
-//import com.viewpagerindicator.TabPageIndicator;
-//import com.viewpagerindicator.TitlePageIndicator;
-
-// Use
-
 public class FragmentFloorPlanViewer extends Fragment implements SearchView.OnQueryTextListener, SearchView.OnCloseListener
 {
 
@@ -54,7 +49,7 @@ public class FragmentFloorPlanViewer extends Fragment implements SearchView.OnQu
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        listOfFragments = new ArrayList<FragmentFloorMap_v2>();
+        listOfFragments = new ArrayList<FragmentFloorMap>();
     // Sets orientation to portrait, temporary fix to horizontal view crash
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
@@ -83,14 +78,14 @@ public class FragmentFloorPlanViewer extends Fragment implements SearchView.OnQu
 		
         return v;
     }
-    List<FragmentFloorMap_v2> listOfFragments;
+    List<FragmentFloorMap> listOfFragments;
     //Make sure that we clean up all our child fragments when this fragment is detatched.
     @Override
     public void onDetach() {
     	super.onDetach();
     	FragmentManager frMan = getActivity().getSupportFragmentManager();
     	FragmentTransaction frTr = frMan.beginTransaction();
-    	for(FragmentFloorMap_v2 fr:listOfFragments)
+    	for(FragmentFloorMap fr:listOfFragments)
     	{
     		fr.CleanUp();
     		frTr.remove(fr);
@@ -105,7 +100,7 @@ public class FragmentFloorPlanViewer extends Fragment implements SearchView.OnQu
         //When the page view wants a new element, we create it and put it in a list, so we can easily clean up later.
         @Override
         public Fragment getItem(int position) {
-        	FragmentFloorMap_v2 createdFragment =  FragmentFloorMap_v2.newInstance(building_code, position, preSelectedRoom, viewPager);   //CONTENT[position % CONTENT.length]);
+        	FragmentFloorMap createdFragment =  FragmentFloorMap.newInstance(building_code, position, preSelectedRoom, viewPager);   //CONTENT[position % CONTENT.length]);
             listOfFragments.add(createdFragment);
             return createdFragment;
         }
