@@ -7,7 +7,6 @@ import se.mah.kd330a.project.R;
 import se.mah.kd330a.project.adladok.model.Course;
 import se.mah.kd330a.project.adladok.model.Me;
 import se.mah.kd330a.project.find.data.RoomDbHandler;
-import se.mah.kd330a.project.find.view.FragmentFloorMap;
 import se.mah.kd330a.project.schedule.model.ScheduleItem;
 import se.mah.kd330a.project.schedule.model.ScheduleWeek;
 import android.content.Context;
@@ -241,7 +240,7 @@ public class FragmentScheduleWeek extends Fragment implements OnChildClickListen
 		}
 		
 		private void showFloorMap(String floorMapCode) {
-			Fragment fragment = new FragmentFloorMap();
+			/*Fragment fragment = new FragmentFloorMap();
 			Bundle args = new Bundle();
 			args.putString(FragmentFloorMap.ARG_FLOORMAP, floorMapCode);
 			fragment.setArguments(args);
@@ -249,7 +248,7 @@ public class FragmentScheduleWeek extends Fragment implements OnChildClickListen
 			FragmentTransaction fragmentTrans = fragmentManager.beginTransaction();	
 			fragmentTrans.replace(R.id.content_frame, fragment);
 			fragmentTrans.addToBackStack(null);
-			fragmentTrans.commit();		
+			fragmentTrans.commit();		*/
 		}
 		
 		@Override

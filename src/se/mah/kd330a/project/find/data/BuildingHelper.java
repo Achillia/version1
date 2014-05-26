@@ -2,7 +2,6 @@ package se.mah.kd330a.project.find.data;
 
 import se.mah.kd330a.project.R;
 import se.mah.kd330a.project.find.data.RoomDbHandler.Room;
-import se.mah.kd330a.project.find.view.FragmentMaps;
 import se.mah.kd330a.project.find.view.FragmentFloorPlanViewer;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
