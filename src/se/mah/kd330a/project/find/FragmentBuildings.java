@@ -141,7 +141,6 @@ public class FragmentBuildings extends Fragment implements OnClickListener, Sear
 	//setting an action to what happens when the option item is clicked
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Fragment fragment;
 		switch (item.getItemId()) {
 		case R.id.find_menu_google_all:
 			//opening a kml file (google maps file) from res/raw that contains the pre-marked positions of all buildings
