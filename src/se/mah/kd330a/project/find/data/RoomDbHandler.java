@@ -280,7 +280,7 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 		addRow(db, "ORC527", 851, 824, "or", "5");
 		addRow(db, "ORC528", 989, 824, "or", "5");
 		
-        addRow(db, "K8U042", 0, 0, "k8", "1");
+        addRow(db, "K8U042", 524, 1689, "k8", "1");
         addRow(db, "K8U301", 430, 1590, "k8", "3");
         addRow(db, "K8U302", 420, 680, "k8", "3");
         addRow(db, "K8U303", 420, 450, "k8", "3");
