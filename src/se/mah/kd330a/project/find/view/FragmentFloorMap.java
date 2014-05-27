@@ -1,262 +1,201 @@
 package se.mah.kd330a.project.find.view;
-//Delete this file
-import java.util.Arrays;
-
 import se.mah.kd330a.project.R;
+import se.mah.kd330a.project.find.data.BuildingHelper;
 import se.mah.kd330a.project.find.data.GetImage;
+import se.mah.kd330a.project.find.data.ImageLoader;
+import se.mah.kd330a.project.find.data.ImageLoader.OnImageLoaderListener;
+import se.mah.kd330a.project.find.data.RoomDbHandler.Room;
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.net.Uri;
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.FloatMath;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
-public class FragmentFloorMap extends Fragment{
-	public static final String ARG_BUILDING = "building";
-	public static final String ARG_FLOORMAP = "floorMap";
-
-	private String buildingCode;
-	private String floorMapCode;
-	private String floorCode = "";
-	int spPositionBuilding = -1;
-	int spPositionFloor = -1;
-	private WebView webview;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-		ViewGroup rootView = (ViewGroup) inflater
-				.inflate(R.layout.fragment_screen_find_floor_maps, container, false);
-// we will change the building images
-		return rootView;
-	}
-
-	@SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
-	@Override
-	public void onStart() {
-		super.onStart();
-
-		//getting args
-		Bundle args = getArguments();
-		if(args.containsKey(ARG_BUILDING)){
-			buildingCode = args.getString(ARG_BUILDING);
-		}
-		else if(args.containsKey(ARG_FLOORMAP)){
-			floorMapCode = args.getString(ARG_FLOORMAP);
-			String[] strCode = floorMapCode.split("_");
-			buildingCode = strCode[0];
-			floorCode = strCode[1].toUpperCase();
+public final class FragmentFloorMap extends Fragment  implements OnImageLoaderListener {
+    private static final String KEY_CONTENT = "TestFragment:Content";
+    private ToggledViewPager viewPager;
+    private String building_code;
+    private Room specificRoom;
+    //Creates a new instance of this fragment. It is used in the page viewer.
+    public static FragmentFloorMap newInstance(String building_code, int position, Room r, ToggledViewPager tvp) {
+        FragmentFloorMap fragment = new FragmentFloorMap();
+        fragment.viewPager = tvp;
+        fragment.building_code = building_code;
+        fragment.specificRoom = r;
+        fragment.mPosition = position;
+        return fragment;
+    }
+    private int mPosition = 0;
+    private String mContent = "???";
+    //Creates a pin based on the data in the class. If the fragment was instantiated with a specific room, a pin on that room will be shown.
+    public void PutPinOnBitmap(String imageName)
+    {
+    	if(specificRoom!=null && specificRoom.GetFloorplanFilename().endsWith(imageName) && specificRoom.x!=0 && specificRoom.y!=0)
+		{
+		    Canvas canvas = new Canvas(bitmap);
+		    Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+		    Bitmap overlay_ori = BitmapFactory.decodeResource(getActivity().getResources(),
+                    R.drawable.find_pin);
+		    float scale = 2f; //Change the size of the pin.
+		    int pinWidth = Math.round(50*scale); //The pin is 50 pixels in width
+		    int pinHeight = Math.round(60*scale); //The pin is 60 pixels in height
+		    Bitmap overlay = Bitmap.createScaledBitmap(overlay_ori,  pinWidth, pinHeight, true);
+		    canvas.drawBitmap(overlay, specificRoom.x-Math.round(pinWidth/2f), specificRoom.y-pinHeight, paint);
+		    overlay.recycle();
+		    overlay = null;
+		    canvas = null;
 		}	
-		//webview settings
-		webview = (WebView) getView().findViewById(R.id.webView_find_floor_map);
-		webview.getSettings().setJavaScriptEnabled(true);
-		webview.getSettings().setSupportZoom(true); 
-		webview.getSettings().setBuiltInZoomControls(true);
-		webview.addJavascriptInterface(new MyJavaScriptInterface(), "HTMLOUT");
-		
-		webview.setWebViewClient(new WebViewClient() {
-		    @Override
-		    public void onPageFinished(WebView view, String url)
-		    {
-		        /* This call inject JavaScript into the page which just finished loading. */
-		    	webview.loadUrl("javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
-		    }
-		});
-		
-		//creating spinners
-		final Spinner spinnerBuilding = (Spinner) getView().findViewById(R.id.spinner_bilding);
-		final Spinner spinnerFloor = (Spinner) getView().findViewById(R.id.spinner_floor);
+    
+    }
+    //Starts the download of the image, or uses the local storage cached version if it exists.
+    public void StartImageDownload()
+    {
 
-		//first adapter
-		ArrayAdapter<CharSequence> buildingAdapter = ArrayAdapter
-				.createFromResource(getActivity(), R.array.find_building_array,
-						android.R.layout.simple_spinner_item);
-		buildingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinnerBuilding.setAdapter(buildingAdapter);
+        spinner.setVisibility(View.VISIBLE);
+       
 
-		//creating first building spinner selection
-		String[] buildings = getResources().getStringArray(R.array.find_building_code_array);
-		spPositionBuilding = Arrays.asList(buildings).indexOf(buildingCode);
-		spinnerBuilding.setSelection(spPositionBuilding, true);
-		int floorArrey = resetFloor(spPositionBuilding);	
+    	String imageName = BuildingHelper.GetFloorPlanImage(building_code, mPosition);
+    	//Force garbage collector. Might not be needed anymore.
+    	System.gc();
+    	if(bitmap!=null) //Make sure we recycle the old image first. Just in case.
+    	{
+    		bitmap.recycle();
+    		bitmap = null;
+    	}
+    	if(GetImage.doesImageFromLocalStorageExists(imageName, getActivity()))
+    	{
+    		Log.i("julia", "Cached " + imageName);
+    		bitmap = GetImage.getImageFromLocalStorage(imageName, getActivity());
+    		//If we find a room and we are on the correct floor plan, we want to show a pin.
+    		if(bitmap!=null)
+    		{
+    			PutPinOnBitmap(imageName);
+    			if(myImageView!=null)
+    			{
+    				spinner.setVisibility(View.GONE);
+	    			myImageView.setImageBitmap(bitmap);
+	    			return;
+    			}
+    			else
+    			{
+    				Log.e("julia", "Why is that one null?");
+    			}
+    		}
+    		else
+    			Log.e("julia", "Image was null! We will redownload it instead of crashing.");
+    	}
+    	Log.i("julia", "Downloading " + imageName);
+    	new ImageLoader(getActivity(), this).execute(imageName);
+    }
+    
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		//second adapter
-		ArrayAdapter<CharSequence> floorAdapter = ArrayAdapter
-				.createFromResource(getActivity(), floorArrey,
-						android.R.layout.simple_spinner_item);
-		floorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinnerFloor.setAdapter(floorAdapter);
+        if ((savedInstanceState != null) && savedInstanceState.containsKey(KEY_CONTENT)) {
+            mContent = savedInstanceState.getString(KEY_CONTENT);
+        } 
 
-		//creating first floor spinner selection
-		if(!floorCode.isEmpty()){
-			String[] floors = getResources().getStringArray(floorArrey);
-			String floorName = "Floor "+ floorCode;
-			spPositionFloor = Arrays.asList(floors).indexOf(floorName);
-			spinnerFloor.setSelection(spPositionFloor, true);
-			showFloorMap(floorMapCode);
+    }
+
+    ZoomableImageView myImageView;
+    Bitmap bitmap;
+    ProgressBar spinner;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    	View v =  inflater.inflate(R.layout.fragment_screen_find_floorplan, container, false);
+
+    	
+    	myImageView = (ZoomableImageView)v.findViewById(R.id.img_floorplan);
+    	myImageView.SetToggledViewPager(this.viewPager);
+    	myImageView.saveScale = 1;
+
+    	spinner = (ProgressBar) v.findViewById(R.id.pb_find_loading);
+    	spinner.setVisibility(View.VISIBLE);  
+    	StartImageDownload();
+
+        return v;
+    }
+  
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(KEY_CONTENT, mContent);
+    	
+    }
+    //Cleans up everything in this fragment. It will be unusable after this has been run.
+    public void CleanUp(){
+    	if(bitmap!=null)
+    	{
+    		bitmap.recycle(); //Recycle the bitmap, make sure it is no longer in memory.
+    	}
+    	if(myImageView!=null) 
+    	{
+    		myImageView.setImageResource(android.R.color.transparent);//Resets the ImageView to a solid transparent color, to make sure it is not referencing the bitmap.
+    	}
+    	//Remove all references
+    	bitmap = null;
+    	viewPager = null;
+    	specificRoom = null;
+    	myImageView = null;
+    	//Force garbage collector. Might not be needed anymore.
+    	System.gc();
+    	
+    }
+    
+    @Override
+    public void onDetach() {
+    	super.onDetach();
+    	
+    	CleanUp();
+    };
+    
+    //When the image has been downloaded, we set it on the image view.
+    @Override
+	public void onImageReceived(String fileName) {
+    	if(bitmap!=null)
+    	{
+    		Log.e("julia", "We forgot to clean up last time. This should not be called.");
+    		bitmap.recycle();
+    	}
+    	bitmap = GetImage.getImageFromLocalStorage(fileName, getActivity());
+    	
+		if(bitmap!=null)
+		{
+			PutPinOnBitmap(fileName);
+			if(myImageView!=null)
+			{
+				spinner.setVisibility(View.GONE);
+				myImageView.setImageBitmap(bitmap);
+				return;
+			}
+			else
+			{
+				Log.e("julia", "So we downloaded the picture but the view has probably been destroyed.?");
+			}
+			
 		}
-
-		// Called when a new item is selected (in the Building Spinner)
-		spinnerBuilding.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				//String buildingName = parent.getItemAtPosition(position).toString();
-				//Toast.makeText(getActivity(), "position: "+position, Toast.LENGTH_SHORT).show();
-				//resetFloor(buildingName);
-				spPositionBuilding = position;
-				int floorArrey = resetFloor(position);	
-
-				ArrayAdapter<CharSequence> floorAdapter = ArrayAdapter
-						.createFromResource(getActivity(), floorArrey,
-								android.R.layout.simple_spinner_item);
-				floorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spinnerFloor.setAdapter(floorAdapter);
-			}
-
-			public void onNothingSelected(AdapterView<?> parent) {
-				// Do nothing, just another required interface callback
-			}
-		});
-
-		// Called when a new item is selected (in the Floor Spinner)
-		spinnerFloor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String floorName = parent.getItemAtPosition(position).toString();
-				String[] strCode = floorName.split(" ");
-				floorCode = strCode[1];
-				String[] buildings = getResources().getStringArray(R.array.find_building_code_array);
-				buildingCode = buildings[spPositionBuilding];
-				floorMapCode = buildingCode + "_" + floorCode;
-
-				//here comes the code for showing the map
-				showFloorMap(floorMapCode);
-			}
-
-			public void onNothingSelected(AdapterView<?> parent) {
-				// Do nothing, just another required interface callback
-			}
-		});
+		else
+			Log.e("julia", "Failed to set the image to the control, because the image was null!");
 	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.find, menu);
-	}
-	
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-
-		//VARIABLES AND onClick-METHOD FOR LINKING OUT TO GOOGLE MAPS--------------------------------------------------------------------------------
-		switch (item.getItemId()) {
-		case R.id.find_menu_google:
-			String[] buildingNames = getResources().getStringArray(R.array.find_building_array);
-			String location = buildingNames[spPositionBuilding];
-
-			if(location.equals("Klerken (Kl)")){
-				Log.i("gmaps","klerken");
-				location = "Carl Gustafs vag 34";
-			}else if(location.equals("University Hospital (As)")){
-				Log.i("gmaps","university hospital");
-				location = "Jan Waldenstroms gata 25";
-			}else if(location.equals("Kranen (K2)") || location.equals("Ubåtshallen (K8)")){
-				Log.i("gmaps","kranen & ubåten");
-				location = "Östra Varvsgatan 11 A";
-			}else if(location.equals("Orkanen (Or)")){
-				Log.i("gmaps","orkanen");
-				location = "Nordenskiöldsgatan 10";
-			}else if(location.equals("Gäddan (G8)")){
-				Log.i("gmaps","gäddan");
-				location = "Citadellsvägen 7";
-			}
-
-			//getting the google map
-			Intent i = new Intent(android.content.Intent.ACTION_VIEW,
-					Uri.parse("geo:0,0?q="+location+"+Malmo+Sweden"));
-
-			startActivity(i);
-			return true;
-
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-	
-	protected void showFloorMap(String floorMapCode) {
-		//Toast.makeText(getActivity(), "floorMapCode: "+floorMapCode, Toast.LENGTH_SHORT).show();
-
-		webview = (WebView) getView().findViewById(R.id.webView_find_floor_map);
-		//webview.getSettings().setJavaScriptEnabled(true); 
-		//String pdf = "https://dl.dropboxusercontent.com/u/11605027/or1.pdf";
-		
-		//webview.loadUrl("https://dl.dropboxusercontent.com/u/11605027/" + floorMapCode + ".jpg");
-			//getResolution(c); ---missing
-		String resolution = GetImage.getResolution(getActivity());
-		webview.loadUrl("http://195.178.234.7/mahapp/pictlib.aspx?filename="+ floorMapCode +".jpg&resolution="+resolution);
-	}
-
-	protected int resetFloor(int position) {
-
-		int floorArrey =  R.array.find_floorEmpy_array;
-		switch(position){
-		case 0:
-			break;
-		case 1: //Orkanen
-			floorArrey = R.array.find_floorOr_array;
-			break;
-		case 2: //Gï¿½ddan
-			floorArrey = R.array.find_floorG8_array;
-			break;
-		case 3: //Kranen
-			floorArrey = R.array.find_floorK2_array;
-			break;
-		case 4: //Ubï¿½tshallen
-			floorArrey = R.array.find_floorK8_array;
-			break;
-		case 5: //Klerken (odontologen!!)
-			floorArrey = R.array.find_floorKl_array;
-			break;
-		case 6: //University Hospital
-			floorArrey = R.array.find_floorAs_array;
-			break;
-		default:
-			//Toast.makeText(getActivity(), "Read error log", Toast.LENGTH_SHORT).show();
-			Log.d("DEBUG", "a different spinner was selected");
-			break;
-		}
-
-		return floorArrey;
-
-	}
-
-	class MyJavaScriptInterface {
-	    @SuppressWarnings("unused")
-	    public void processHTML(String html) {
-	        // process the html as needed by the app
-	    	Log.i("project", html);
-	    	//if (html.indexOf("<img") == -1)
-	    		//webview.loadUrl("http://195.178.234.7/mahapp/pictlib.aspx?filename=underconstraction.png&resolution=mdpi");
-	    }
-	}
-
 }
