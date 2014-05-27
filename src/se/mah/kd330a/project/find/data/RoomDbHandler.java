@@ -82,7 +82,7 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 	//Basic singleton. This class can only be instantiated by the Init static function.
 	public static RoomDbHandler getInstance() {
 		if(instance == null) {
-			Log.e("julia", "database is not ready PREPARE FOR CRASH!!");
+			Log.e("find", "database is not ready PREPARE FOR CRASH!!");
 			return  null;
 		}
 		return instance;
@@ -92,17 +92,17 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 	//Call this function in the beginning of the application, before anyone accesses the database. To make sure it is prepaired and ready for use.
 	public static void Init(Context context)
 	{
-		Log.i("julia", "creating a db reference");
+		Log.i("find", "creating a db reference");
 		instance = new RoomDbHandler(context);
 	}
 	//Private constructor that intializes the database.
 	private RoomDbHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		Log.i("julia", "Fixing the database");
+		Log.i("find", "Fixing the database");
 	}
 	//Creates all the data in the database.
 	private void dbCreate(SQLiteDatabase db) {
-		Log.i("julia", "Creating database");
+		Log.i("find", "Creating database");
 		db.execSQL(TABLE_CREATE);
 
 		addRow(db, "K2C107", 270, 1300, "k2", "c");
@@ -427,7 +427,7 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 		addRow(db, "KL5643", 0, 0, "kl", "5");
 		addRow(db, "KL5690", 0, 0, "kl", "5");
 		
-		Log.i("julia", "Database should be ready to use!");
+		Log.i("find", "Database should be ready to use!");
 	}
 	
 	@Override
@@ -452,7 +452,7 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 		}
 		catch(Exception e)
 		{
-			Log.e("julia", "Couldn't do it! " + e.getMessage());
+			Log.e("find", "Couldn't do it! " + e.getMessage());
 		}
 	}
 
@@ -518,7 +518,7 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 			db.close();
 			e.printStackTrace();
 		}
-		Log.i("julia", "We found " + strs.size() + " rooms!");
+		Log.i("find", "We found " + strs.size() + " rooms!");
 		return strs;
 	}
 	//Returns all room names in a list. Can be used in an AutoCompleteView.
@@ -543,88 +543,7 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 			db.close();
 			e.printStackTrace();
 		}
-		Log.i("julia", "We found " + strs.size() + " rooms!");
+		Log.i("find", "We found " + strs.size() + " rooms!");
 		return strs;
 	}
-	//Do not use this function.
-	@Deprecated
-	public boolean isRoomExistsAll(String roomNr) {
-
-		/*String selectQuery = "SELECT  * FROM " + TABLE_ROOMS + " WHERE "
-				+ ROW_ROOMNR + " = '" + roomNr.toUpperCase(Locale.getDefault()) + "'";
-
-		SQLiteDatabase db = this.getReadableDatabase();
-
-		try {
-			Cursor c = db.rawQuery(selectQuery, null);
-
-			if (c != null) {
-				c.moveToFirst();
-				room = new PathToRoom(roomNr);
-				room.mMapPic = c.getString(c.getColumnIndex(ROW_MAP));
-				room.mCoord_x = c.getInt(c.getColumnIndex(ROW_X));
-				room.mCoord_y = c.getInt(c.getColumnIndex(ROW_Y));
-				db.close();
-				return true;
-			}
-		}
-		catch (Exception e) {
-			db.close();
-			e.printStackTrace();
-		}*/
-		return false;
-	}
-/*
-	public PathToRoom getRoomDetails() {
-		return room;
-	}
-
-	public List<String> getPathImg() {
-		if (room != null)
-			return room.getPath();
-		else
-			return null;
-	}
-
-	public List<String> getPathImgTexts() {
-		if (room != null)
-			return room.getTexts();
-		else
-			return null;
-	}
-
-	public List<String> getArrows() {
-		if (room != null)
-			return room.getArrows();
-		else
-			return null;
-	}
-
-	public String getMapName() {
-		if (room != null)
-			return room.mMapPic;
-		else
-			return null;
-	}
-
-	public String getRoomNr() {
-		if (room != null)
-			return room.mRoomNr;
-		else
-			return null;
-	}
-
-	public int getCoordX() {
-		if (room != null)
-			return room.mCoord_x;
-		else
-			return -1;
-	}
-
-	public int getCoordY() {
-		if (room != null)
-			return room.mCoord_y;
-		else 
-			return -1;
-	}*/
 }

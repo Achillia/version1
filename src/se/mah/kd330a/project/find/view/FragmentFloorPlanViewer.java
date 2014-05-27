@@ -32,6 +32,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
@@ -57,8 +58,8 @@ public class FragmentFloorPlanViewer extends Fragment implements SearchView.OnQu
         building_code = packet.getString(BuildingHelper.ARG_BUILDING);
         preSelectedFloor = packet.getInt(BuildingHelper.ARG_FLOORINDEX, 0);
         preSelectedRoom = RoomDbHandler.getInstance().FindRoom(packet.getString(BuildingHelper.ARG_ROOMNAME, null));
-        Log.i("julia", "We want to see stuff for building: " + building_code);
-        //setContentView(R.layout.simple_tabs);
+        Log.i("find", "We want to see stuff for building: " + building_code);
+
         View v =  inflater.inflate(R.layout.fragment_screen_find_floorplan_list, container, false);
 
         FloorPlanViewerAdapter adapter = new FloorPlanViewerAdapter(getActivity().getSupportFragmentManager());
@@ -66,18 +67,15 @@ public class FragmentFloorPlanViewer extends Fragment implements SearchView.OnQu
         viewPager = (ToggledViewPager)v.findViewById(R.id.pager);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(preSelectedFloor);
-        
-        //TitlePageIndicator indicator = (TitlePageIndicator)v.findViewById(R.id.indicator);
-        //indicator.setViewPager(viewPager);
+
         pagerTabStrip = (PagerTabStrip) v.findViewById(R.id.pager_tab_strip);
 		pagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.green));
         pagerTabStrip.setTextSpacing(1);
 		pagerTabStrip.setDrawFullUnderline(true);
-		
-		
-		
+
         return v;
     }
+    
     List<FragmentFloorMap> listOfFragments;
     //Make sure that we clean up all our child fragments when this fragment is detatched.
     @Override
@@ -97,6 +95,7 @@ public class FragmentFloorPlanViewer extends Fragment implements SearchView.OnQu
         public FloorPlanViewerAdapter(FragmentManager fm) {
             super(fm);
         }
+        
         //When the page view wants a new element, we create it and put it in a list, so we can easily clean up later.
         @Override
         public Fragment getItem(int position) {
@@ -155,9 +154,7 @@ public class FragmentFloorPlanViewer extends Fragment implements SearchView.OnQu
     //SEARCH ends here.
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
-
-		//VARIABLES AND onClick-METHOD FOR LINKING OUT TO GOOGLE MAPS--------------------------------------------------------------------------------
+		//VARIABLES AND onClick-METHOD FOR LINKING OUT TO GOOGLE MAPS
 		switch (item.getItemId()) {
 		case R.id.find_menu_google:
 		String location = BuildingHelper.GetLocation(building_code);
@@ -173,10 +170,8 @@ public class FragmentFloorPlanViewer extends Fragment implements SearchView.OnQu
 	}
 	@Override
 	public boolean onClose() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
-
 }
 

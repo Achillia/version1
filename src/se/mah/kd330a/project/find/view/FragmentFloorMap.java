@@ -1,4 +1,5 @@
 package se.mah.kd330a.project.find.view;
+
 import se.mah.kd330a.project.R;
 import se.mah.kd330a.project.find.data.BuildingHelper;
 import se.mah.kd330a.project.find.data.GetImage;
@@ -7,6 +8,7 @@ import se.mah.kd330a.project.find.data.ImageLoader.OnImageLoaderListener;
 import se.mah.kd330a.project.find.data.RoomDbHandler.Room;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -36,6 +38,7 @@ public final class FragmentFloorMap extends Fragment  implements OnImageLoaderLi
     private ToggledViewPager viewPager;
     private String building_code;
     private Room specificRoom;
+    
     //Creates a new instance of this fragment. It is used in the page viewer.
     public static FragmentFloorMap newInstance(String building_code, int position, Room r, ToggledViewPager tvp) {
         FragmentFloorMap fragment = new FragmentFloorMap();
@@ -47,6 +50,7 @@ public final class FragmentFloorMap extends Fragment  implements OnImageLoaderLi
     }
     private int mPosition = 0;
     private String mContent = "???";
+    
     //Creates a pin based on the data in the class. If the fragment was instantiated with a specific room, a pin on that room will be shown.
     public void PutPinOnBitmap(String imageName)
     {
@@ -65,8 +69,8 @@ public final class FragmentFloorMap extends Fragment  implements OnImageLoaderLi
 		    overlay = null;
 		    canvas = null;
 		}	
-    
     }
+
     //Starts the download of the image, or uses the local storage cached version if it exists.
     public void StartImageDownload()
     {
@@ -84,7 +88,7 @@ public final class FragmentFloorMap extends Fragment  implements OnImageLoaderLi
     	}
     	if(GetImage.doesImageFromLocalStorageExists(imageName, getActivity()))
     	{
-    		Log.i("julia", "Cached " + imageName);
+    		Log.i("find", "Cached " + imageName);
     		bitmap = GetImage.getImageFromLocalStorage(imageName, getActivity());
     		//If we find a room and we are on the correct floor plan, we want to show a pin.
     		if(bitmap!=null)
@@ -98,13 +102,13 @@ public final class FragmentFloorMap extends Fragment  implements OnImageLoaderLi
     			}
     			else
     			{
-    				Log.e("julia", "Why is that one null?");
+    				Log.e("find", "Why is that one null?");
     			}
     		}
     		else
-    			Log.e("julia", "Image was null! We will redownload it instead of crashing.");
+    			Log.e("find", "Image was null! We will redownload it instead of crashing.");
     	}
-    	Log.i("julia", "Downloading " + imageName);
+    	Log.i("find", "Downloading " + imageName);
     	new ImageLoader(getActivity(), this).execute(imageName);
     }
     
@@ -115,12 +119,13 @@ public final class FragmentFloorMap extends Fragment  implements OnImageLoaderLi
         if ((savedInstanceState != null) && savedInstanceState.containsKey(KEY_CONTENT)) {
             mContent = savedInstanceState.getString(KEY_CONTENT);
         } 
-
+       
     }
 
     ZoomableImageView myImageView;
     Bitmap bitmap;
     ProgressBar spinner;
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View v =  inflater.inflate(R.layout.fragment_screen_find_floorplan, container, false);
@@ -133,7 +138,7 @@ public final class FragmentFloorMap extends Fragment  implements OnImageLoaderLi
     	spinner = (ProgressBar) v.findViewById(R.id.pb_find_loading);
     	spinner.setVisibility(View.VISIBLE);  
     	StartImageDownload();
-
+    	
         return v;
     }
   
@@ -143,6 +148,7 @@ public final class FragmentFloorMap extends Fragment  implements OnImageLoaderLi
         outState.putString(KEY_CONTENT, mContent);
     	
     }
+    
     //Cleans up everything in this fragment. It will be unusable after this has been run.
     public void CleanUp(){
     	if(bitmap!=null)
@@ -166,7 +172,6 @@ public final class FragmentFloorMap extends Fragment  implements OnImageLoaderLi
     @Override
     public void onDetach() {
     	super.onDetach();
-    	
     	CleanUp();
     };
     
@@ -175,7 +180,7 @@ public final class FragmentFloorMap extends Fragment  implements OnImageLoaderLi
 	public void onImageReceived(String fileName) {
     	if(bitmap!=null)
     	{
-    		Log.e("julia", "We forgot to clean up last time. This should not be called.");
+    		Log.e("find", "We forgot to clean up last time. This should not be called.");
     		bitmap.recycle();
     	}
     	bitmap = GetImage.getImageFromLocalStorage(fileName, getActivity());
@@ -191,11 +196,11 @@ public final class FragmentFloorMap extends Fragment  implements OnImageLoaderLi
 			}
 			else
 			{
-				Log.e("julia", "So we downloaded the picture but the view has probably been destroyed.?");
+				Log.e("find", "So we downloaded the picture but the view has probably been destroyed.?");
 			}
 			
 		}
 		else
-			Log.e("julia", "Failed to set the image to the control, because the image was null!");
+			Log.e("find", "Failed to set the image to the control, because the image was null!");
 	}
 }

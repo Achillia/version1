@@ -138,13 +138,14 @@ public class FragmentBuildings extends Fragment implements OnClickListener, Sear
         return false;
     }
     //SEARCH Till here.
+    
 	//setting an action to what happens when the option item is clicked
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.find_menu_google_all:
 			//opening a kml file (google maps file) from res/raw that contains the pre-marked positions of all buildings
-			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=http://195.178.234.7/mahapp/images/raw/mahbyggnader.kml"));
+			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://maps.google.com/maps?q=http://195.178.234.7/mahapp/images/raw/mahbyggnader.kml"));
 			startActivity(i);
 			return true;
 		default:
@@ -170,7 +171,6 @@ public class FragmentBuildings extends Fragment implements OnClickListener, Sear
 		}else if(v.getId() == R.id.house6){
 			selectBuilding(6);
 		}
-		
 	}
 	
 	//gets the building code form a position in an array and puts it as the parameter in the method that loads a fragment with the respective building's GUI
@@ -190,7 +190,6 @@ public class FragmentBuildings extends Fragment implements OnClickListener, Sear
 
 	@Override
 	public boolean onClose() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	

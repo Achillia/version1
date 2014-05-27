@@ -8,6 +8,7 @@ import se.mah.kd330a.project.find.data.BuildingHelper;
 import se.mah.kd330a.project.find.data.RoomDbHandler;
 import se.mah.kd330a.project.find.data.RoomDbHandler.Room;
 import android.animation.ArgbEvaluator;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -54,11 +55,12 @@ public class FragmentSearchResultList extends DialogFragment {
 
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-			//When an item in teh list is clicked, we open the floorplan with a pin on the room.
+			//When an item in the list is clicked, we open the floorplan with a pin on the room.
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view,
 					int position, long id) {
-				Log.i("julia", "You clicked on " + position);
+				
+				Log.i("find", "You clicked on " + position);
 
 				Fragment fragment = BuildingHelper.getFragmentBuildingMapForRoom( list.get(position));
 				FragmentManager	 fragmentManager = getActivity().getSupportFragmentManager();
@@ -69,15 +71,12 @@ public class FragmentSearchResultList extends DialogFragment {
 				fragmentTrans.addToBackStack(null);
 				fragmentTrans.commit();	
 				dismiss();
-			}
 
+			}
 		});
 
 		return v;
-
 	};
-
-
 
 	private class StableArrayAdapter extends ArrayAdapter<Room> {
 		List<Room> mRooms =  new ArrayList<Room>();

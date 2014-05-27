@@ -38,7 +38,7 @@ public class ImageLoader extends AsyncTask<String, Void, Bitmap> {
 		}
 		catch(Exception e)
 		{
-		Log.e("julia", "Could not download the picture, so we are writing this instead of crashing");	
+		Log.e("find", "Could not download the picture, so we are writing this instead of crashing");	
 		
 		}
 		return output;

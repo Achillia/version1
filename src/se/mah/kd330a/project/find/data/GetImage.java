@@ -46,7 +46,7 @@ public class GetImage {
 		}
 		else
 		{
-			Log.e("julia", "Seems like the activity context was null");
+			Log.e("find", "Seems like the activity context was null");
 			return null;
 		}
 	}
@@ -54,7 +54,6 @@ public class GetImage {
 	//gets a picture from the net should be enclosed in AsyncTask
 	public static Bitmap getImageFromNet(String filename, boolean storeImageLocally, Context c){
 		String imageUrl = "http://195.178.234.7/mahapp/pictlib.aspx?filename="+filename+"&resolution="+getResolution(c);
-		//try {
 		Bitmap bitmap = null;
 		try {
 			bitmap = BitmapFactory.decodeStream((InputStream)new URL(imageUrl).getContent());
@@ -100,7 +99,7 @@ public class GetImage {
 				success = true;
 			}
 		} catch (Exception e) {
-			Log.e("julia", "We crashed: " + e.getMessage());
+			Log.e("find", "We crashed: " + e.getMessage());
 			e.printStackTrace();
 		} 
 		return success;
