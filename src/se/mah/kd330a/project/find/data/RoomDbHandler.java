@@ -76,7 +76,7 @@ public class RoomDbHandler extends SQLiteOpenHelper {
     	}
     }
 	private static final String DATABASE_NAME = "find_rooms_DB";
-	private static final int DATABASE_VERSION =5; //Remember to increment this number if there has been made changes to the database!
+	private static final int DATABASE_VERSION =7; //Remember to increment this number if there has been made changes to the database!
 	private static RoomDbHandler instance = null;
 
 	//Basic singleton. This class can only be instantiated by the Init static function.
@@ -280,48 +280,49 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 		addRow(db, "ORC527", 851, 824, "or", "5");
 		addRow(db, "ORC528", 989, 824, "or", "5");
 		
-		addRow(db, "K8U042", 0, 0, "k8", "1");
-		addRow(db, "K8U301", 0, 0, "k8", "3");
-		addRow(db, "K8U302", 0, 0, "k8", "3");
-		addRow(db, "K8U303", 0, 0, "k8", "3");
-		addRow(db, "K8U304", 0, 0, "k8", "3");
-		addRow(db, "K8U305", 0, 0, "k8", "3");
-		addRow(db, "K8U306", 0, 0, "k8", "3");
-		addRow(db, "K8U307", 0, 0, "k8", "3");
-		addRow(db, "K8U401", 0, 0, "k8", "4");
-		addRow(db, "K8U402", 0, 0, "k8", "4");
-		addRow(db, "K8U403", 0, 0, "k8", "4");
-		addRow(db, "K8U404", 0, 0, "k8", "4");
-		addRow(db, "K8U405", 0, 0, "k8", "4");
-		addRow(db, "K8U406", 0, 0, "k8", "4");
-		addRow(db, "K8U407", 0, 0, "k8", "4");
-		addRow(db, "K8U408", 0, 0, "k8", "4");
-		addRow(db, "K8U428", 0, 0, "k8", "4");
-		addRow(db, "K8U429", 0, 0, "k8", "4");
-		addRow(db, "K8U430", 0, 0, "k8", "4");
-		addRow(db, "K8U431", 0, 0, "k8", "4");
-		addRow(db, "K8U432", 0, 0, "k8", "4");
-		addRow(db, "K8U433", 0, 0, "k8", "4");
-		addRow(db, "K8U434", 0, 0, "k8", "4");
-		addRow(db, "K8U455", 0, 0, "k8", "4");
-		addRow(db, "K8U456", 0, 0, "k8", "4");
-		addRow(db, "K8U457", 0, 0, "k8", "4");
-		addRow(db, "K8U458", 0, 0, "k8", "4");
-		addRow(db, "K8U459", 0, 0, "k8", "4");
-		addRow(db, "K8U460", 0, 0, "k8", "4");
-		addRow(db, "K8U461", 0, 0, "k8", "4");
-		addRow(db, "K8U520", 0, 0, "k8", "5");
-		addRow(db, "K8U521", 0, 0, "k8", "5");
-		addRow(db, "K8U522", 0, 0, "k8", "5");
-		addRow(db, "K8U523", 0, 0, "k8", "5");
-		addRow(db, "K8U524", 0, 0, "k8", "5");
-		addRow(db, "K8U527", 0, 0, "k8", "5");
-		addRow(db, "K8U528", 0, 0, "k8", "5");
-		addRow(db, "K8U529", 0, 0, "k8", "5");
-		addRow(db, "K8U530", 0, 0, "k8", "5");
-		addRow(db, "K8U531", 0, 0, "k8", "5");
-		addRow(db, "K8U532", 0, 0, "k8", "5");
-		addRow(db, "K8U533", 0, 0, "k8", "5");
+        addRow(db, "K8U042", 0, 0, "k8", "1");
+        addRow(db, "K8U301", 430, 1590, "k8", "3");
+        addRow(db, "K8U302", 420, 680, "k8", "3");
+        addRow(db, "K8U303", 420, 450, "k8", "3");
+        addRow(db, "K8U304", 415, 355, "k8", "3");
+        addRow(db, "K8U305", 435, 70, "k8", "3");
+        addRow(db, "K8U306", 835, 1685, "k8", "3");
+        addRow(db, "K8U307", 0, 0, "k8", "3");
+        addRow(db, "K8U401", 400, 1700, "k8", "4");
+        addRow(db, "K8U402", 380, 1510, "k8", "4");
+        addRow(db, "K8U403", 380, 1430, "k8", "4");
+        addRow(db, "K8U404", 400, 1315, "k8", "4");
+        addRow(db, "K8U405", 400, 1145, "k8", "4");
+        addRow(db, "K8U406", 505, 1690, "k8", "4");
+        addRow(db, "K8U407", 505, 1635, "k8", "4");
+        addRow(db, "K8U408", 550, 1385, "k8", "4");
+        addRow(db, "K8U428", 0, 0, "k8", "4");
+        addRow(db, "K8U429", 395, 195, "k8", "4");
+        addRow(db, "K8U430", 645, 870, "k8", "4");
+        addRow(db, "K8U431", 645, 780, "k8", "4");
+        addRow(db, "K8U432", 645, 420, "k8", "4");
+        addRow(db, "K8U433", 800, 1690, "k8", "4");
+        addRow(db, "K8U434", 0, 0, "k8", "4");
+        addRow(db, "K8U455", 800, 660, "k8", "4");
+        addRow(db, "K8U456", 800, 460, "k8", "4");
+        addRow(db, "K8U457", 0, 0, "k8", "4");
+        addRow(db, "K8U458", 0, 0, "k8", "4");
+        addRow(db, "K8U459", 800, 125, "k8", "4");
+        addRow(db, "K8U460", 690, 160, "k8", "4");
+        addRow(db, "K8U461", 690, 80, "k8", "4");
+        addRow(db, "K8U520", 0, 0, "k8", "5");
+        addRow(db, "K8U521", 350, 170, "k8", "5");
+        addRow(db, "K8U522", 610, 855, "k8", "5");
+        addRow(db, "K8U523", 610, 780, "k8", "5");
+        addRow(db, "K8U524", 605, 395, "k8", "5");
+        addRow(db, "K8U527", 760, 630, "k8", "5");
+        addRow(db, "K8U528", 760, 455, "k8", "5");
+        addRow(db, "K8U529", 0, 0, "k8", "5");
+        addRow(db, "K8U530", 0, 0, "k8", "5");
+        addRow(db, "K8U531", 750, 60, "k8", "5");
+        addRow(db, "K8U532", 650, 155, "k8", "5");
+        addRow(db, "K8U533", 650, 70, "k8", "5");
+        
 		addRow(db, "G8104", 405, 220, "g8", "1");
 		addRow(db, "G8107", 405, 485, "g8", "1");
 		addRow(db, "G8124", 405, 870, "g8", "1");
@@ -349,6 +350,7 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 		addRow(db, "G8524", 395, 1278, "g8", "5");
 		addRow(db, "G8525", 0, 0, "g8", "5");
 		addRow(db, "G8549", 0, 0, "g8", "5");
+		
 		addRow(db, "AS9U103", 363, 714, "as", "1");
 		addRow(db, "AS9U104", 363, 864, "as", "1");
 		addRow(db, "AS9U106", 331, 1168, "as", "1");
@@ -377,6 +379,7 @@ public class RoomDbHandler extends SQLiteOpenHelper {
 		addRow(db, "AS9U410", 87, 827, "as", "4");
 		addRow(db, "AS9U416", 1115, 135, "as", "4");
 		addRow(db, "AS9U417", 295, 135, "as", "4");
+		
 		addRow(db, "KL1097", 0, 0, "kl", "1");
 		addRow(db, "KL1151", 0, 0, "kl", "1");
 		addRow(db, "KL1237", 0, 0, "kl", "1");
