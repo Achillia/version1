@@ -36,7 +36,7 @@
 
         <ImageView
             android:id="@+id/calendarColorFrame1"
-            android:layout_width="8dp"
+            android:layout_width="2dp"
             android:layout_height="fill_parent"
             android:background="@color/green" />
 
@@ -52,14 +52,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
         </LinearLayout>
-
-        <View
-            android:id="@+id/calendarColorFrame2"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/green" />
 
         <LinearLayout
             android:layout_width="160dp"
@@ -100,11 +92,19 @@
         
 
     </LinearLayout>
+    <ImageView
+        android:id="@+id/dividerElement"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/grey" />
 
     <ImageView
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="4dp"
         android:background="@color/grey_light" />
     
     <LinearLayout
@@ -121,7 +121,7 @@
 
         <ImageView
             android:id="@+id/calendarColorFrame1"
-            android:layout_width="8dp"
+            android:layout_width="2dp"
             android:layout_height="fill_parent"
             android:background="@color/green" />
 
@@ -144,14 +144,6 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
-
-        <View
-            android:id="@+id/calendarColorFrame2"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/green" />
 
         <LinearLayout
             android:layout_width="160dp"
@@ -192,10 +184,19 @@
 
     </LinearLayout>
     
+     <ImageView
+        android:id="@+id/dividerElement"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/grey" />
+
     <ImageView
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="4dp"
         android:background="@color/grey_light" />
     
     <LinearLayout
@@ -212,7 +213,7 @@
 
         <ImageView
             android:id="@+id/calendarColorFrame1"
-            android:layout_width="8dp"
+            android:layout_width="2dp"
             android:layout_height="fill_parent"
             android:background="@color/green" />
 
@@ -235,14 +236,6 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
-
-        <View
-            android:id="@+id/calendarColorFrame2"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/green" />
 
         <LinearLayout
             android:layout_width="160dp"
@@ -284,9 +277,18 @@
     </LinearLayout>
     
     <ImageView
+        android:id="@+id/dividerElement"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/grey" />
+
+    <ImageView
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="4dp"
         android:background="@color/grey_light" />
     
     <LinearLayout
@@ -303,7 +305,7 @@
 
         <ImageView
             android:id="@+id/calendarColorFrame1"
-            android:layout_width="8dp"
+            android:layout_width="2dp"
             android:layout_height="fill_parent"
             android:background="@color/green" />
 
@@ -326,14 +328,6 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
-
-        <View
-            android:id="@+id/calendarColorFrame2"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/green" />
 
         <LinearLayout
             android:layout_width="160dp"
@@ -375,9 +369,18 @@
     </LinearLayout>
     
     <ImageView
+        android:id="@+id/dividerElement"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/grey" />
+
+    <ImageView
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="4dp"
         android:background="@color/grey_light" />
     
     <LinearLayout
@@ -394,7 +397,7 @@
 
         <ImageView
             android:id="@+id/calendarColorFrame1"
-            android:layout_width="8dp"
+            android:layout_width="2dp"
             android:layout_height="fill_parent"
             android:background="@color/green" />
 
@@ -417,14 +420,6 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
-
-        <View
-            android:id="@+id/calendarColorFrame2"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/green" />
 
         <LinearLayout
             android:layout_width="160dp"
@@ -466,9 +461,18 @@
     </LinearLayout>
     
     <ImageView
+        android:id="@+id/dividerElement"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/grey" />
+
+    <ImageView
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="4dp"
         android:background="@color/grey_light" />
     
     <LinearLayout
@@ -485,7 +489,7 @@
 
         <ImageView
             android:id="@+id/calendarColorFrame1"
-            android:layout_width="8dp"
+            android:layout_width="2dp"
             android:layout_height="fill_parent"
             android:background="@color/green" />
 
@@ -508,14 +512,6 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
-
-        <View
-            android:id="@+id/calendarColorFrame2"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/green" />
 
         <LinearLayout
             android:layout_width="160dp"
